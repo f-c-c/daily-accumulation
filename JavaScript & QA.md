@@ -45,7 +45,7 @@
 
 - ```javascript
   describe('加法函数的测试', function() {
-    interface("1 加 1应该等于2", function() {
+    it("1 加 1应该等于2", function() {
       expect(window.add(1)).toBe(2);
     });
   });
@@ -70,7 +70,7 @@
     },
   ```
 
-- 还有 phantomjs
+- 还有 phantomjs (我是下载下来安装的，应该也可以 通过 npm 安装)
 
 - 在 karma 的配置文件里面：
 
@@ -80,28 +80,19 @@
   
   module.exports = function(config) {
     config.set({
-  
       // base path that will be used to resolve all patterns (eg. files, exclude)
       basePath: '',
-  
-  
       // frameworks to use
       // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
       frameworks: ['jasmine'],
-  
-  
       // list of files / patterns to load in the browser
       files: [
         "./unit/**/*.js",
         "./unit/**/*.spec.js"
       ],
-  
-  
       // list of files / patterns to exclude
       exclude: [
       ],
-  
-  
       // preprocess matching files before serving them to the browser
       // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
       preprocessors: {
@@ -110,8 +101,6 @@
         // (these files will be instrumented by Istanbul)
         'unit/**/*.js': ['coverage']
       },
-  
-  
       // test results reporter to use
       // possible values: 'dots', 'progress'
       // available reporters: https://npmjs.org/browse/keyword/karma-reporter
@@ -121,37 +110,24 @@
         type : 'html',
         dir : 'docs/coverage/'
       },
-  
       // web server port
       port: 9876,
-  
-  
       // enable / disable colors in the output (reporters and logs)
       colors: true,
-  
-  
       // level of logging
       // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
       logLevel: config.LOG_INFO,
-  
-  
       // enable / disable watching file and executing tests whenever any file changes
       autoWatch: true,
-  
-  
       // start these browsers
       // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
       browsers: ['PhantomJS'],
-  
-  
       // Continuous Integration mode
       // if true, Karma captures browsers, runs the tests and exits
       singleRun: true,
-  
       // Concurrency level
       // how many browser should be started simultaneous
       concurrency: Infinity,
-      //
       plugins: [
         'karma-jasmine',
         'karma-phantomjs-launcher',
@@ -164,7 +140,6 @@
 
 - 配置好之后，再 `npm run unit` 就可以检查 **覆盖率**了，报表生成在  `dir : 'docs/coverage/'`下面，使用浏览器打开就可以看见报表了
 
-- facebook 的 jest 测试 也可以
 
 #### e2e 测试
 
@@ -191,7 +166,7 @@
   })();
   ```
 
-- 运行代码 ：就可以看见火狐浏览器自己在跑程序了
+- 运行代码 ：就可以看见火狐浏览器自己在跑程序了，如果成功没有任何提示，如果报错，直接报在终端，没有生成报告
 
 - ```javascript
     "scripts": {
@@ -223,17 +198,22 @@
     "engine": "puppeteer", // 引擎，因为 phantomjs 已经停止维护了，现在的js无头浏览器 puppeteer是第一
   ```
 
-- 然后执行 `backstop test` 就会生成报告文件，我们将ui的图放在 backstop_data/bitmaps_reference里面，再重新运行 backstop test 就会得到 ui 自动化的测试结果
+- 然后执行 `backstop test` 就会生成报告文件，我们将ui的图放在 backstop_data/bitmaps_reference里面，再重新运行 backstop test 就会得到 ui 自动化的测试结果，`backstop test` 命令容易卡住，多尝试一下
 
-#### 集合一起用
+#### 集成命令
 
-- `"test": "npm run unit && npm run e2e && npm run ui",`一下 运行了全部
+- `"test": "npm run unit && npm run e2e && npm run ui",`
+  - 一下 子就运行了**单元测试**、**e2e测试**、**ui自动化测试**。其中单元测试和UI自动化是有报表的
 
-#### service
+#### service端测试
 
-- 接口测试 service 端要用到 mocha：是专门测试异步api的 `npm install --save-dev mocha`  `npm install --save-dev mochawesome`
+- 接口测试 service 端要用到 mocha：是专门测试异步api的，首先安装
 
-- 需要配置一个 mochaRunner.js
+-  `npm install --save-dev mocha`  `npm install --save-dev mochawesome`
+
+- 需要配置一个 mochaRunner.js (里面写你的测试代码)
+
+- 到目前为止的 package.json 文件如下所示
 
 - ```javascript
   {
