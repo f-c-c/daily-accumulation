@@ -10,3 +10,4 @@
 * 关于 **单元测试**、**e2e测试**、**UI自动化**、**service端测试**
 ## [函数式编程](https://github.com/LiuHao713/task/blob/master/functional%20programming.md) ---2018.11.11
 * 很多新的概念：一等公民、纯函数、幂等性、柯里化、函数组合、声明式代码、命令式代码、高阶函数、尾递归调用、范畴、容器、函子、maybe函子、either函子、ap函子、io函子等。。。
+## YII 初次接触
