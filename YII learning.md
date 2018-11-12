@@ -106,3 +106,15 @@ models 目录包含了所有模型类， views 目录包含了所有视图脚本
 
 ![Snipaste_2018-11-12_12-19-00](./assert/Snipaste_2018-11-12_12-19-00.png)
 
+以上是关于 基本模板的安装，如果想使用高级模板，可以看这里 [点我](https://github.com/yiisoft/yii2-app-advanced/blob/master/docs/guide-zh-CN/start-installation.md)
+
+* 第一步：安装包 ：`composer create-project --prefer-dist yiisoft/yii2-app-advanced advance-bms`
+* 第二步：在项目下面 执行 `php init` 选择 0 开发模式
+
+#### 命令行操作 mysql
+
+* 登陆：`mysql -u root -p`
+* 查看数据库：`show databases;`
+* 使用某一个数据库： `use databaseName;`
+* 查看数据表：`show tables;`
+* 
