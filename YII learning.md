@@ -81,13 +81,28 @@ models 目录包含了所有模型类， views 目录包含了所有视图脚本
 * 视图层写在 views／site下面：
 
   * 对应关系如：`http://localhost:8888/index.php?r=site/say` 对应于 `/views/site/say.php` 
+
 * 控制器写在 controllers/ 下面：
   * 在SiteControlloer.php 里面加一个 action：
   * ```
-    public function actionSay($message = 'Hello')
+    public function actionSay($message = 'Hello 风车车')
     {
         return $this->render('say', ['message' => $message]);
     }
     ```
 
 * 这样子，当我们路由为`http://localhost:8888/index.php?r=site/say`时，就会先进入actionSay 控制器，控制器给 view 注入变量：`$message` 给 say.php 模板
+
+* say.php 里面使用注入过来的变量：
+
+* ```php
+  <?php
+  use yii\helpers\Html;
+  ?>
+  <?= Html::encode($message) ?>
+  ```
+
+* 刷新页面，就出来效果了
+
+![Snipaste_2018-11-12_12-19-00](./assert/Snipaste_2018-11-12_12-19-00.png)
+
