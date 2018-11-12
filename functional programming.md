@@ -181,7 +181,7 @@ let RDs = companies.map(c => c.rds);
 
 * 
 
-##### 错误处理 Either函子
+##### Either函子
 
 ##### ap函子
 
@@ -190,9 +190,21 @@ let RDs = companies.map(c => c.rds);
 #### 函数式编程相关库
 
 * RxJS
-
 * underscorejs
-
 * lodash
+* ramdajs
+
+### task
+
+* YII 开发图书管理系统（PHP + MYSQL 使用php后端模板，增、删、改、查） 
+* （期限：2018.11.16晚）
+* MVC
+* PHP ES9
+* 数据库 性能优化 JS
+
+* 了解后端 为 Nodejs 做好准备
+* 学习新框架 YII
+* Vue SSR
+
 
 
