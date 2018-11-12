@@ -187,5 +187,12 @@ let RDs = companies.map(c => c.rds);
 
 ##### IO函子
 
-未完待续。。。
+#### 函数式编程相关库
+
+* RxJS
+
+* underscorejs
+
+* lodash
+
 
