@@ -117,4 +117,4 @@ models 目录包含了所有模型类， views 目录包含了所有视图脚本
 * 查看数据库：`show databases;`
 * 使用某一个数据库： `use databaseName;`
 * 查看数据表：`show tables;`
-* 
+* 查看mysql 版本： `select version();`
