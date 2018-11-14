@@ -17,7 +17,7 @@
   * 很明显是取的 `lodash` 前两个字母，官网的图标是 `svg` 格式可任意伸缩  
 
 
-![1542145418814](./assert/1542145418814.jpg)
+![lodash](./assert/lodash.svg)
 
 #### underscore
 * [underscore英文官网](https://underscorejs.org/) [underscore中文官网](https://www.css88.com/doc/underscore/)
@@ -34,3 +34,25 @@
 
 * 类型： `png`
 ![Rx_Logo-512-512](./assert/Rx_Logo-512-512.png)
+
+### 测试相关
+#### karma
+* [karma英文网站](https://karma-runner.github.io/latest/index.html)
+
+![banner](./assert/banner.png)
+
+#### phantomjs
+* [phantomjs英文网站](http://phantomjs.org/api/)
+
+![phantomjs-logo](./assert/phantomjs-logo.png)
+
+#### mocha
+* [mocha英文网站](https://mochajs.org/)
+
+![mocha](./assert/mocha.svg)
+
+### 后端相关
+#### YII
+* [YII英文网站](https://www.yiiframework.com/)
+
+![yiilogo](./assert/yiilogo.svg)
