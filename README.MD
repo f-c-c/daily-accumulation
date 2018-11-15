@@ -11,3 +11,7 @@
 * 很多新的概念：一等公民、纯函数、幂等性、柯里化、函数组合、声明式代码、命令式代码、高阶函数、尾递归调用、范畴、容器、函子、maybe函子、either函子、ap函子、io函子等。。。
 ## [YII 初次接触](https://github.com/LiuHao713/task/blob/master/YII%20learning.md) --- 2018.11.12
 * 安装 `Composer` 和 `YII` ，理解其目录结构，尝试写 demo
+
+## 建了个新库[FE-Interview-questions](https://github.com/LiuHao713/FE-Interview-questions)
+
+* FE 面试题 或者说 知识点总结库
