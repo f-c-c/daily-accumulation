@@ -12,6 +12,6 @@
 ## [YII 初次接触](https://github.com/LiuHao713/task/blob/master/YII%20learning.md) --- 2018.11.12
 * 安装 `Composer` 和 `YII` ，理解其目录结构，尝试写 demo
 
-## 建了个新库[FE-Interview-questions](https://github.com/LiuHao713/FE-Interview-questions) --- 2018.11.14
+## [FE-Interview-questions](https://github.com/LiuHao713/FE-Interview-questions) --- 2018.11.14
 
-* FE 面试题 或者说 知识点总结库
+* 建了个新库用来总结 FE 面试题 或者说 知识点
