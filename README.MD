@@ -15,3 +15,6 @@
 ## [FE-Interview-questions](https://github.com/LiuHao713/FE-Interview-questions) --- 2018.11.14
 
 * 建了个新库用来总结 FE 面试题 或者说 知识点
+
+## [JS中和正则相关的东西](https://github.com/LiuHao713/task/blob/master/RegExp%20in%20JS.md)
+* `exec` `test` `match` `replace` `search` 捕获组
