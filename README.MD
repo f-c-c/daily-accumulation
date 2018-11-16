@@ -16,5 +16,5 @@
 
 * 建了个新库用来总结 FE 面试题 或者说 知识点
 
-## [JS中和正则相关的东西](https://github.com/LiuHao713/task/blob/master/RegExp%20in%20JS.md)
+## [JS中和正则相关的东西](https://github.com/LiuHao713/task/blob/master/RegExp%20in%20JS.md) --- 2018.11.15
 * `exec` `test` `match` `replace` `search` 捕获组
