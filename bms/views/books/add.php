@@ -6,7 +6,6 @@ use yii\widgets\LinkPager;
 <?php $this->registerJsFile('js/addbooks.js');?>
 <h1>新增图书</h1>
 <div class="container-t">
-<?php  echo $books ?>
   <form action="?r=books/add" method="post">
     <div class="item-row">
       <div>图书ID：</div>

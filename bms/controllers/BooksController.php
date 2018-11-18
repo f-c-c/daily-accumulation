@@ -33,7 +33,7 @@ class BooksController extends Controller
     //Addpage 方法，加载新增页面
     public function actionAddpage() {
         return $this->render('add', [
-            'books' => "1234"
+            
         ]);
     }
     // add 方法，接受post数据，完成数据库的 insert
