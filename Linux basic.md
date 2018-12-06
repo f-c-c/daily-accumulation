@@ -27,4 +27,10 @@
   * 比如启动 `mysql` 服务：`systemctl start mysqld`
   * 启动`apache` 服务： `systemctl start httpd`
   * 启动 `nginx` 服务：`systemctl start nginx`
-  * `systemctl`的子命令： `restart` 是 重启， `stop` 是停止，`disable` 禁用服务（随着操作系统启动时不会启动），`enable` 启用服务（随着操作系统启动就会启动）
+  * `systemctl`的子命令： `restart` 是 重启， `stop` 是停止，`disable` 禁用服务（随着操作系统启动时不会启动），`enable` 启用服务（随着操作系统启动就会启动），`disable  enable` 是不影响 `start stop restart`的
+  * 可以发现：有些进程名字后面带个 `d`，这是守护进程的意思
+
+* 命令行下载命令
+  * `curl` 比如`curl http://www.baidu.com` 不会下载，只会显示内容，要下载必须指定输出文件名：`curl http://www.baidu.com -o xxx.index`
+  * `wget` 比如去下载百度的首页： `wget http://www.baidu.com`
+  * `wget` 一般下载就够用了，但是 `curl`很强大，可以用来调试协议请求等，可以`curl -h`查看帮助
