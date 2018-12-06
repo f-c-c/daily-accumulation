@@ -33,4 +33,8 @@
 * 命令行下载命令
   * `curl` 比如`curl http://www.baidu.com` 不会下载，只会显示内容，要下载必须指定输出文件名：`curl http://www.baidu.com -o xxx.index`
   * `wget` 比如去下载百度的首页： `wget http://www.baidu.com`
-  * `wget` 一般下载就够用了，但是 `curl`很强大，可以用来调试协议请求等，可以`curl -h`查看帮助
+  * `wget` 一般下载就够用了，但是 `curl`很强大，可以用来调试协议请求等，可以`curl -h`查看简单的帮助，用`man curl`可以查看详细的帮助
+
+* 终端快捷键
+  * `ctrl + s` 暂停屏幕输出
+  * `ctrl + q` 恢复屏幕输出

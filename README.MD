@@ -18,3 +18,5 @@
 
 ## [JS中和正则相关的东西](https://github.com/LiuHao713/task/blob/master/RegExp%20in%20JS.md) --- 2018.11.15
 * `exec` `test` `match` `replace` `search` 捕获组
+
+## [Linux 常用命令](./Linux basic.md) --- 2018.12.06
