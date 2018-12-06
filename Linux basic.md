@@ -20,4 +20,11 @@
 * `hostnamectl -h` 就会列出参数选项
 * `hostnamectl set-hostname xxx` 就可以改主机名了，可以带下划线和中划线，改完之后需要退出终端从新登陆才会生效 ，通过 `exit` 就可以退出了
 ### 常用 `Linux` 命令
-* `vi` 行编辑器，`i` 进入编辑状态，`esc` 退出编辑状态进入命令状态，`:wq` 保存退出 ，`:q!` 放弃修改退出，`:w` 只保存不退出
+* `vi` 行编辑器，`i` 进入编辑状态，`esc` 退出编辑状态进入命令状态，`:wq` 保存退出 ，`:q!` 放弃修改并退出，`:w` 只保存不退出 加上 `sudo` 提升权限
+  * 在 `vi` 里面 编辑的时候是不是很方便的，鼠标时不管用的
+* 服务管理命令：`systemctl`
+  * 直接输入 `systemctl` 命令，会列出在这台机器上面的所有服务，这个时候 按下 `q` 就退出列表状态
+  * 比如启动 `mysql` 服务：`systemctl start mysqld`
+  * 启动`apache` 服务： `systemctl start httpd`
+  * 启动 `nginx` 服务：`systemctl start nginx`
+  * `systemctl`的子命令： `restart` 是 重启， `stop` 是停止，`disable` 禁用服务（随着操作系统启动时不会启动），`enable` 启用服务（随着操作系统启动就会启动）
