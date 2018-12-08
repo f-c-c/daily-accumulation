@@ -93,3 +93,44 @@
     * q：退出命令：按q键退出top查看页面
     * s：修改刷新时间间隔。按下s键，然后按下数字，即可修改刷新时间间隔为你输入的数字，单位为秒。例如：按下s键，在按数字1键，即可实现每秒刷新一次
     * k：终止指定的进程。按下k键-->再输入要杀死的进程的pid-->按enter键-->(选择信号类型，以数字标示，默认15为杀死)本步可省略按enter键（常用为-9）
+
+* `ps` 命令
+
+  * `ps` 为我们提供了进程的一次性的查看(快照)，它所提供的查看结果并不动态连续的；如果想对进程动态监控，应该用 `top`
+
+  * `linux` 上进程有 5 种状态
+
+    * D 不可中断 uninterruptible sleep (usually IO) 
+    * R 运行 runnable (on run queue) 
+
+    * S 中断 sleeping（睡眠状态） 
+
+    * T 停止 traced or stopped 
+
+    * Z 僵死 a defunct (”zombie”) process（僵尸进程） 
+
+  * 常用的 `ps aux`
+
+* `kill` 和 `pkill`
+
+  * `kill` + 进程`id`
+
+  * `pkill` + 进程名字（慎用`pkill`）
+
+  * 只有第`9`种信号(`SIGKILL`)才可以无条件终止进程，其他信号进程都有权利忽略
+
+    * HUP    1    终端断线
+    * INT     2    中断（同 Ctrl + C）
+
+    * QUIT    3    退出（同 Ctrl + \）
+
+    * TERM   15    终止
+
+    * KILL    9    强制终止
+
+    * CONT   18    继续（与STOP相反， fg/bg命令）
+
+    * STOP    19    暂停（同 Ctrl + Z）
+
+  * 一般先用`ps`查找进程，然后用`kill`杀掉 ,彻底杀死进程 `kill -9 pid`
+
