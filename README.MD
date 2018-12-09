@@ -19,5 +19,9 @@
 ## [JS中和正则相关的东西](https://github.com/LiuHao713/task/blob/master/RegExp%20in%20JS.md) --- 2018.11.15
 * `exec` `test` `match` `replace` `search` 捕获组
 
+## [js中的内存泄漏]()
+* `eval`
+
 ## [Linux 常用命令](https://github.com/LiuHao713/task/blob/master/Linux%20basic.md) --- 2018.12.06
 * `ssh`，`vi`，`curl`，`wget`, 进程、线程、协程，进程管理命令、网络管理命令、 `linux`远程免密登陆，`banner`设置
+
