@@ -28,7 +28,7 @@ function Foo() {}
 //下面几个是成立的
 Foo.__proto__ === Function.prototype
 Function.prototype.__proto__ === Object.prototype
-Object.prototype === null
+Object.prototype.__proto__ === null
 ```
 
 Function（类比为爷爷）的原型链：
