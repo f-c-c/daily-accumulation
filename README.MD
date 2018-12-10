@@ -22,6 +22,9 @@
 ## [js中的内存泄漏](https://github.com/LiuHao713/task/blob/master/Js%20memory%20leak.md) --- 2018.11.18
 * `eval`，`with`，`try catch 的catch` 会导致内存泄漏，`new Function()`，`window.eval`不会导致内存泄漏
 
+## [深入原型链](https://github.com/LiuHao713/task/blob/master/protorype.md)
+* 一切皆对象，一个函数当构造函数看待时有个`prototype`属性，当对象看待时有一个内部属性`__proto__`
+
 ## [Linux 常用命令](https://github.com/LiuHao713/task/blob/master/Linux%20basic.md) --- 2018.12.06
 * `ssh`，`vi`，`curl`，`wget`, 进程、线程、协程，进程管理命令、网络管理命令、 `linux`远程免密登陆，`banner`设置
 
