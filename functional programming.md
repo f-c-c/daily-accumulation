@@ -1,8 +1,9 @@
 # 函数式编程
 
-* functional programming
+#### 函数式编程（functional programming） 简介
 
-* 函数是一等公民，所谓一等公民指的是与其他数据类型一样，处于同等地位，可以赋值给其他变量、也可以作为参数传给另一个函数、或者作为别的函数的返回值
+* 与面向对象编程（Object-oriented programming）和过程式编程（Procedural programming）并列的编程范式
+* 函数是**一等公民**（实际上说的是它们和其他对象都一样...所以就是普通公民（坐经济舱的人？）。函数真没什么特殊的，你可以像对待任何其他数据类型一样对待它们——把它们存在数组里，当作参数传递，赋值给变量...等等），所谓一等公民指的是与其他数据类型一样，处于同等地位，可以赋值给其他变量、也可以作为参数传给另一个函数、或者作为别的函数的返回值
 * 在函数式编程中，变量是不能被修改的，所有的变量只能被赋值一次
 * 总结函数式编程的特点：
   * 函数是`一等公民`（就是所有变量里面的贵族，优先考虑函数）
@@ -10,10 +11,13 @@
   * 没有副作用、不修改状态、引用透明（函数运行只靠参数）
 
 #### 纯函数
+> 纯函数是这样一种函数，即相同的输入，永远会得到相同的输出，而且没有任何可观察的副作用。
 
 * 对于相同的输入，永远得到相同的输出
 
-* 没有任何可观察的副作用，不依赖外部环境状态
+  * 何为相同：对于基本数据类型来说（NaN除外，NaN 和 NaN认为是相同的，但他们不恒等），自然是 `===`，对于引用类型（Object，Array）来说，不要求`===`，只要 JSON.stringify 的结果恒等就行(也就是内部结构一模一样的两个不同的对象认为是相同的)。对于 函数，只要两个函数（函数体逻辑相同）
+
+* 没有任何可观察的副作用，不依赖外部环境状态（system state）
 
 * ```javascript
   var a = [12, 5, 8, 1, 2, 3];
@@ -22,12 +26,40 @@
   a.slice(0, 3);
   a.slice(0, 3);
   a.slice(0, 3);
-  //Array.splice 就不是纯函数，它修改了原来的数组，并且每次相同的输入会得到不同的输出
+  //Array.splice 就不是纯函数，它修改了原来的数组(产生了可观察到的副作用，即这个数组永久地改变了
+  //并且每次相同的输入会得到不同的输出
   ```
-
+> 在函数式编程中，我们讨厌这种会改变数据的笨函数。我们追求的是那种可靠的，每次都能返回同样结果的函数，而不是像 splice 这样每次调用后都把数据弄得一团糟的函数，这不是我们想要的。
 * `map` 和 `reduce` 就是标准的 纯函数
 
 ![image-20181111123207194](./assert/image-20181111123207194.png)
+
+```javascript
+const memoize = function(fn) {
+    const cache = {};
+    //利用闭包实现缓存
+    return function() {
+        const key = JSON.stringify(arguments);
+        var value = cache[key];
+        if(!value) {
+            console.log('新值，执行中...');         // 为了了解过程加入的log，正式场合应该去掉
+            value = [fn.apply(this, arguments)];  // 放在一个数组中，方便应对undefined，null等异常情况
+            cache[key] = value;
+        } else {
+            console.log('来自缓存');               // 为了了解过程加入的log，正式场合应该去掉
+        }
+        return value[0];
+    }
+}
+
+let a = memoize(function(x){return x*x;});
+let result1 = a(5);
+let result2 = a(5);
+console.log(result1);
+console.log(result2);
+```
+
+
 
 #### 幂等性
 
@@ -37,7 +69,9 @@
 Math.abs(-12);// 这就符合 幂等性
 ```
 
-#### 柯里化
+#### 柯里化（curry）
+
+* curry 的概念很简单：只传递给函数一部分参数来调用它，让它返回一个函数去处理剩下的参数。
 
 * 柯里化 是将**接受多个参数的函数变成 只接受一个参数的函数**，其实是将参数存起来，原理就是**闭包**
 
@@ -47,18 +81,53 @@ Math.abs(-12);// 这就符合 幂等性
   ```
 
 * ![image-20181111130914708](./assert/image-20181111130914708.png)
+* 当我们谈论纯函数的时候，我们说它们接受一个输入返回一个输出。curry 函数所做的正是这样：每传递一个参数调用函数，就返回一个新函数处理剩余的参数。这就是一个输入对应一个输出啊。
 
-#### 函数组合
+#### 函数组合（compose）
 
-* 有时候我们很容易写出洋葱式代码：`h(g(f(x)))`，这时可以考虑函数组合
+* 有时候我们很容易写出洋葱式代码：`h(f(g(x)))`，这时可以考虑函数组合
 
 * ```javascript
-  const conpose = (g, f) => (x => g(f(x)));
+  const conpose = (f, g) => (x => f(g(x)));
   var first = arr => arr[0];
   var reverse = arr => arr.reverse();
-  var last = conpose(reverse, first);
-  last([1, 2, 3, 4, 5]);
+  var last = conpose(first, reverse);
+  console.log(last([1, 2, 3, 4, 5]));//5
   ```
+  f 和 g 都是函数，x 是在它们之间通过**“管道”**传输的值。
+  组合看起来像是在饲养函数。你就是饲养员，选择两个有特点又遭你喜欢的函数，让它们结合，产下一个崭新的函数。
+  在 compose 的定义中，g 将先于 f 执行，因此就创建了一个**从右到左**的数据流。这样做的可读性远远高于嵌套一大堆的函数调用，**从右到左**执行更加能够反映数学上的含义`(f(g(x))`
+
+  ```javascript
+  compose(toUpperCase, compose(head, reverse));
+  // 或者
+  compose(compose(toUpperCase, head), reverse);//效果相同
+  ```
+
+  下面的compose函数可以接受多个参数（函数），同时组合多个函数，依然是从右到左的数据流：
+
+  ```javascript
+  //组合函数-数据流从右到左
+  function compose() {
+      let funcs = arguments;
+      return function(x) {
+          let temp = x;
+          let result = null;
+          for(let i = funcs.length - 1; i >= 0; i--){
+              result = funcs[i](temp);
+              temp = result;
+          }
+          return result;
+      }
+  }
+  var toUpperCase = function(x) { return x.toUpperCase(); };//将输入字符串变为大些
+  var exclaim = function(x) { return x + '!'; };//在字符串后面加一个字符： !
+  var getLast = function(x) { return x[x.length - 2]; };//取得倒数第二个字符
+  let func = compose(getLast, exclaim, toUpperCase);//函数组合
+  console.log(func('qwqwqwx'));//X
+  ```
+
+  
 
 ## Pointfree风格 
 
@@ -106,6 +175,8 @@ let RDs = companies.map(c => c.rds);
 ```
 
 #### 高阶函数
+
+> 高阶函数：参数或返回值为函数的函数
 
 * 函数当参数，把传入的函数做一个封装，然返回这个封装函数，达到更高程度的抽象
 
