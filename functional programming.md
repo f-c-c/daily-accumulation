@@ -200,9 +200,143 @@ let RDs = companies.map(c => c.rds);
 * 堆栈溢出和死循环的区别（爆栈浏览器会报错，而死循环式根本没有办法执行其他的东西）
 
 #### 尾递归调用
-* 未完待续
+
+尾调用优化是函数式编程的一个重要概念
+
+* 什么是**尾调用**：一句话说清楚，就是指**某个函数的最后一步是调用另一个函数**
+
+* ```
+  function f(x){
+    return g(x);
+  }
+  //函数f的最后一步是调用函数g，这就叫尾调用
+  ```
+
+* ```
+  // 情况一
+  function f(x){
+    let y = g(x);
+    return y;
+  }
+  //情况一是调用函数g之后，还有别的操作，所以不属于尾调用，即使语义完全一样。
+  //情况二也属于调用后还有操作，即使写在一行内。
+  // 情况二
+  function f(x){
+    return g(x) + 1;
+  }
+  ```
+
+* ```
+  function f(x) {
+    if (x > 0) {
+      return m(x)
+    }
+    return n(x);
+  }
+  //尾调用不一定出现在函数尾部，只要是最后一步操作即可
+  ```
+
+* 函数调用会在内存形成一个"调用记录"，又称"调用帧"（call frame），保存调用位置和内部变量等信息。如果在函数A的内部调用函数B，那么在A的调用记录上方，还会形成一个B的调用记录。等到B运行结束，将结果返回到A，B的调用记录才会消失。如果函数B内部还调用函数C，那就还有一个C的调用记录栈，以此类推。所有的调用记录，就形成一个["调用栈"]（call stack）
+
+* 尾调用由于是函数的最后一步操作，所以不需要保留外层函数的调用记录，因为调用位置、内部变量等信息都不会再用到了，只要直接用内层函数的调用记录，取代外层函数的调用记录就可以了
+
+* ```javascript
+  function f() {
+    let m = 1;
+    let n = 2;
+    return g(m + n);
+  }
+  f();
+  
+  // 等同于
+  function f() {
+    return g(3);
+  }
+  f();
+  
+  // 等同于
+  g(3);
+  ```
+
+* 如果函数g不是尾调用，函数f就需要保存内部变量m和n的值、g的调用位置等信息。但由于调用g之后，函数f就结束了，所以执行到最后一步，完全可以删除 f() 的调用记录，只保留 g(3) 的调用记录
+
+* 这就叫做"**尾调用优化**"（Tail call optimization），即只保留内层函数的调用记录。如果所有函数都是尾调用，那么完全可以做到每次执行时，调用记录只有一项，这将大大节省内存。这就是"尾调用优化"的意义
+
+#### 尾递归
+
+> 函数调用自身，称为递归。如果尾调用自身，就称为尾递归
+
+递归非常耗费内存，因为需要同时保存成千上百个调用记录，很容易发生"栈溢出"错误（stack overflow）。但对于尾递归来说，由于只存在一个调用记录，所以永远不会发生"栈溢出"错误
+
+```javascript
+function factorial(n) {
+  if (n === 1) return 1;
+  return n * factorial(n - 1);
+}
+
+factorial(5) // 120
+//是一个阶乘函数，计算n的阶乘，最多需要保存n个调用记录，复杂度 O(n) 
+```
+
+```javascript
+function factorial(n, total) {
+  if (n === 1) return total;
+  return factorial(n - 1, n * total);
+}
+//改写成尾递归，只保留一个调用记录，复杂度 O(1)
+factorial(5, 1) // 120
+//调用栈如下
+//factorial(5, 1) -> factorial(4, 5) -> factorial(3, 20) -> factorial(2, 60) -> factorial(1, 120)
+```
+
+"尾调用优化"对递归操作意义重大，所以一些函数式编程语言将其写入了语言规格。ES6也是如此，第一次明确规定，所有 ECMAScript 的实现，都必须部署"尾调用优化"。这就是说，在 ES6 中，只要使用尾递归，就不会发生栈溢出，相对节省内存
+
+### 递归函数的改写
+
+下面有3种方法用于递归函数的改写
+
+```javascript
+function tailFactorial(n, total) {
+  if (n === 1) return total;
+  return tailFactorial(n - 1, n * total);
+}
+
+function factorial(n) {
+  return tailFactorial(n, 1);
+}
+
+factorial(5) // 120
+```
+
+```javascript
+function currying(fn, n) {
+  return function (m) {
+    return fn.call(this, m, n);
+  };
+}
+
+function tailFactorial(n, total) {
+  if (n === 1) return total;
+  return tailFactorial(n - 1, n * total);
+}
+
+const factorial = currying(tailFactorial, 1);
+
+factorial(5) // 120
+```
+
+```javascript
+function factorial(n, total = 1) {
+  if (n === 1) return total;
+  return factorial(n - 1, n * total);
+}
+
+factorial(5) // 120
+```
+
+
 #### 再说闭包
-* 别担忧去使用闭包，闭包式有内存泄漏，适当的使用是没有问题的，可以 ` = null` 去手动释放
+* 别担忧去使用闭包，闭包是有内存泄漏，适当的使用是没有问题的，可以 ` = null` 去手动释放
 * 闭包就是 拿到了你本不应该拿到的东西
 #### 范畴与容器
 
