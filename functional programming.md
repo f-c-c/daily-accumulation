@@ -416,11 +416,127 @@ factorial(5) // 120
   });
   ```
 
-* 
+
 
 ##### Either函子
 
+条件运算`if...else`是最常见的运算之一，函数式编程里面，使用 Either 函子表达
+
+Either 函子内部有两个值：左值（`Left`）和右值（`Right`）。右值是正常情况下使用的值，左值是右值不存在时使用的默认值。
+
+```javascript
+class Either extends Functor {
+  constructor(left, right) {
+    this.left = left;
+    this.right = right;
+  }
+
+  map(f) {
+    return this.right ? 
+      Either.of(this.left, f(this.right)) :
+      Either.of(f(this.left), this.right);
+  }
+}
+
+Either.of = function (left, right) {
+  return new Either(left, right);
+};
+```
+
+```javascript
+var addOne = function (x) {
+  return x + 1;
+};
+
+Either.of(5, 6).map(addOne);
+// Either(5, 7);
+
+Either.of(1, null).map(addOne);
+// Either(2, null);
+```
+
+上面代码中，如果右值有值，就使用右值，否则使用左值。通过这种方式，Either 函子表达了条件运算。
+
+Either 函子的常见用途是提供默认值
+
+```javascript
+Either
+.of({address: 'xxx'}, currentUser.address)
+.map(updateField);
+```
+
+上面代码中，如果用户没有提供地址，Either 函子就会使用左值的默认地址。
+
+Either 函子的另一个用途是代替`try...catch`，使用左值表示错误
+
+```javascript
+function parseJSON(json) {
+  try {
+    return Either.of(null, JSON.parse(json));
+  } catch (e: Error) {
+    return Either.of(e, null);
+  }
+}
+```
+
+上面代码中，左值为空，就表示没有出错，否则左值会包含一个错误对象`e`。一般来说，所有可能出错的运算，都可以返回一个 Either 函子
+
 ##### ap函子
+
+函子里面包含的值，完全可能是函数。我们可以想象这样一种情况，一个函子的值是数值，另一个函子的值是函数
+
+```javascript
+function addTwo(x) {
+  return x + 2;
+}
+
+const A = Functor.of(2);
+const B = Functor.of(addTwo)
+```
+
+上面代码中，函子`A`内部的值是`2`，函子`B`内部的值是函数`addTwo`。
+
+有时，我们想让函子`B`内部的函数，可以使用函子`A`内部的值进行运算。这时就需要用到 ap 函子。
+
+ap 是 applicative（应用）的缩写。凡是部署了`ap`方法的函子，就是 ap 函子
+
+```javascript
+class Ap extends Functor {
+  ap(F) {
+    return Ap.of(this.val(F.val));
+  }
+}
+```
+
+注意，`ap`方法的参数不是函数，而是另一个函子。
+
+因此，前面例子可以写成下面的形式
+
+```javascript
+Ap.of(addTwo).ap(Functor.of(2))
+// Ap(4)
+```
+
+ap 函子的意义在于，对于那些多参数的函数，就可以从多个容器之中取值，实现函子的链式操作
+
+```javascript
+function add(x) {
+  return function (y) {
+    return x + y;
+  };
+}
+
+Ap.of(add).ap(Maybe.of(2)).ap(Maybe.of(3));
+// Ap(5)
+```
+
+上面代码中，函数`add`是柯里化以后的形式，一共需要两个参数。通过 ap 函子，我们就可以实现从两个容器之中取值。它还有另外一种写法
+
+```javascript
+Ap.of(add(2)).ap(Maybe.of(3));
+```
+
+
 
 ##### IO函子
 
