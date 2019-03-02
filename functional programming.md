@@ -338,6 +338,7 @@ factorial(5) // 120
 #### 再说闭包
 * 别担忧去使用闭包，闭包是有内存泄漏，适当的使用是没有问题的，可以 ` = null` 去手动释放
 * 闭包就是 拿到了你本不应该拿到的东西
+* 闭包在前端可以随意一点用，在node里面不要随便乱用，一个人泄露一点，人多了就不行了
 #### 范畴与容器
 
 * 我们可以把`范畴`想象成一个容器，里面包含两样东西，值（value）、值的变形关系，也就是函数
@@ -348,7 +349,7 @@ factorial(5) // 120
 
 #### 函子
 
-* 首先 **函子** 是一个容器
+* 首先 **函子** 是一个**容器**
 
 * 任何具有 `map` 方法的数据结构，都可以当作函子的实现
 
@@ -396,10 +397,23 @@ factorial(5) // 120
 * 函子接受各种函数，处理容器内部的值。这里就有一个问题，容器内部的值可能是一个空值（比如`null`），而外部函数未必有处理空值的机制，如果传入空值，很可能就会出错。
 
 * ```javascript
-  Functor.of(null).map(function (s) {
+  let Maybe = function(x) {
+      this.__value = x;
+  }
+  //每一个容器都有一个of方法，用来生产一个新的容器
+  Maybe.of = function(x) {
+      return new Maybe(x);
+  }
+  //有map方法的容器就叫做：函子
+  Maybe.prototype.map = function(f) {
+      return this.isNothing() ? Maybe.of(null) : Maybe.of(f(this.__value));
+  }
+  Maybe.prototype.isNothing = function() {
+      return this.__value === undefined || this.__value === null
+  }
+  Maybe.of(null).map(function (s) {
     return s.toUpperCase();
   });
-  // TypeError
   ```
 
 * 
