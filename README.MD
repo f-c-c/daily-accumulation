@@ -28,4 +28,5 @@
 ## [Linux 常用命令](https://github.com/LiuHao713/task/blob/master/Linux%20basic.md) --- 2018.12.06
 * `ssh`，`vi`，`curl`，`wget`, 进程、线程、协程，进程管理命令、网络管理命令、 `linux`远程免密登陆，`banner`设置
 
-
+## [Vscode 快捷键-Mac](https://github.com/LiuHao713/task/blob/master/Mac%20vscode%20hot%20key.md) --- 2019.03.01
+* Mac 下Vscode 常用快捷键
