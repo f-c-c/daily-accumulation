@@ -536,13 +536,22 @@ Ap.of(add).ap(Maybe.of(2)).ap(Maybe.of(3));
 Ap.of(add(2)).ap(Maybe.of(3));
 ```
 
+#### Monad 函子
+
+
+
 
 
 ##### IO函子
 
+
+
+
+
 #### 函数式编程相关库
 
-* RxJS
+* RxJS [官网](https://cn.rx.js.org/) 目前已经不那么🔥了，浏览器已经实现了
+* cycleJs
 * underscorejs
 * lodash
 * [Ramda](http://ramda.cn/)
