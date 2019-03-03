@@ -32,7 +32,13 @@ Webpack 有 chunked 的
 跨团队组件
 
 ## web pack 优化（分开发层次 和 性能层次）
+### 使用层次：
 
+首先需要安装包: `npm i webpack -D` `npm i webpack-cli -D`
+
+webpack只能理解JavaScript和JSON文件
+
+### 优化点：
 * cache-loader（能让性能提升3倍）
 * Speed-measure-webpack-plugin(能检测哪个慢)
 * 打包文件大小分析

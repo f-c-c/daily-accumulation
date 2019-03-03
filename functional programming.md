@@ -112,20 +112,15 @@ Math.abs(-12);// 这就符合 幂等性
   function compose() {
       let funcs = arguments;
       return function(x) {
-          let temp = x;
-          let result = null;
-          for(let i = funcs.length - 1; i >= 0; i--){
-              result = funcs[i](temp);
-              temp = result;
-          }
-          return result;
+          [...funcs].reverse().forEach(item => { x = item(x);});
+          return x;
       }
   }
   var toUpperCase = function(x) { return x.toUpperCase(); };//将输入字符串变为大些
   var exclaim = function(x) { return x + '!'; };//在字符串后面加一个字符： !
   var getLast = function(x) { return x[x.length - 2]; };//取得倒数第二个字符
-  let func = compose(getLast, exclaim, toUpperCase);//函数组合
-  console.log(func('qwqwqwx'));//X
+  let func = compose(getLast, exclaim, toUpperCase);
+  console.log(func('qwqwqwx'));
   ```
 
   
@@ -163,7 +158,7 @@ I/O 操作往往有现成命令，大多数时候，编程主要就是写中间�
 
 #### 声明式代码和命令式代码
 
-* 命令式代码：我们通过编写一条又一条的指令去让计算机执行一些动作，这其中一般都会涉及到很多繁杂的细节，而声明式就要优雅很多，我们通过写表达式的方式来声明我们想干什么，而不是通过一步一步的指示
+* 命令式代码：我们通过编写一条又一条的指令去让计算机执行一些动作，这其中一般都会涉及到**很多繁杂的细节**，而声明式就要优雅很多，我们通过写表达式的方式来声明我们想干什么，而不是通过一步一步的指示
 
 ```javascript
 // 命令式
@@ -226,7 +221,7 @@ let RDs = companies.map(c => c.rds);
   }
   ```
 
-* ```
+* ```javascript
   function f(x) {
     if (x > 0) {
       return m(x)
@@ -238,7 +233,7 @@ let RDs = companies.map(c => c.rds);
 
 * 函数调用会在内存形成一个"调用记录"，又称"调用帧"（call frame），保存调用位置和内部变量等信息。如果在函数A的内部调用函数B，那么在A的调用记录上方，还会形成一个B的调用记录。等到B运行结束，将结果返回到A，B的调用记录才会消失。如果函数B内部还调用函数C，那就还有一个C的调用记录栈，以此类推。所有的调用记录，就形成一个["调用栈"]（call stack）
 
-* 尾调用由于是函数的最后一步操作，所以不需要保留外层函数的调用记录，因为调用位置、内部变量等信息都不会再用到了，只要直接用内层函数的调用记录，取代外层函数的调用记录就可以了
+* 尾调用由于是函数的最后一步操作，所以不需要保留外层函数的调用记录，因为外层函数的调用位置、内部变量等信息都不会再用到了，可以销毁其调用栈，只要直接用内层函数的调用记录，取代外层函数的调用记录就可以了
 
 * ```javascript
   function f() {
@@ -290,6 +285,10 @@ factorial(5, 1) // 120
 ```
 
 "尾调用优化"对递归操作意义重大，所以一些函数式编程语言将其写入了语言规格。ES6也是如此，第一次明确规定，所有 ECMAScript 的实现，都必须部署"尾调用优化"。这就是说，在 ES6 中，只要使用尾递归，就不会发生栈溢出，相对节省内存
+
+* 注意⚠️：node在后续的版本中支持过尾归调用（经过实验6.9.1是支持尾调用优化的，需要在严格模式下：`use strict` 以及 这样去开启`node --harmony_tailcalls aaa.js`），但后续给去掉了（截止目前11.6.0 是一句去掉了`--harmony_tailcalls`）
+* ⚠️：浏览器上只有**safari**支持，而其他浏览器上并不支持。所以，这是一个“未真正实现的提议”，仅仅了解下就行，目前还无法普遍用到生产环境中
+* 基于以上两点，在 `chrome` 和 `node `里面实验尾调用的代码，依然会出现堆栈溢出的
 
 ### 递归函数的改写
 
