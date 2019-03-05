@@ -200,14 +200,14 @@ let RDs = companies.map(c => c.rds);
 
 * 什么是**尾调用**：一句话说清楚，就是指**某个函数的最后一步是调用另一个函数**
 
-* ```
+* ```javascript
   function f(x){
     return g(x);
   }
   //函数f的最后一步是调用函数g，这就叫尾调用
   ```
 
-* ```
+* ```javascript
   // 情况一
   function f(x){
     let y = g(x);
