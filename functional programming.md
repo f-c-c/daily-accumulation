@@ -539,15 +539,90 @@ Ap.of(add(2)).ap(Maybe.of(3));
 
 #### Monad 函子
 
+* Monad就是一种设计模式，表示将一个运算过程，通过函数拆解成互相连接的多个步骤。你只要提供下一步运算
+  所需的函数，整个运算就会自动进行下去
 
+* Promise 就是一种 Monad
+* Monad 让我们避开了嵌套地狱，轻松的进行深度嵌套的函数式编程，比如 io 和其他异步任务
 
-
+```javascript
+class Monad extends Container {
+    join() {
+      return this.val;
+    }
+    flatMap(f) {
+      return this.map(f).join();
+    }
+    map(fn) {
+        return Monad.of(fn(this._val()));
+    }
+}
+Monad.of = (val) => {
+    return new Monad(val);
+}
+```
 
 ##### IO函子
 
+* IO 跟前面那几个 Functor 不同的地方在于，它的 __value 是一个函数。它把不纯的操作(比如 IO、网络请求、DOM)包裹到一个函数内，从而延迟这个操作的执行。所以我们认为，IO 包含的是被包裹的操作的返回
+  值。
+* IO其实也算是惰性求值
 
+```javascript
+//Io函子（其 _val 为一个函数）
+class Io{
+    constructor(val) {
+        this._val = val
+    }
+    join() {
+        return this._val;
+    }
+    map(f) {
+        return Io.of(f(this._val()));
+    }
+    flatMap(f) {
+        return this.map(f).join();
+    }
+}
+Io.of = (val) => {
+    return new Io(val);
+}
 
+//将肮脏的 io 操作  ——>  封装为纯函数
+//功能：读取文件
+let fs = require('fs');
+let readFile = function(filename) {
+    return new Io(function() {
+        return fs.readFileSync(filename, 'utf-8');
+    })
+}
 
+//将一个依赖外部变量的函数  -->  封装为纯函数
+//功能：在参数末尾连接上一个字符串
+let a = "abcdef";//一个外部依赖
+let addStr = function(x) {
+  return new Io(function() {
+    return x + a;
+  });
+}
+
+//非纯函数->纯函数
+//功能： 去掉字符串前 n 位
+let n = 5;
+let getLast = function(x) {
+    return new Io(function() {
+        return x.slice(n);
+    });
+}
+console.log(
+            //假设文件:aa.js里面的文字为： 123456
+            readFile('./aa.js')       //得到一个Io函子(其_val 是一个函数->用于读取一个文件)--这是肮脏的操作，先封装为一个函子，不立即运行
+                .flatMap(addStr)      //得到另一个Io函子（其_val 也是一个函数），并且拿到了 上面那个函子 的_val 的运行结果: 123456
+                .flatMap(getLast)     //再得到另一个Io函子（其_val 也是一个函数），并且拿到了 上面那个函子 的_val 的运行结果: 123456abcdef
+                ._val()               //运行上面那个函子的 _val, 完成功能： 去掉字符串前 n 位。得到最终结果：6abcdef
+            );
+// 将f(g(k(x))) 的嵌套写法转换为链式： k(x).chain(g).chain(f)
+```
 
 #### 函数式编程相关库
 
