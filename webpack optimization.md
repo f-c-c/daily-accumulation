@@ -56,9 +56,13 @@ pwa quicklink + webpack 优化
 
 1.treeshaking webpack-deep-scope-plugin webpack-parallel-uglify-plugin purifycss-webpack
 
+* （web pack 只能做模块化的 tree shaking, webpack-deep-scope-plugin能分析到函数里面的类的作用域）
+* webpack-parallel-uglify-plugin 
+* purifycss-webpack -css 的 treeshaking(只适用于多页)
+
 Tree Shaking 对于那些无副作用的模块也会生效了。  package.json 中 指定"sideEffects": false 例如：lodash-es
 
-2.cache-loader 加快编译速度
+2.cache-loader 加快编译速度（解决loader慢的问题，和8 配合）
 
 3.progress-bar-webpack-plugin 打包进度展示 
 
@@ -204,4 +208,167 @@ import { Dialog } form 'cube-ui'
 
 }
 
+26.vender
+
 V8  图形学 js多线程
+
+
+
+
+
+## 19.03.03
+
+腾讯的 omi 看源码（）实现微前端的很有用的一个库
+
+## pwa（二次访问加快）
+
+Quick link  对资源预加载（一次访问加快）用流量换用户体验
+
+* 在浏览器空闲的时候干事
+
+* 可以根据在视窗范围内（的去链接）去预加载
+
+* 网速类型判断（2g 3g就不加载）
+
+  
+## pwa（可以断网，像app一样圆润）
+
+断网、推送消息、发送通知、从桌面启动、免安装、
+
+Service worker .做高速缓存，没有大小限制（把资源缓存到本地）
+
+service worker 是web worker 的一种，所以不能在里面操作dom
+
+http-server  起一个服务（断网，网站就访问不了了，单service worker可以离线缓存）
+
+```
+if("serviceWorker" in navigator) {
+    //第二次生效，第一次是组册用的
+    navigator.serviceWorder.register("sw.js")//组册
+    .then(function(registration) {
+        console.log("service worker 组册成功");
+    })
+    .catch(function() {
+        console.log("service worker 组册失败");
+    })
+}
+```
+
+sw.js
+
+```
+var cacheName = "ydPWA-step-vi";//缓存版本的文件戳
+//缓存的资源列表
+var filesTocache = [
+    "/scripts/index.js",
+    "/images/timg.jpeg",
+    "/scripts/test.js",
+    "/",
+    "/demo2.html"
+];
+//1.self 代表当前的 service worker作用域
+//2.caches 表示service worker接管的页面
+//3.skipWaiting 表示强制当前处在waitting的状态脚本 直接进入activate
+//下面的可以拦截浏览器的所有请求
+//安装阶段去定义怎么缓存文件
+self.addEventListener("install", function() {
+	console.log("安装成功");
+    enent.waitUntil(updateStaticCache());
+})
+function updateStaticCache() {
+    //对所有的静态资源进行缓存的过程
+    return caches.open(cacheName)
+    .then(function(cache) {
+        return cache.addAll(filesTocache);
+    })
+    .then(() => {
+        self.skipWaiting();
+    })
+}
+//更新缓存的版本
+self.addEventListener("activate", function() {
+    event.waitUntil(caches.keys()
+    	.then(function(keyList) {
+            return Promise.all(keyList.map(function(key) {
+                if(key !== cacheName){
+                    return caches.delete(key);
+                }
+            }))
+    	})
+    )
+})
+self.addEventListener("fetch", function() {
+    //event.responseWith(new Response("hello world"));
+    event.respondWith(caches.match(event.request)
+    .then(function(response) {
+        return response || fetch(event.request);
+    })
+})
+```
+
+pwa的核心就是 service worker 
+
+ Offline-plugin 
+
+Worker-precache-webpack-plugin
+
+Sw-precache-webpack-plugin
+
+以上两个是解决文件 版本戳
+
+LAVAS  百度推出的（看pwa的资料 文档很详细）
+
+Google 的workbox 帮助我们更好的管理 service worker
+
+[googlechrome](Https://github.com/googlechrome) 可以看见 google 发布的所有东西
+
+workbox 还有 webpack 插件：workbox-webpack-plugin
+
+
+
+## 浏览器js多线程
+
+javascript 线程锁，共享内存视图
+
+```
+//postMessage 是属于 marcotask
+const worder = new Worker("task.js");
+//新建共享内存
+const sharedArrayBuffer = new SharedArrayBuffer(Int32Array.RYTES_PER_ELEMENT)
+worder.postMessage("")
+//新建视图
+const SharedArray = new Int32Array(SharedArrayBuffer);
+for(let i = 0;i < 10; i++) {
+    Atomics.store(sharedArray, i, i+1)
+}
+const itemValue = Atomics.load(sharedArray, 2);
+const result = `yideng${itemValue}`
+const queuePos = 1;
+Atomics.store()
+```
+
+```
+//sw.js
+self.addEventListener("message", function(event) {
+    //等待共享内存地址
+    const sharedArrayBuffer = event.data;
+    const SharedArray = new Int32Array(SharedArrayBuffer);
+    //线程变量锁定🔒
+    Atomics.wait(sharedArray, 2, 3);
+    console.log("")
+})
+//只有子线程能🔒，主线程能解
+```
+
+
+
+sourcemap ： 浏览器的特性：知道
+
+
+
+Rescuers hints
+
+* Dns prefetch
+* preconnect
+* preload
+* prerender
