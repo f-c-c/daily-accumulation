@@ -18,7 +18,7 @@ let f1 = new Foo();
 //下面几个是成立的，查找原型链跟着__proto__走
 f1.__proto__ === Foo.prototype
 Foo.prototype.__proto__ === Object.prototype;
-Object.prototype.__proto === null
+Object.prototype.__proto__ === null
 ```
 
 构造函数（类比为爹）的原型链：（为什么构造函数也有原型对象---因为构造函数也是对象呀，一切皆对象）：
@@ -37,3 +37,4 @@ Function（类比为爷爷）的原型链：
 Function.__proto__ === Function.prototype
 ```
 
+* 引擎自己创建了 `Object.prototype` 和 `Function.prototype`  以及 `Object` 和 `Function`我们 打印`Function.prototype` 时输出的是：`ƒ () { [native code] }` 打印`Object.prototype`时上面挂了一些方法： `toString toLocaleString hasOwnProperty isPrototypeOf ` 这就充分说明了是引擎自己创建了的，并用`__proto__`将二者联系了起来
