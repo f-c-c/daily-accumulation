@@ -38,3 +38,4 @@ Function.__proto__ === Function.prototype
 ```
 
 * 引擎自己创建了 `Object.prototype` 和 `Function.prototype`  以及 `Object` 和 `Function`我们 打印`Function.prototype` 时输出的是：`ƒ () { [native code] }` 打印`Object.prototype`时上面挂了一些方法： `toString toLocaleString hasOwnProperty isPrototypeOf ` 这就充分说明了是引擎自己创建了的，并用`__proto__`将二者联系了起来
+* 如何理解 `Function.__proto__ === Function.prototype`： 难道是 自己创建了自己？个人理解：引擎创建了`Object.prototype`、`Function.prototype`、`Function`、`Object`
