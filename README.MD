@@ -28,3 +28,5 @@
 
 ## [Vscode 快捷键-Mac](https://github.com/LiuHao713/task/blob/master/Mac%20vscode%20hot%20key.md) --- 2019.03.01
 * Mac 下Vscode 常用快捷键
+
+## [大规模 Node.js 项目架构与优化](https://github.com/LiuHao713/task/blob/master/NodeJs-architecture-optimization.md) --- 2019.04.01
