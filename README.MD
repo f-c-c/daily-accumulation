@@ -32,3 +32,7 @@
 ## [大规模 Node.js 项目架构与优化](https://github.com/LiuHao713/task/blob/master/NodeJs-architecture-optimization.md) --- 2019.04.01
 
 ## [immutable](https://github.com/LiuHao713/task/blob/master/immutable.md) --- 2019.04.08
+
+## [服务器日常问题总结](https://github.com/LiuHao713/task/blob/master/summary_of_service_questions_.md) --- 2019.05.04
+
+* Centos 7安装Nginx、Centos 7 源码安装 node、修改root密码、远程登陆不上等
