@@ -38,3 +38,6 @@
 * Centos 7安装Nginx、Centos 7 源码安装 node、修改root密码、远程登陆不上等
 ## [Nginx反向代理与负载均衡](https://github.com/LiuHao713/task/blob/master/Nginx-Reverse-proxy-and%20-load-balancing.md) --- 2019.05.04
 * nginx.conf基础配置、权重、ip_hash配置
+
+## [PM2启动node服务](https://github.com/LiuHao713/task/blob/master/start-node-with-pm2.md)
+* 基本的配置文件，常用命令`pm2 start` `pm2 stop all` `pm2 list` `pm2 monit`
