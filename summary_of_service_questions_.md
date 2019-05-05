@@ -1,7 +1,7 @@
 # 服务器日常问题总结
 
 ### 1. 长时间未远程登陆远程vps，登陆不上并报以下错误：
-  ```
+  ```shell
   ssh: connect to host 192.168.0.200 port 22: Operation timed out
   ```
 
@@ -28,7 +28,7 @@
 
 * 解压
 
-* ```
+* ```shell
   tar -zxvf nginx-1.10.1.tar.gz
   cd nginx-1.10.1
   ```
@@ -37,7 +37,7 @@
 
 * 编译安装：
 
-* ```
+* ```shell
   make
   make install
   ```
@@ -46,7 +46,7 @@
 
 * 启动停止 nginx
 
-* ```
+* ```shell
   cd /usr/local/nginx/sbin/   //进入到这个目录再执行下面的命令
   ./nginx   // 启动 nginx
   ./nginx -s stop   // 停止 nginx
@@ -54,7 +54,7 @@
   ./nginx -s reload   // 重启 nginx
   ```
 
-* ```
+* ```shell
   ./nginx -s quit:此方式停止步骤是待nginx进程处理任务完毕进行停止。
   ./nginx -s stop:此方式相当于先查出nginx进程id再使用kill命令强制杀掉进程。
   ```
@@ -65,7 +65,7 @@
   * 1.先停止再启动（推荐）：
     对 nginx 进行重启相当于先停止再启动，即先执行停止命令再执行启动命令。如下：
 
-    ```
+    ```shell
     ./nginx -s quit
     ./nginx
     ```

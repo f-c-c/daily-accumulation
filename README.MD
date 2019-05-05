@@ -36,3 +36,5 @@
 ## [服务器日常问题总结](https://github.com/LiuHao713/task/blob/master/summary_of_service_questions_.md) --- 2019.05.04
 
 * Centos 7安装Nginx、Centos 7 源码安装 node、修改root密码、远程登陆不上等
+## [Nginx反向代理与负载均衡](https://github.com/LiuHao713/task/blob/master/Nginx-Reverse-proxy-and%20-load-balancing.md) --- 2019.05.04
+* nginx.conf基础配置、权重、ip_hash配置

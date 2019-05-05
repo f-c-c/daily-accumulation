@@ -22,8 +22,32 @@ Nginx是一款可以通过反向代理实现负载均衡的服务器，使用Ngi
   * 设置服务器权重
 * Upstream指令及相关变量
 
+## nginx.conf 配置文件
 
-## 其他负载均衡的方法
+```nginx
+worker_processes  1;
+events{
+    worker_connections  1024;
+}
+
+http{
+		upstream test{
+			ip_hash;
+			server xxx.xxx.xxx.xxx:80 weight=2;
+			server xxx.xxx.xxx.xxx:8080;
+		}
+		server{
+			listem 80;
+			location / {
+				proxy_pass http://test;
+			}
+		}
+}
+```
+
+带有 `ip_hash;`作用： 让用户第一次落在了某个服务器后，以后都落在这个服务器
+
+带有`weight`作用：权重
 
 ## 部署NodeJs上线步骤及nginx相关命令
 1. 打开`https://brew.sh/index_zh-cn.html`
