@@ -13,7 +13,21 @@
 
 `passwd` 或者是：`sudo passwd root`
 
-### 3.Centos 7安装Nginx
+### 3.前后台切换进程
+
+- 在 Linux 的前台运行一个进程 `node server.js`
+- 在 Linux 的后台运行一个进程 `node server.js &`
+- 使用 `ctrl + z` 将强制当前进程转为后台，并使之挂起（暂停）
+- `jobs` 显示当前会话终端运行在后台的进程
+- `bg %N` 使第 N 个任务在后台运行
+- `fg %N` 使第 N 个任务在前台运行
+- `ctrl + c` 终止当前 前台 正在执行的程序
+- `ctrl + d` 相当于 `exit` 退出会话
+- `ps -e` 可以查看进程如 node 的进程 PID
+- `kill -9 PID` 杀掉进程
+- 后台进程的终止可以 `kill %num`
+
+### 4.Centos 7安装Nginx
 
 * 对于一台干净的 服务器（刚安装的系统没有其他的任何操作），首先**gcc 安装**，安装 nginx 需要先将官网下载的源码进行编译，编译依赖 gcc 环境，如果没有 gcc 环境，则需要安装：`yum install gcc-c++`
 
@@ -79,14 +93,36 @@
 
 * Nginx 的安装目录 `/usr/local/nginx`
 
-### 4.Centos 7 源码安装 Node.js
+### 5.Centos 7 源码安装 Node.js(没有成功过，好想是因为gcc版本低)
 
 * 1.安装gcc，make，openssl，wget `yum install -y gcc make gcc-c++ openssl-devel wget`
+* yum -y install gcc gcc-c++ kernel-devel make openssl-devel wget
 
 * 下载源代码包 `wget https://nodejs.org/dist/v10.15.3/node-v10.15.3.tar.gz` ,源码可以在 node.js 官网上找到链接
 * 3.解压源代码包 `tar -xf node-vx.x.x.tar.gz`
 
 * 4.编译 进入源代码所在路径 `cd node-vx.x.x` 先执行配置脚本 `./configure` 编译与部署 `make && make install` 接着就是等待编译完成…
 * 5.测试： `node -v` `npm -v`
+* ⚠️： 我linux的gcc版本低，升级花好长时间都不成功导致 源码安装node没有成功过
 
- 
+ ### 6.Centos 7 安装 git 客户端
+
+* `yum install -y git`
+
+* ```
+  git config --global user.name "你的名字"
+  git config --global user.email "你的邮箱"
+  ssh-keygen -t rsa -C "你的邮箱"
+  ```
+
+* 添加公钥到 github
+
+* 就可以 从 github 克隆代码了，接着`npm i` 启动项目
+
+### 7.Centos 7 安装 Node
+
+* `curl -sL https://rpm.nodesource.com/setup_10.x | sudo bash -`
+* `sudo yum install nodejs`
+* `node --version`
+* `npm --version`
+* 参考 [这里](https://linux4one.com/how-to-install-node-js-with-npm-on-centos-7/)

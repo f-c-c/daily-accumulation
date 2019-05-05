@@ -49,6 +49,75 @@ http{
 
 带有`weight`作用：权重
 
+在学习的时候可以用3台电脑💻，三台都装nginx。一台作为入口，其他两台为负载均衡的对象。
+
+实际上应该是一台装nginx，其他的装node就行了
+
+## 实践
+
+三台服务器：
+
+服务器1: 安装了 nginx 作为负载均衡的入口
+
+```shell
+http {
+    upstream test {
+        server 服务器2IP:端口;
+        server 服务器3IP:端口 weight=2;
+    }
+		server {
+        listen       80;
+        server_name  localhost;
+        #charset koi8-r;
+        #access_log  logs/host.access.log  main;
+        location / {
+           # root   html;
+           # index  index.html index.htm;
+           proxy_pass http://test;
+        }
+}
+```
+
+服务器2: 用koa起了一个node服务
+
+服务器3: 用koa起了一个node服务
+
+几个重要的命令：修改了 `nginx.conf`要重启 nginx 
+
+```shell
+cd /usr/local/nginx/sbin/   //进入到这个目录再执行下面的命令
+./nginx   // 启动 nginx
+./nginx -s stop   // 停止 nginx
+./nginx -s quit   // 停止 nginx
+./nginx -s reload   // 重启 nginx
+```
+
+3台服务器都要记得开启防火墙对应的端口：
+
+```
+配置firewalld-cmd
+查看版本：firewall-cmd --version
+查看帮助：firewall-cmd --help
+显示状态：firewall-cmd --state
+查看所有打开的端口：firewall-cmd --zone=public --list-ports
+更新防火墙规则：firewall-cmd --reload
+查看区域信息：firewall-cmd --get-active-zones
+查看指定接口所属区域：firewall-cmd --get-zone-of-interface=eth0
+拒绝所有包：firewall-cmd --panic-on
+取消拒绝状态：firewall-cmd --panic-off
+查看是否拒绝：firewall-cmd --query-panic
+端口的开启与关闭
+开启一个端口
+firewall-cmd --zone=public --add-port=80/tcp --permanent （–permanent永久生效，没有此参数重启后失效）
+重新载入 firewall-cmd --reload
+查看 firewall-cmd --zone= public --query-port=80/tcp
+删除 firewall-cmd --zone= public --remove-port=80/tcp --permanent
+查看 tcp 监听端口 netstat -lntp
+杀进程 kill -9 进程id
+```
+
+保证服务器1的80号端口打开，并且`nginx.conf`配置正确，服务器2和3的node服务已经成功启动，并且防火墙都已经放开对应的端口，这个时候直接在浏览器中访问服务器1的ip，我们就能看见负载均衡的效果，设置了`weight=2`的服务器将会有2/3的概率落上去，其余一个将会有1/3的概率落上去（我们在两台2、3服务器的首页做一点小改动就能很明显看出来），若设置 `ip_hash;` 可以让同一用户每次都落在同一个服务器上
+
 ## 部署NodeJs上线步骤及nginx相关命令
 1. 打开`https://brew.sh/index_zh-cn.html`
 2. `brew search nginx ` `brew install nginx`
@@ -60,5 +129,16 @@ http{
 8. 打开 `nginx`具体安装目录，查看配置文件： `/usr/local/etc/nginx/`，在配置文件里面可以配置`gzip` ``e-tag` 等性能优化参数
 9. 验证配置文件 `nginx -t -c 自己的配置文件地址`
 10. 拷贝配置文件到 `Node` 项目目录 重新修改
-11. 服务器端的 `nginx` 地址
-
+11. 服务器端的 `nginx` 地址 `usr/local/nginx/sbin`
+12. 盖世绝学
+    1. `ps aux | grep node`
+    2. `lsof -i tcp:8081`
+    3. `kill -9 pid`
+    4. `ssh yhm@地址（免密登陆）`
+    5.  `scp course-map.json root@ip:/路径`
+13. `npm install --production`只管上线环境
+14. `pm2` 动态监测文件
+    1. 能够动态监测文件的上传做 0 秒热启动
+    2. 能够负载均衡 cqu
+    3. 内存的使用过多了 cpu调度太频繁 会自动重启
+    4. restart 的个数
