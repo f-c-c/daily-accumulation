@@ -1,6 +1,6 @@
 # PM2启动node
 
-[pm2官网]([http://pm2.keymetrics.io/docs/usage/quick-start/](http://pm2.keymetrics.io/docs/usage/quick-start/))
+[pm2官网](http://pm2.keymetrics.io/docs/usage/quick-start/)
 
 `npm install pm2@latest -g`
 
@@ -8,7 +8,7 @@
 
 ```json
 module.exports = {
-    apps: {
+    "apps": {
         "name": "koa-swig-ssr",
         "script": "./app.js",
         "watch": true,
