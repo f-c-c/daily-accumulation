@@ -9,9 +9,10 @@
 
 重启 `sshd` 服务 `systemctl restart sshd_service`
 
-### 2.修改root账号密码
+### 2.有用的一些命令
 
-`passwd` 或者是：`sudo passwd root`
+* 修改服务器的root密码：`passwd` 或者是：`sudo passwd root`
+* 往服务器上传压缩文件：`scp course-map.json root@ip:/路径`
 
 ### 3.前后台切换进程
 

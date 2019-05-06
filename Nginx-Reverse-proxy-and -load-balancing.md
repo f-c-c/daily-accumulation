@@ -78,9 +78,9 @@ http {
 }
 ```
 
-服务器2: 用koa起了一个node服务
+服务器2: 用koa起了一个node服务（可以直接npm run pro这样去启动也可以 用pm2 去启动）
 
-服务器3: 用koa起了一个node服务
+服务器3: 用koa起了一个node服务（一般可以用到shelljs去管理重复的各种命令如：npm install）
 
 几个重要的命令：修改了 `nginx.conf`要重启 nginx 
 
@@ -120,26 +120,57 @@ firewall-cmd --zone=public --add-port=80/tcp --permanent （–permanent永久�
 
 ## 部署NodeJs上线步骤及nginx相关命令
 1. 打开`https://brew.sh/index_zh-cn.html`
+
 2. `brew search nginx ` `brew install nginx`
+
 3. `brew info nginx`
+
 4. `nginx -v`查看`nginx`信息
+
 5. 启动 `sudo brew services start nginx` (默认端口8080)，或者直接 `nginx`也能启动Mac下 可能弹一个允许的框
+
 6. `sudo brew services stop nginx/nginx` 或者 `nginx -s stop` 停止`nginx`
+
 7. `nginx -s reload` `nginx -s stop`
+
 8. 打开 `nginx`具体安装目录，查看配置文件： `/usr/local/etc/nginx/`，在配置文件里面可以配置`gzip` ``e-tag` 等性能优化参数
+
 9. 验证配置文件 `nginx -t -c 自己的配置文件地址`
+
 10. 拷贝配置文件到 `Node` 项目目录 重新修改
+
 11. 服务器端的 `nginx` 地址 `usr/local/nginx/sbin`
+
 12. 盖世绝学
-    1. `ps aux | grep node`
-    2. `lsof -i tcp:8081`
-    3. `kill -9 pid`
+    1. `ps aux | grep node` 查看谁在使用node
+    2. `lsof -i tcp:8081` 通过谁在使用该端口
+    3. `kill -9 pid` 通过pid杀进程
     4. `ssh yhm@地址（免密登陆）`
     5.  `scp course-map.json root@ip:/路径`
+    
 13. `npm install --production`只管上线环境
-14. `pm2` 动态监测文件
+
+14. `pm2` 
+
     1. 能够动态监测文件的上传做 0 秒热启动
-    2. 能够负载均衡 cqu
-    3. 内存的使用过多了 cpu调度太频繁 会自动重启
-    4. restart 的个数
-    5. pm2 也可以打日志，但是用log4要专业一些
+
+    2. 能够负载均衡 cqu 内存的使用过多了 cpu调度太频繁 会自动重启
+
+    3. restart 的个数，可以看出程序有一些问题
+
+    4. pm2 也可以打日志，但是用log4要专业一些
+
+    5. `pm2` 和我们的 `app.js`是非常紧密联系在一起使用的
+
+    6. 在上线的时候我们一般会写一个 `deploy.js` 如果 `linux`熟悉的话可以直接写 `shell`脚本 `xxx.sh`
+    
+    7. `npm install shelljs —save`利用`shelljs`可以帮我们去执行命令，deploy.js，我们直接`node deploy.js`
+    
+    8. ```javascript
+       var shell = require('shelljs');
+       shell.exec("npm install --production");
+       shell.exec("pm2 start ecosystem.config.js --env production");
+       ```
+
+
+
