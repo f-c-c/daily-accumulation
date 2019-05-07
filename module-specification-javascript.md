@@ -87,7 +87,7 @@ require([module], callback);
 
   - 意思是引入 require.js 并指定主 js 文件为 main.js,在main中再去引用其他的模块
 
-    ```
+    ```javascript
     //main.js 异步引入add.js 模块
     require(['./libs/add.js'],function(add){
         alert(add.add(12,23));
@@ -106,7 +106,7 @@ require([module], callback);
 
 - CMD 是 “Common Module Definition”的缩写，意思就是“通用模块定义”。它与 AMD 有很多相似之处，CMD 支持同步模式和异步模式。目前实行 CMD 的主要是 `sea.js`
 
-- ```
+- ```javascript
   //html 文件
   <!DOCTYPE html>
   <html lang="en">
@@ -169,7 +169,7 @@ require([module], callback);
 
 * AMD在定义模块的时候要先声明其依赖的模块
 
-  ```
+  ```javascript
   define(['jquery'],function($){
       var  backButton=$('.backToTop');
      function  animate(){
@@ -191,16 +191,12 @@ require([module], callback);
       scroll:scroll
   };
   });
-  
-  ---------------------
-  
-  本文来自 E_li_na 的CSDN 博客 ，全文地址请点击：https://blog.csdn.net/e_li_na/article/details/72082763?utm_source=copy 
   ```
 
 
 * CMD没有这里严格的要求，它只要依赖的模块在附近就可以了
 
-  ```
+  ```javascript
   // CMD
   define(function(require, exports, module) {
   var a = require('./a')
@@ -210,12 +206,8 @@ require([module], callback);
   b.doSomething()
   // ... 
   })
-  
-  ---------------------
-  
-  本文来自 E_li_na 的CSDN 博客 ，全文地址请点击：https://blog.csdn.net/e_li_na/article/details/72082763?utm_source=copy 
   ```
-
+  
 * AMD推崇**依赖前置**,CMD是**依赖就近**
 * AMD加载完模块后，就立马执行该模块；CMD加载完某个模块后没有立即执行而是等到遇到require语句的时再执行
 * 两者的不同导致各自的优点是**AMD用户体验好**，因为模块提前执行了；**CMD性能好**，因为只有用户需要的时候才执行
@@ -231,7 +223,7 @@ CommonJS 模块输出的是值的拷贝，也就是说，一旦输出一个值�
 
 CommonJs模块化：
 
-```
+```javascript
 // lib.js
 var counter = 3;
 function incCounter() {  
@@ -249,7 +241,7 @@ console.log(mod.counter); // 3
 
 ES6模块化
 
-```
+```javascript
 // lib.js
 export let counter = 3;
 export function incCounter() {
