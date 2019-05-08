@@ -10,9 +10,9 @@
 ## [YII 初次接触](https://github.com/LiuHao713/task/blob/master/YII%20learning.md) --- 2018.11.12
 * 安装 `Composer` 和 `YII` ，理解其目录结构，尝试写 demo
 
-## [HTTP协议、原生ajax、浏览器缓存机制](https://github.com/LiuHao713/FE-Interview-questions/blob/master/http-ajax-cache.md) --- 2018.11.15
+## [HTTP协议、原生ajax、浏览器缓存机制](https://github.com/LiuHao713/daily-accumulation/blob/master/http-ajax-cache.md) --- 2018.11.15
 
-## [深浅复制比较](https://github.com/LiuHao713/FE-Interview-questions/blob/master/stack-shallowCopy-deepCopy.md) --- 2018.11.18
+## [深浅复制比较](https://github.com/LiuHao713/daily-accumulation/blob/master/stack-shallowCopy-deepCopy.md) --- 2018.11.18
 
 ## [JS中和正则相关的东西](https://github.com/LiuHao713/task/blob/master/RegExp%20in%20JS.md) --- 2018.11.20
 * `exec` `test` `match` `replace` `search` 捕获组
