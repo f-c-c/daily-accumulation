@@ -34,8 +34,20 @@
   
 * 远程传文件命令`scp` 命令
   * `scp` 加密的🔐远程复制 `scp ./file.zip root@xxx.xxx.xxx.xxx:/home/test`
+  
   * 在复制文件的时候如果遇到 `WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!` 则是权限问题可以 `sudo scp ./file.zip root@xxx.xxx.xxx.xxx:/home/test`
+  
   * 如何复制多个文件：`ll *.zip` 显示当前目录下所有的 `.zip`结尾的文件，复制多个文件可以： `scp ./*.zip root@xxx.xxx.xxx.xxx:/home/test`
+  
+  * 同理：本机**下载服务器上的文件**也可以用 `scp`命令，只要颠倒一下就行：`sudo scp root@xxx.xxx.xxx.xxx:/home/test/*.zip ./`
+  
+  * 还有我们想两台服务器之间上传下载文件：
+  
+    * 法一：我们可以登陆到其中一台服务器，载去 `scp` 这样当然可以，但是有点笨
+  
+    * 法二： `sudo scp root@xxx.xxx.xxx.xx1:/home/test/*.zip root@xxx.xxx.xxx.xx2:/home/test` 这就可以做到**在本地操作两个服务器之间的文件互传**
+    
+  * 我们可以看见在上传和下载的时候总是让我们输入密码，非常的麻烦，我们可以做免密登陆，用到证书验证机制，不用每次输入密码
   
 * 远程传文件命令`samba` 命令
 
@@ -51,6 +63,8 @@
   * `0 6 4 4`表示3种用户的权限 `0111` 也就是 7 表示可读可写可执行，`0110`也就是6 表示可读可写不可执行，`0101`也就是 5 表示可读不可写可执行，`0100`也就是4 表示可读不可写不可执行，我们设置成 `644`的意思就是：我们将`/home/test`这个目录共享出去，其权限是`644`
 
   * 启动samba服务在centos7下：`systemctl start smb` 在之前的版本是`service smb start`
+
+  * 安全性不是很好，在局域网内用用还是可以的，同一个局域网的 `windows`之间
 
 * `ll`命令文件权限解析
 
