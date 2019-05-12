@@ -21,7 +21,9 @@
 * `hostnamectl set-hostname xxx` 就可以改主机名了，可以带下划线和中划线，改完之后需要退出终端从新登陆才会生效 ，通过 `exit` 就可以退出了
 ### 常用 `Linux` 命令
 * `vi` 行编辑器，`i` 进入编辑状态，`esc` 退出编辑状态进入命令状态，`:wq` 保存退出 ，`:q!` 放弃修改并退出，`:w` 只保存不退出 加上 `sudo` 提升权限
+  
   * 在 `vi` 里面 编辑的时候是不是很方便的，鼠标时不管用的
+  
 * 服务管理命令：`systemctl`
   * 直接输入 `systemctl` 命令，会列出在这台机器上面的所有服务，这个时候 按下 `q` 就退出列表状态
   * 比如启动 `mysql` 服务：`systemctl start mysqld`
@@ -29,11 +31,31 @@
   * 启动 `nginx` 服务：`systemctl start nginx`
   * `systemctl`的子命令： `restart` 是 重启， `stop` 是停止，`disable` 禁用服务（随着操作系统启动时不会启动），`enable` 启用服务（随着操作系统启动就会启动），`disable  enable` 是不影响 `start stop restart`的
   * 可以发现：有些进程名字后面带个 `d`，这是守护进程的意思
-* 远程传文件命令
+  
+* 远程传文件命令`scp` 命令
   * `scp` 加密的🔐远程复制 `scp ./file.zip root@xxx.xxx.xxx.xxx:/home/test`
   * 在复制文件的时候如果遇到 `WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!` 则是权限问题可以 `sudo scp ./file.zip root@xxx.xxx.xxx.xxx:/home/test`
-  * 如何复制多个文件：`ll *.zip` 显示当前目录下所有的 `.zip`结尾的文件
+  * 如何复制多个文件：`ll *.zip` 显示当前目录下所有的 `.zip`结尾的文件，复制多个文件可以： `scp ./*.zip root@xxx.xxx.xxx.xxx:/home/test`
+  
+* 远程传文件命令`samba` 命令
 
+  * `centOS` 下先可能要安装 ：`yum install samba`
+
+  * `cd /etc/samba/`  `vi smb.conf`修改samba的配置文件，修改共享目录： [homes]
+
+  * ```
+    path = /home/test
+    creat mask = 0644
+    ```
+
+  * `0 6 4 4`表示3种用户的权限 `0111` 也就是 7 表示可读可写可执行，`0110`也就是6 表示可读可写不可执行，`0101`也就是 5 表示可读不可写可执行，`0100`也就是4 表示可读不可写不可执行，我们设置成 `644`的意思就是：我们将`/home/test`这个目录共享出去，其权限是`644`
+
+  * 启动samba服务在centos7下：`systemctl start smb` 在之前的版本是`service smb start`
+
+* `ll`命令文件权限解析
+
+  * `ll`   命令以显所有文件的权限如： `drwxr-xr-x`
+  * 第一个字母表示文件类型，后面**9个字母每三个为一组**，前面三个字母表示**文件所有者**的权限，中间三个字母**表示和文件拥有者在同一个用户组的用户**的权限，最后三个字母表示除去文件所有者和文件所有者在同一用户组的**其他用户**的权限。`r` 表示可读，`w`表示可写（也就是可以删除）`x`表示可执行，`-`表示没有该权限
 
 * 命令行下载命令
   * `curl` 比如`curl http://www.baidu.com` 不会下载，只会显示内容，要下载必须指定输出文件名：`curl http://www.baidu.com -o xxx.index`
