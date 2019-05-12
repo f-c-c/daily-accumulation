@@ -13,7 +13,7 @@
 ### 远程登录命令
 
 * `ssh`
-*  比如：`ssh root@xxx.xxx.xxx.xxx`,会提升输入密码，这个时候的秘密是不回显的
+*  比如：`ssh root@xxx.xxx.xxx.xxx`, 这里可以是ip地址也可以是域名，会提示输入密码，这个时候的秘密是不回显的
 ### 修改 `hostname`
 * 可以帮助我们区别我们究竟在哪个地方：是在哪一个服务器，是服务器还是本地
 * `hostnamectl` 什么参数都不加，就会显示该主机的一些信息
@@ -29,6 +29,11 @@
   * 启动 `nginx` 服务：`systemctl start nginx`
   * `systemctl`的子命令： `restart` 是 重启， `stop` 是停止，`disable` 禁用服务（随着操作系统启动时不会启动），`enable` 启用服务（随着操作系统启动就会启动），`disable  enable` 是不影响 `start stop restart`的
   * 可以发现：有些进程名字后面带个 `d`，这是守护进程的意思
+* 远程传文件命令
+  * `scp` 加密的🔐远程复制 `scp ./file.zip root@xxx.xxx.xxx.xxx:/home/test`
+  * 在复制文件的时候如果遇到 `WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!` 则是权限问题可以 `sudo scp ./file.zip root@xxx.xxx.xxx.xxx:/home/test`
+  * 如何复制多个文件：`ll *.zip` 显示当前目录下所有的 `.zip`结尾的文件
+
 
 * 命令行下载命令
   * `curl` 比如`curl http://www.baidu.com` 不会下载，只会显示内容，要下载必须指定输出文件名：`curl http://www.baidu.com -o xxx.index`

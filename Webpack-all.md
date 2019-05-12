@@ -31,3 +31,60 @@ webpack4在`production`模式下，会启用众多优化插件
 
 none模式下，webpack不会使用任何内置优化
 
+### 使用别名
+
+```json
+    resolve: {
+        alias: {
+            '$self-component': path.resolve(__dirname, 'src/component/'),
+            '$self-util': path.resolve(__dirname, 'src/util/'),
+            '$self-yo-component': path.resolve(__dirname, 'src/yo-component/'),
+            '$self-config': path.resolve(__dirname, 'src/config/'),
+            '$self-yo-config': path.resolve(__dirname, 'src/yo-config/'),
+            '~yo3': path.resolve(__dirname, 'src/yo-config/')
+        },
+        extensions: [ '.js', '.scss', '.json' ]
+    }
+```
+
+### 忽略对已知模块解析
+
+```
+{
+	module: [
+		noParse: ['/moment-with-locales/']
+	]
+}
+```
+
+### 将模块暴露在全局
+
+`expose-loader` or `ProvidePlugin` 暴露在全局后在使用时就不需要引入了，全局变量就存在了
+
+### 提起公共代码
+
+`CommonsChunkPlugin` 如何判定是否公共模块：`minChunks`至少被引用多少次就认为是公共模块 
+
+### 配置全局开关
+
+```javascript
+plugins: [
+	new webpack.DefinePlugin({
+		DEBUG: true
+	})
+]
+const Constant = {
+	API_HOST: DEBUG ? "http://10.13.xxx.xxx:8080" : ""
+}
+```
+
+### 单独打包CSS
+
+```json
+plugins: [
+	new ExtractTextPlugin("[name].[hash:8].css", {
+		allChunks: true
+	})
+]
+```
+
