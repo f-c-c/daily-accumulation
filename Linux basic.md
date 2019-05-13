@@ -213,10 +213,10 @@
   * 下一步回到我们本地电脑：检查私钥权限必须为 `600`
     ![right](./assert/19F055B4-4CF1-4887-B5C6-51D6AD32BDCD.png "公钥私钥权限")
 
-  * 保障了以上的操作正确✅以后（1:生成密钥对，2:上传公钥），我们就可以免密登陆了，这里有两种方式：第一种方式：`ssh -i fcc_rsa root@ip`，`-i`就是指定**私钥目录**，在我们配置免密登陆脚本的时候用这种方式，或者`sudo ssh -i fcc_rsa root@ip`
+  * 保障了以上的操作正确✅以后（1:生成密钥对，2:上传公钥），我们就可以**免密登陆**了，这里有两种方式：第一种方式：`ssh -i fcc_rsa root@ip`，`-i`就是指定**私钥目录**，在我们配置免密登陆脚本的时候用这种方式，或者`sudo ssh -i fcc_rsa root@ip`
 
-  * **免密传输文件**：这里介绍一个远程传文件命令：`scp -i fcc_rsa /filename root@ip:/` 同样通过 `-i`指定私钥，后面加要传输的文件，后面加远程服务器的`ip:/目录`，比如： `scp -i fcc_rsa fcc_rsa.pub root@ip:/opt`，我们就把公钥给免密传到远程服务器的`opt`目录了：
-    ![免密scp](./assert/D99B4ECA-C6CB-4A62-9D63-EE6F9C12804D.png "免密scp")
+  * **免密传输文件**：这里介绍一个**免密远程传文件**命令：`scp -i fcc_rsa /filename root@ip:/` 同样通过 `-i`指定私钥，后面加要传输的文件，后面加远程服务器的`ip:/目录`，比如： `scp -i fcc_rsa fcc_rsa.pub root@ip:/opt`，我们就把公钥给免密传到远程服务器的`opt`目录了：
+    ![免密scp](./assert/D99B4ECA-C6CB-4A62-9D63-EE6F9C12804D.png"免密scp")
 
   * `date`可以看服务器时间
 
