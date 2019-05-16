@@ -137,8 +137,6 @@ over
 
 ### 捕获 promise 错误
 
-
-
 ```javascript
 <body>
     <script>
@@ -172,3 +170,16 @@ promise error1
 promise error2
 ```
 
+### 遇到跨域的就需要用 node 设置 头
+
+```javascript
+        const Koa = require('koa');
+        const path = require('path');
+        const cors = require('koa-cors');
+        const app = new Koa();
+        app.use(cors());
+        app.use(require('koa-static')(path.resolve(__dirname, './public')));
+        app.listen(8081, () => {
+            console.log('koa app listening at 8081');
+        })
+```
