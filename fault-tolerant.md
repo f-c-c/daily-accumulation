@@ -113,3 +113,23 @@ over
 * `window.onerror` 只有在 返回 `true`的情况下，异常才不会向上抛出
 
 * 当我们遇到`<img src="./404.png" />`报 `404`网络请求异常的时候，我们用 `window.onerror`可以捕获到网络请求异常，但是无法判断 `http` 的状态`400` 或者 `500`，所以还需要配合服务器端日志排查分析
+
+**网络请求异常不会事件冒泡**，但是下面的🐱能捕获到 404 ：
+
+```javascript
+<body>
+    <img src="./404.png" alt='' />
+    <script>
+        window.addEventListener('error', (msg,url,row,col,error) => {
+            console.log('我知道错误了');
+            return true;
+        }, true)
+				// 下面不会捕获到
+ 				// window.onerror = (msg,url,row,col,error) => {
+        //     console.log('我知道错误了');
+        //     return true;
+        // };
+    </script>
+</body>
+```
+
