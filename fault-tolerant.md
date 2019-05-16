@@ -106,6 +106,7 @@ over
 {msg,col,error,row,url}
  ```
 
+
 结论：
 
 	* `window.onerror`主要是用来捕获预料之外的错误，而`try {} catch () {}`则是用来在可预见的情况下区捕获错误

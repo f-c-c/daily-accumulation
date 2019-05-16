@@ -47,3 +47,6 @@
 
 ## [PM2 启动 node 服务](https://github.com/LiuHao713/task/blob/master/start-node-with-pm2.md)
 * 基本的配置文件，常用命令`pm2 start` `pm2 stop all` `pm2 list` `pm2 monit`
+
+## [JavaScript 错误处理](https://github.com/LiuHao713/daily-accumulation/blob/master/fault-tolerant.md)
+* `try {} catch () {}`、`window.onerror`
