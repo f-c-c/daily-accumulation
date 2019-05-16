@@ -123,7 +123,7 @@ over
         window.addEventListener('error', (msg,url,row,col,error) => {
             console.log('我知道错误了');
             return true;
-        }, true)
+        }, true)  // 这个 true  很关键，只有为true才捕捉得到
 				// 下面不会捕获到
  				// window.onerror = (msg,url,row,col,error) => {
         //     console.log('我知道错误了');
@@ -131,5 +131,44 @@ over
         // };
     </script>
 </body>
+```
+
+如果 `404` 了给吐一张🐶可爱的图片
+
+### 捕获 promise 错误
+
+
+
+```javascript
+<body>
+    <script>
+        window.addEventListener('unhandledrejection', (e) => {
+            e.preventDefault();
+            console.log('我知道 promise 错误了');
+            console.log(e.reason);
+            return true;
+        }, false); // 如果不捕获的话，会爆红的
+        Promise.reject("promise error1");
+        new Promise((resolve, reject) => {
+            reject(reject);
+        })
+        new Promise((resolve, reject) => {
+            resolve();
+        }).then(() => {
+            throw 'promise error2'
+        })
+    </script>
+</body>
+```
+
+输出：
+
+```
+我知道 promise 错误了
+promise error1
+我知道 promise 错误了
+ƒ () { [native code] }
+我知道 promise 错误了
+promise error2
 ```
 
