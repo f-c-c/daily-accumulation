@@ -137,6 +137,8 @@ over
 
 ### 捕获 promise 错误
 
+为了每一个都去 `catch`
+
 ```javascript
 <body>
     <script>
