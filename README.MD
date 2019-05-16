@@ -14,16 +14,16 @@
 
 ## [深浅复制比较](https://github.com/LiuHao713/daily-accumulation/blob/master/stack-shallowCopy-deepCopy.md) --- 2018.11.18
 
-## [JS中和正则相关的东西](https://github.com/LiuHao713/task/blob/master/RegExp%20in%20JS.md) --- 2018.11.20
+## [JS 中和正则相关的东西](https://github.com/LiuHao713/task/blob/master/RegExp%20in%20JS.md) --- 2018.11.20
 * `exec` `test` `match` `replace` `search` 捕获组
 
-## [js中的内存泄漏](https://github.com/LiuHao713/task/blob/master/Js%20memory%20leak.md) --- 2018.11.22
+## [JS 中的内存泄漏](https://github.com/LiuHao713/task/blob/master/Js%20memory%20leak.md) --- 2018.11.22
 * `eval`，`with`，`try catch 的catch` 会导致内存泄漏，`new Function()`，`window.eval`不会导致内存泄漏
 
-## [深入原型链](https://github.com/LiuHao713/task/blob/master/protorype.md)
+## [深入 JavaScript 原型链](https://github.com/LiuHao713/task/blob/master/protorype.md)
 * 一切皆对象，一个函数当构造函数看待时有个`prototype`属性，当对象看待时有一个内部属性`__proto__`
 
-## [JavaScript模块化规范](https://github.com/LiuHao713/daily-accumulation/blob/master/module-specification-javascript.md)
+## [JavaScript 模块化规范](https://github.com/LiuHao713/daily-accumulation/blob/master/module-specification-javascript.md)
 * `IIFE` 、`commonJs` 、`AMD` `CMD` `ES6 模块化`
 
 ## [Linux 常用命令](https://github.com/LiuHao713/task/blob/master/Linux%20basic.md) --- 2018.12.06
@@ -39,8 +39,8 @@
 ## [服务器日常问题总结](https://github.com/LiuHao713/task/blob/master/summary_of_service_questions_.md) --- 2019.05.04
 
 * Centos 7安装Nginx、Centos 7 源码安装 node、修改root密码、远程登陆不上等
-## [Nginx反向代理与负载均衡](https://github.com/LiuHao713/task/blob/master/Nginx-Reverse-proxy-and%20-load-balancing.md) --- 2019.05.04
+## [Nginx 反向代理与负载均衡](https://github.com/LiuHao713/task/blob/master/Nginx-Reverse-proxy-and%20-load-balancing.md) --- 2019.05.04
 * nginx.conf基础配置、权重、ip_hash配置
 
-## [PM2启动node服务](https://github.com/LiuHao713/task/blob/master/start-node-with-pm2.md)
+## [PM2 启动 node 服务](https://github.com/LiuHao713/task/blob/master/start-node-with-pm2.md)
 * 基本的配置文件，常用命令`pm2 start` `pm2 stop all` `pm2 list` `pm2 monit`
