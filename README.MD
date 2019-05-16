@@ -23,6 +23,9 @@
 ## [深入原型链](https://github.com/LiuHao713/task/blob/master/protorype.md)
 * 一切皆对象，一个函数当构造函数看待时有个`prototype`属性，当对象看待时有一个内部属性`__proto__`
 
+## [JavaScript模块化规范](https://github.com/LiuHao713/daily-accumulation/blob/master/module-specification-javascript.md)
+* `IIFE` 、`commonJs` 、`AMD` `CMD` `ES6 模块化`
+
 ## [Linux 常用命令](https://github.com/LiuHao713/task/blob/master/Linux%20basic.md) --- 2018.12.06
 * `ssh`，`vi`，`curl`，`wget`, 进程、线程、协程，进程管理命令、网络管理命令、 `linux`远程免密登陆，`banner`设置
 
