@@ -13,6 +13,7 @@
 ## [HTTP协议、原生ajax、浏览器缓存机制](https://github.com/LiuHao713/daily-accumulation/blob/master/http-ajax-cache.md) --- 2018.11.15
 
 ## [深浅复制比较](https://github.com/LiuHao713/daily-accumulation/blob/master/stack-shallowCopy-deepCopy.md) --- 2018.11.18
+* 栈和堆、六种基本数据类型、赋值运算符、浅拷贝、深拷贝、针对特殊对象的拷贝
 
 ## [JS 中和正则相关的东西](https://github.com/LiuHao713/task/blob/master/RegExp%20in%20JS.md) --- 2018.11.20
 * `exec` `test` `match` `replace` `search` 捕获组
@@ -24,23 +25,24 @@
 * 一切皆对象，一个函数当构造函数看待时有个`prototype`属性，当对象看待时有一个内部属性`__proto__`
 
 ## [JavaScript 模块化规范](https://github.com/LiuHao713/daily-accumulation/blob/master/module-specification-javascript.md)
-* `IIFE` 、`commonJs` 、`AMD` `CMD` `ES6 模块化`
+* `IIFE` 、`commonJs` 、`AMD`、 `CMD`、 `ES6 模块化`
 
-## [Linux 常用命令](https://github.com/LiuHao713/task/blob/master/Linux%20basic.md) --- 2018.12.06
+## [Linux 基础命令](https://github.com/LiuHao713/task/blob/master/Linux%20basic.md) --- 2018.12.06
 * `ssh`，`vi`，`curl`，`wget`, 进程、线程、协程，进程管理命令、网络管理命令、 `linux`远程免密登陆，`banner`设置
 
 ## [Vscode 快捷键-Mac](https://github.com/LiuHao713/task/blob/master/Mac%20vscode%20hot%20key.md) --- 2019.03.01
-* Mac 下Vscode 常用快捷键
+* `Mac` 下 `Vscode` 常用快捷键
 
 ## [大规模 Node.js 项目架构与优化](https://github.com/LiuHao713/task/blob/master/NodeJs-architecture-optimization.md) --- 2019.04.01
 
 ## [immutable](https://github.com/LiuHao713/task/blob/master/immutable.md) --- 2019.04.08
+* `immutable`
 
 ## [服务器日常问题总结](https://github.com/LiuHao713/task/blob/master/summary_of_service_questions_.md) --- 2019.05.04
 
-* Centos 7安装Nginx、Centos 7 源码安装 node、修改root密码、远程登陆不上等
+* `Centos 7` 安装 `Nginx`、`Centos 7` 源码安装 `node`、修改 `root`密码、远程登陆不上等
 ## [Nginx 反向代理与负载均衡](https://github.com/LiuHao713/task/blob/master/Nginx-Reverse-proxy-and%20-load-balancing.md) --- 2019.05.04
-* nginx.conf基础配置、权重、ip_hash配置
+* `nginx.conf`基础配置、权重、`ip_hash`配置
 
 ## [PM2 启动 node 服务](https://github.com/LiuHao713/task/blob/master/start-node-with-pm2.md)
 * 基本的配置文件，常用命令`pm2 start` `pm2 stop all` `pm2 list` `pm2 monit`
