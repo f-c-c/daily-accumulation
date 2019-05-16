@@ -11,6 +11,7 @@
 * 安装 `Composer` 和 `YII` ，理解其目录结构，尝试写 demo
 
 ## [HTTP协议、原生ajax、浏览器缓存机制](https://github.com/LiuHao713/daily-accumulation/blob/master/http-ajax-cache.md) --- 2018.11.15
+* `http` `ajax` `常见状态码` `协商缓存与强缓存`
 
 ## [深浅复制比较](https://github.com/LiuHao713/daily-accumulation/blob/master/stack-shallowCopy-deepCopy.md) --- 2018.11.18
 * 栈和堆、六种基本数据类型、赋值运算符、浅拷贝、深拷贝、针对特殊对象的拷贝
