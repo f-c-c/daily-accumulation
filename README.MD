@@ -50,3 +50,6 @@
 
 ## [JavaScript 错误处理](https://github.com/LiuHao713/daily-accumulation/blob/master/fault-tolerant.md) --- 2019.05.16
 * `try {} catch () {}`、`window.onerror`
+
+## [代理与反射 Proxy Reflect ](https://github.com/LiuHao713/daily-accumulation/blob/master/proxy-and-reflect.md) --- 2019.05.17
+* `get` `set` `Proxy 和 Reflect的方法`
