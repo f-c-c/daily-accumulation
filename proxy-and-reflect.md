@@ -167,6 +167,63 @@ Proxy 支持的拦截操作一览，一共 13 种：
 
 ### Reflect
 
+为**操作对象**而提供的新API
+
+* 将Object对象的属于语言内部的方法放到Reflect对象上，即从Reflect对象上拿Object对象内部方法
+
+* 将用 老Object方法 报错的情况，改为返回false
+
+* ```javascript
+  try {
+    Object.defineProperty(target, property, attributes);
+    // success
+  } catch (e) {
+    // failure
+  }
+  
+  if (Reflect.defineProperty(target, property, attributes)) {
+    // success
+  } else {
+    // failure
+  }
+  ```
+
+* 让Object操作变成函数行为
+
+  * 老写法（命令式写法）`'name' in Object //true`
+  * 新写法`Reflect.has(Object,'name') //true`
+  
+* Reflect与Proxy是相辅相成的，在Proxy上有的方法，在Reflect就一定有
+
+### Reflect的API
+
+* **Reflect.get(target,property,receiver)**
+  查找并返回target对象的property属性
+
+   ```javascript
+            let obj = {
+                name: 'fcc',
+                age: 28
+            };
+            console.log(Reflect.get(obj, 'name')); // fcc
+  
+          let obj = {
+              get yu() {
+                  //this返回的是Reflect.get的receiver参数对象
+                  return this.name + this.age
+              }
+          }
+  
+          let receiver = {
+              name: "fcc",
+              age: "hhh",
+          }
+  
+          let result = Reflect.get(obj, "yu", receiver)
+          console.log(result) //fcchhh
+   ```
+
+
 > **Reflect** 是一个内置的对象，它提供拦截 JavaScript 操作的方法。这些方法与 `proxy` 的方法相同。`Reflect`不是一个函数对象，因此它是不可构造的。
 >
 > 与大多数全局对象不同，`Reflect`没有构造函数。你不能将其与一个[new运算符]一起使用，或者将`Reflect`对象作为一个函数来调用。`Reflect`的所有属性和方法都是静态的（就像[`Math`]对象）。
@@ -174,3 +231,14 @@ Proxy 支持的拦截操作一览，一共 13 种：
 > [`Reflect.apply()`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Reflect/apply)
 >
 > 对一个函数进行调用操作，同时可以传入一个数组作为调用参数。和 [`Function.prototype.apply()`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/apply) 功能类似。
+>
+> 静态方法 `Reflect.apply()` 通过指定的参数列表发起对目标(target)函数的调用
+>
+> ```javascript
+> Reflect.apply(target, thisArgument, argumentsList)
+> target 目标函数。thisArgument target函数调用时绑定的this对象。argumentsList target函数调用时传入的实参列表，该参数应该是一个类数组的对象。
+> 该方法与ES5中Function.prototype.apply()方法类似：调用一个方法并且显式地指定this变量和参数列表(arguments) ，参数列表可以是数组，或类似数组的对象。
+> Function.prototype.apply.call(Math.floor, undefined, [1.75]);
+> 使用 Reflect.apply 方法会使代码更加简洁易懂
+> ```
+
