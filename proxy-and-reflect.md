@@ -165,3 +165,12 @@ Proxy 支持的拦截操作一览，一共 13 种：
 >- **apply(target, object, args)**：拦截 Proxy 实例作为函数调用的操作，比如`proxy(...args)`、`proxy.call(object, ...args)`、`proxy.apply(...)`。
 >- **construct(target, args)**：拦截 Proxy 实例作为构造函数调用的操作，比如`new proxy(...args)`。
 
+### Reflect
+
+> **Reflect** 是一个内置的对象，它提供拦截 JavaScript 操作的方法。这些方法与 `proxy` 的方法相同。`Reflect`不是一个函数对象，因此它是不可构造的。
+>
+> 与大多数全局对象不同，`Reflect`没有构造函数。你不能将其与一个[new运算符]一起使用，或者将`Reflect`对象作为一个函数来调用。`Reflect`的所有属性和方法都是静态的（就像[`Math`]对象）。
+
+> [`Reflect.apply()`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Reflect/apply)
+>
+> 对一个函数进行调用操作，同时可以传入一个数组作为调用参数。和 [`Function.prototype.apply()`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/apply) 功能类似。
