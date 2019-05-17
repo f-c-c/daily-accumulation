@@ -32,7 +32,7 @@
 
 > dev ops 要比ci cd更大
 
-![ci基本流程](./assert/ci.jpeg"ci基本流程")
+![ci基本流程](./assert/ci.png")
 
 稍作解释： 
 
