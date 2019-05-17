@@ -90,6 +90,64 @@ let obj = Object.create(proxy);
 obj.time // 35
 //上面代码中，proxy对象是obj对象的原型，obj对象本身并没有time属性，所以根据原型链，会在proxy对象上读取该属性，导致被拦截
 ```
+常见的拦截方法：
+```javascript
+    <script>
+        let obj = {
+            a: 1,
+            b: 2
+        }
+        let proxy = new Proxy(obj, {
+            // 拦截 proxy.xxx get操作
+            get: (target , prop, receiver) => {
+                if (prop === 'a') {
+                    return target.b;
+                } else if (prop === 'b') {
+                    return target.a;
+                }
+                
+            },
+            // 拦截 proxy.xxx = xxx; set 操作
+            set: (target, prop, value, receiver) => {
+                if (prop === 'a') {
+                    target.b = value;
+                } else if (prop === 'b') {
+                    target.a = value;
+                }
+            },
+            //拦截 prop in obj
+            has: (target, prop) => {
+                if (prop === 'a') {
+                    return true;
+                } else if (prop === 'b') {
+                    return false;
+                }
+            },
+            //拦截delete操作
+            deleteProperty: (target, prop) => {
+                // 若为a则删除该属性
+                if (prop === 'a') {
+                    Reflect.deleteProperty(target, prop);
+                    return true;
+                } else if (prop === 'b') {
+                    // 若为b则不删除
+                    // Reflect.deleteProperty(target, prop);
+                    return false;
+                }
+            }
+
+        })
+        console.log(proxy.a);// 2
+        console.log(proxy.b);// 1
+        proxy.a = 4;
+        console.log('obj', obj);//{a: 1, b: 4}
+        console.log('a' in proxy);// true
+        console.log('b' in proxy);// false
+        console.log(delete proxy.a);// true
+        console.log(delete proxy.b);// false
+        console.log('obj', obj);//{b: 4}
+    </script>
+```
 
 Proxy 支持的拦截操作一览，一共 13 种：
 
