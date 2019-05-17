@@ -32,6 +32,14 @@
 
 > dev ops 要比ci cd更大
 
+![ci基本流程](./assert/ci.jpeg)
+
+稍作解释： 
+
+* 这里一共有四台机器，第一台是我们的本地开发的Mac机器，第二台是 `svn` 或者 `git`代码仓库，第三台是运行`webpack、gul、 自动化测试case`的`ci` 平台，第四台是我们的服务器运行 `pm2 node`
+* `ci` 平台有钩子，可以监控到我们往git提交代码的动作，会自动的去git拉取代码，跑webpack gulp test，接着ci 平台和 服务器之间是配了免密登陆的，可以借助脚本往服务器传代码
+* 本地会生成一对密钥对，用于ci平台和服务器之间免密
+
 ### Travis Ci
 
 ### Jenkins
