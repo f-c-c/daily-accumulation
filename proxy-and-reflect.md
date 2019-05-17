@@ -200,7 +200,7 @@ Proxy 支持的拦截操作一览，一共 13 种：
 * **Reflect.get(target,property,receiver)**
   查找并返回target对象的property属性
 
-   ```javascript
+```javascript
             let obj = {
                 name: 'fcc',
                 age: 28
@@ -221,7 +221,22 @@ Proxy 支持的拦截操作一览，一共 13 种：
   
           let result = Reflect.get(obj, "yu", receiver)
           console.log(result) //fcchhh
-   ```
+```
+
+* **Reflect.set(target,propName,propValue,receiver)**
+
+设置target对象的propName属性为propValue
+
+```javascript
+        let obj = {
+            a: 1,
+        }
+
+        let result = Reflect.set(obj, "a", 2);
+        console.log(result); // true
+        console.log(obj);//{a: 2}
+```
+
 
 
 > **Reflect** 是一个内置的对象，它提供拦截 JavaScript 操作的方法。这些方法与 `proxy` 的方法相同。`Reflect`不是一个函数对象，因此它是不可构造的。
