@@ -7,6 +7,12 @@
 
 `vi /etc/ssh/sshd_config`  #MaxStartups 10，#去掉，修改10为1000，MaxStartups 1000
 
+在连接远程vps的时候经常调，我们可以设置每隔多长时间向服务器发一个保持连接的请求 `-o ServerAliveInterval=30`
+
+`sudo ssh -i "amsterdam_rsa" -o ServerAliveInterval=30 root@xxx.xxx.xxx.xxx`
+
+`ssh -o ServerAliveInterval=30 root@xxx.xxx.xxx.xxx`
+
 重启 `sshd` 服务 `systemctl restart sshd_service`
 
 ### 2.有用的一些命令
@@ -127,3 +133,35 @@
 * `node --version`
 * `npm --version`
 * 参考 [这里](https://linux4one.com/how-to-install-node-js-with-npm-on-centos-7/)
+
+### 8.Centos 7 安装 jenkins
+
+`Jenkins`依赖`Java`，如果你的系统没有安装的话，需要先安装`Java`，已安装的话，可以忽略。使用以下命令
+
+```
+yum install java
+java -version
+```
+
+安装`jenkins`
+
+```
+sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat/jenkins.repo
+sudo rpm --import https://pkg.jenkins.io/redhat/jenkins.io.key
+yum install jenkins
+```
+
+启动 `systemctl start jenkins`
+
+记得防火墙打开 `8080` 并且重启防火墙
+
+```
+firewall-cmd --zone=public --add-port=8080/tcp --permanent
+firewall-cmd --reload
+```
+
+打开浏览器输入ip:8080 然后输入密码，再安装推荐插件
+
+`admin`    ` /var/lib/jenkins/secrets/` `2d92d38abc124de6a52be96cbd94645b`
+
+这里有登陆密码和凭证
