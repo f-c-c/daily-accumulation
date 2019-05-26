@@ -201,13 +201,19 @@ yum install jenkins
 
 记得防火墙打开 `8080` 并且重启防火墙
 
+修改 `jenkins` 的配置文件 用户为 `root` 其默认为： `jenkins`
+
 ```
 firewall-cmd --zone=public --add-port=8080/tcp --permanent
 firewall-cmd --reload
 ```
 
-打开浏览器输入ip:8080 然后输入密码，再安装推荐插件
+打开浏览器输入ip:8080 然后输入密码，再安装推荐插件`jenkins`是插件机制的，需要安装很多插件）
 
 `admin`    ` /var/lib/jenkins/secrets/` `2d92d38abc124de6a52be96cbd94645b`
 
 这里有登陆密码和凭证
+
+在服务器（`centos7`）上`jenkins`的配置文件目录为`/etc/sysconfig/jenkins`，通常我们需要修改配置文件：`vi /etc/sysconfig/jenkins` 比如用户 ： `JENKINS_USER:'root'`,`JENKINS_PORT:8080`
+
+### 9.Centos 7 安装 Travis(待补充)
