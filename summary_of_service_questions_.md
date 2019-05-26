@@ -216,4 +216,6 @@ firewall-cmd --reload
 
 在服务器（`centos7`）上`jenkins`的配置文件目录为`/etc/sysconfig/jenkins`，通常我们需要修改配置文件：`vi /etc/sysconfig/jenkins` 比如用户 ： `JENKINS_USER:'root'`,`JENKINS_PORT:8080`
 
+还可以搜索 `jenkins 邮件服务`，只要我们的 构建失败就会自动发邮件给 相关人员，我的机器上没有配，除了邮件也可以有其他方式如qq
+
 ### 9.Centos 7 安装 Travis(待补充)
