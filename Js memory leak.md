@@ -73,17 +73,45 @@ setInterval(function() {
 * 将上面的代码 `return`部门替换为以下
 
 ```javascript
-  return function() {
-    //eval("");
-    //(new Function("console.log(a);"))();
-    with(obj) {
+//封一个显示内存的函数
+let showMem = function () {
+    var format = function (bytes) {
+        return (bytes / 1024 / 1024).toFixed(2) + ' MB';
+    };
+    var mem = process.memoryUsage(); // 获取内存使用情况 
+    console.log('已使用堆大小 heapUsed：' + format(mem.heapUsed));
+}
 
+global.a = 999;
+
+function test() {
+    var a = [];
+    for (var i = 0; i < 50; i++) {
+        a[i] = new Array(1000000).join('*');
     }
-    try{global.gc();}catch(e){
-      console.log("手动垃圾回收失败！");
+    return function () {
+        with(a) {
+
+        }
+        try {
+            global.gc();
+        } catch (e) {
+            console.log("手动垃圾回收失败！");
+        }
+        showMem();
+    }
+}
+
+global.gc(); //强制gc
+setInterval(function () {
+    test()();
+    try {
+        global.gc();
+    } catch (e) {
+        console.log("手动垃圾回收失败！");
     }
     showMem();
-  }
+}, 2000);
 ```
 
 
