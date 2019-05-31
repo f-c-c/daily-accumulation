@@ -3,6 +3,10 @@
 ##  										--- 2018.10.24                                                                                      
 
 ## [FE技术图标及其官网收集](https://github.com/LiuHao713/task/blob/master/Technology%20icon.md)
+
+## [leetcode 刷题同步记录](https://github.com/LiuHao713/leetcode-practice)
+* leetcode
+
 ## [javascript & OA测试工程师](https://github.com/LiuHao713/task/blob/master/JavaScript%20%26%20QA.md) --- 2018.11.07
 * 关于 **单元测试**、**e2e测试**、**UI自动化**、**service端测试**
 ## [函数式编程](https://github.com/LiuHao713/task/blob/master/functional%20programming.md) --- 2018.11.11
