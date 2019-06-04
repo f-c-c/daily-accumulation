@@ -41,6 +41,12 @@
 ```javascript
 function bubbleSort(arr) {
     let len = arr.length;
+    // 交换数组中两个元素
+    function swap(arr, a, b) {
+        let temp = arr[a];
+        arr[a] = arr[b];
+        arr[b] = temp;
+    }
     for (let i = 0; i < len - 1; i++) {
         for (let j = 0; j < len - 1 - i; j++) {
             if (arr[j] > arr[j + 1]) {
@@ -48,35 +54,38 @@ function bubbleSort(arr) {
             }
         }
     }
+    return arr;
+}
+```
+#### 选择排序(Selection Sort)
+> 选择排序(Selection-sort)是一种简单直观的排序算法。工作原理：首先在未排序序列中找到最小（大）元素，存放到排序序列的起始位置，然后，再从剩余未排序元素中继续寻找最小（大）元素，然后放到已排序序列的末尾。以此类推，直到所有元素均排序完毕
+
+算法描述：
+* 时间复杂度为 $n^2$
+* 每次外层循环，将相对最小的元素往左边放
+* 外层循环次数为：arr.length - 1
+* n-1趟结束，数组有序化了
+
+![bubble-sort](./assert/select-sort.gif)
+```javascript
+function selectSort(arr) {
+    let len = arr.length;
     // 交换数组中两个元素
     function swap(arr, a, b) {
         let temp = arr[a];
         arr[a] = arr[b];
         arr[b] = temp;
     }
-}
-```
-#### 选择排序
-
-复杂度为 $n^2$
-
-* 每次外层循环，将相对最小的元素往左边放
-* 外层循环次数为：arr.length - 1
-```javascript
-function bubbleSort (arr) {
-  let len = arr.length;
-  for (let i = 0; i <= len - 2; i++) {
-    for (let j = i + 1; j <= len - 1; j++) {
-      if (arr[i] > arr[j]) {
-        swap(arr, i, j);
-      }
+    for (let i = 0; i < len - 1; i++) {
+        let minIndex = i; //最小值的索引
+        for (let j = i + 1; j < len; j++) {
+            if (arr[j] < arr[minIndex]) {
+                minIndex = j;
+            }
+        }
+        swap(arr, i, minIndex);
     }
-  }
-  function swap (arr, index1, index2) {
-    let temp = arr[index1];
-    arr[index1] = arr[index2];
-    arr[index2] = temp;
-  }
+    return arr;
 }
 ```
 
