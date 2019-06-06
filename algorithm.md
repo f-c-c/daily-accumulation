@@ -1,4 +1,4 @@
-# 十大排序算法总结
+# 十大经典排序算法总结
 
 概念性的东西：
 > **时间频度**：一个算法花费的时间与算法中语句的执行次数成正比例，哪个算法中语句执行次数多，它花费时间就多。一个算法中的语句执行次数称为语句频度或时间频度。记为$T(n)$。
@@ -15,7 +15,7 @@
 | ------ | ------------ | ------ | ------------ | -------- | -------- | ---- | -------- | -------- |
 | $O(1)$ | $O(log2 n )$ | $O(n)$ | $O(nlog2 n)$ | $O(n2 )$ | $O(n3 )$ |      | $O(nk )$ | $O(2n )$ |
 
-### 十大经典排序算法
+
 > **稳定**：如果a原本在b前面，而a=b，排序之后a仍然在b的前面
 > **不稳定**：如果a原本在b的前面，而a=b，排序之后a可能会出现在b的后面
 > **内排序**：所有排序操作都在内存中完成
@@ -23,7 +23,7 @@
 > **时间复杂度**：对排序数据的总的操作次数。反映当n变化时，操作次数呈现什么规律
 > **空间复杂度**：是指算法在计算机内执行时所需存储空间的度量，它也是数据规模n的函数
 
-#### 冒泡排序(Bubble Sort)
+#### 一. 冒泡排序(Bubble Sort)
 
 > 冒泡排序是一种简单的排序算法。它重复地走访过要排序的数列，一次比较两个元素，如果它们的顺序错误就把它们交换过来。走访数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。这个算法的名字由来是因为越小的元素会经由交换慢慢“浮”到数列的顶端
 
@@ -57,7 +57,7 @@ function bubbleSort(arr) {
     return arr;
 }
 ```
-#### 选择排序(Selection Sort)
+#### 二. 选择排序(Selection Sort)
 > 选择排序(Selection-sort)是一种简单直观的排序算法。工作原理：首先在未排序序列中找到最小（大）元素，存放到排序序列的起始位置，然后，再从剩余未排序元素中继续寻找最小（大）元素，然后放到已排序序列的末尾。以此类推，直到所有元素均排序完毕
 >
 > 表现最稳定的排序算法之一，因为无论什么数据进去都是$O(n2)$的时间复杂度，所以用到它的时候，数据规模越小越好。唯一的好处可能就是不占用额外的内存空间
@@ -91,7 +91,7 @@ function selectSort(arr) {
 }
 ```
 
-### 插入排序(Insertion-Sort)
+#### 三. 插入排序(Insertion-Sort)
 
 > 插入排序（Insertion-Sort）的算法描述是一种简单直观的排序算法。它的工作原理是通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入
 > 插入排序在实现上，通常采用in-place排序（即只需用到O(1)的额外空间的排序），因而在从后向前扫描过程中，需要反复把已排序元素逐步向后挪位，为最新元素提供插入空间
@@ -125,7 +125,7 @@ function insertSort(arr) {
 }
 ```
 
-### 希尔排序
+#### 四. 希尔排序(Shell Sort)
 > 1959年Shell发明，第一个突破O(n2)的排序算法，是简单插入排序的改进版。它与插入排序的不同之处在于，它会优先比较距离较远的元素。希尔排序又叫缩小增量排序。
 
 ![shell-sort](./assert/shell-sort.jpg)
@@ -148,6 +148,46 @@ function shellSort(arr) {
         gap = Math.trunc(gap / 2);
     }
     return arr;
+}
+```
+
+#### 五. 归并排序(Merge Sort)
+
+> 和选择排序一样，归并排序的性能不受输入数据的影响，但表现比选择排序好的多，因为始终都是O(n log n）的时间复杂度。代价是需要额外的内存空间。
+>
+> 归并排序是建立在归并操作上的一种有效的排序算法。该算法是采用分治法（Divide and Conquer）的一个非常典型的应用。归并排序是一种稳定的排序方法。将已有序的子序列合并，得到完全有序的序列；即先使每个子序列有序，再使子序列段间有序。若将两个有序表合并成一个有序表，称为2-路归并
+
+![merge-sort](./assert/merge-sort.gif)
+
+```javascript
+// 归并排序
+function mergeSort(arr) {
+    // 归并函数
+    function merge(left, right) {
+        let result = [];
+        while (left.length > 0 && right.length > 0) {
+            if (left[0] > right[0]) {
+                result.push(right.shift());
+            } else {
+                result.push(left.shift());
+            }
+        }
+        while (left.length > 0) {
+            result.push(left.shift());
+        }
+        while (right.length > 0) {
+            result.push(right.shift());
+        }
+        return result;
+    }
+    let len = arr.length;
+    if (len < 2) {
+        return arr;
+    }
+    let mid = Math.trunc(len / 2);
+    let left = arr.slice(0, mid);
+    let right = arr.slice(mid);
+    return merge(mergeSort(left), mergeSort(right));
 }
 ```
 
