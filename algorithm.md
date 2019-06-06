@@ -125,7 +125,34 @@ function insertSort(arr) {
 }
 ```
 
-### 归并排序
+### 希尔排序
+> 1959年Shell发明，第一个突破O(n2)的排序算法，是简单插入排序的改进版。它与插入排序的不同之处在于，它会优先比较距离较远的元素。希尔排序又叫缩小增量排序。
+
+![shell-sort](./assert/shell-sort.jpg)
+
+```javascript
+function shellSort(arr) {
+    let len = arr.length;
+    let temp, gap = Math.trunc(len / 2);
+    while (gap > 0) {
+        // 实际操作是多个分组交替执行
+        for (let i = gap; i < len; i++) {
+            temp = arr[i];
+            let preIndex = i - gap;
+            while (preIndex >= 0 && temp < arr[preIndex]) {
+                arr[preIndex + gap] = arr[preIndex];
+                preIndex -= gap;
+            }
+            arr[preIndex + gap] = temp;
+        }
+        gap = Math.trunc(gap / 2);
+    }
+    return arr;
+}
+```
+
+
+
 
 ### 快速排序
 
