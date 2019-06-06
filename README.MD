@@ -58,5 +58,5 @@
 ## [代理与反射 Proxy Reflect ](https://github.com/LiuHao713/daily-accumulation/blob/master/proxy-and-reflect.md) --- 2019.05.17
 * `get` `set` `Proxy 和 Reflect的方法`
 
-## [算法相关](https://github.com/LiuHao713/daily-accumulation/blob/master/algorithm.md) --- 2019.06.04
-* 时间复杂度 空间复杂度 快排 二分查找 等常用算法
+## [十大排序算法总结](https://github.com/LiuHao713/daily-accumulation/blob/master/algorithm.md) --- 2019.06.04
+* 时间复杂度 空间复杂度 **冒泡**排序、**选择**排序、**插入**排序、**希尔**排序
