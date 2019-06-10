@@ -146,6 +146,8 @@ function InsertionSearch(arr, data) {
 
 > 为了格式上的统一，以方便递归或者循环程序的编写。表中的数据是F(k)-1个，使用mid值进行分割又用掉一个，那么剩下F(k)-2个。正好分给两个子序列，每个子序列的个数分别是F(k-1)-1与F(k-2)-1个，格式上与之前是统一的。不然的话，每个子序列的元素个数有可能是F(k-1)，F(k-1)-1，F(k-2)，F(k-2)-1个，写程序会非常麻烦
 
+![fibonacci](./assert/fibonacci.jpeg)
+
 ```javascript
 function fibonacciSearch(arr, data) {
     let n = arr.length;
