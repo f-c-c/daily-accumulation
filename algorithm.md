@@ -193,8 +193,9 @@ function mergeSort(arr) {
 
 
 
-
 ### 快速排序
+
+> 所有元素比**基准值**小的摆放在基准前面，所有元素比基准值大的摆在基准的后面（相同的数可以到任一边）。在这个分区退出之后，该基准就处于数列的中间位置。
 
 ```javascript
 function quickSort (arr) {
@@ -212,7 +213,7 @@ function quickSort (arr) {
       right.push(arr[i]);
     }
   }
-  return arguments.callee(left).concat(reference, arguments.callee(right));
+  return quickSort(left).concat(reference, quickSort(right));
 }
 ```
 
@@ -241,21 +242,6 @@ console.log(end - start);
 | 快速排序 | 10万   | 178 ms左右 |
 |          |        |            |
 
-## 检索算法
-
-### 顺序查找
-
-就是按照字面意思：按照顺序一个一个的比较，顺序查找一般针对被查找序列是无序的，是一种暴力查找
-
-```javascript
-function orderFind (arr, data) {
-  let len = arr.length;
-  for (let i = 0; i <= len - 1; i++) {
-    if (data === arr[i]) return true;
-  }
-  return false;
-}
-```
 
 类似的  查找最小值 和 最大值：
 
