@@ -26,3 +26,66 @@ function orderFind (arr, data) {
 }
 ```
 
+找最小值
+
+```javascript
+function findMin (arr) {
+  let len = arr.length;
+  let minIndex = 0;
+  for (let i = 1; i <= len - 1; i++) {
+    if (arr[i] < arr[minIndex]) {
+      minIndex = i;
+    }
+  }
+  return minIndex;
+}
+```
+
+#### 二分查找
+
+> 针对已经去重、排序的列表，二分查找比顺序查找更加高效
+>
+> **折半查找的前提条件是需要有序表顺序存储，对于静态查找表，一次排序后不再变化，折半查找能得到不错的效率**
+
+版本一：
+
+```javascript
+function binSearch1(arr, data) {
+    let len = arr.length;
+    let left = 0;
+    let right = len - 1;
+    while (left <= right) {
+        let mid = Math.trunc((left + right) / 2);
+        if (arr[mid] < data) {
+            left = mid + 1;
+        } else if (arr[mid] > data) {
+            right = mid - 1;
+        } else {
+            return mid
+        }
+    }
+    return -1;
+}
+```
+
+版本二（递归）：
+
+```javascript
+function binSearch2(arr, data, left, right) {
+    let len = arr.length;
+    left = left || 0;
+    right = right || len - 1;
+    let mid = Math.trunc((left + right) / 2);
+    if ((mid === 0 || mid === len - 1) && arr[mid] !== data) {
+        return -1;
+    }
+    if (arr[mid] === data) {
+        return mid;
+    } else if (arr[mid] > data) {
+        return binSearch2(arr, data, left, mid - 1);
+    } else {
+        return binSearch2(arr, data, mid + 1, right);
+    }
+}
+```
+
