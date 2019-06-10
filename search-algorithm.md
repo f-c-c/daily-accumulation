@@ -55,7 +55,8 @@ function binSearch1(arr, data) {
     let left = 0;
     let right = len - 1;
     while (left <= right) {
-        let mid = Math.trunc((left + right) / 2);
+        // let mid = Math.trunc((left + right) / 2);
+        let mid = left + right >> 1;
         if (arr[mid] < data) {
             left = mid + 1;
         } else if (arr[mid] > data) {
@@ -131,5 +132,64 @@ function InsertionSearch(arr, data) {
     }
     return -1;
 }
+```
+
+#### 斐波那契查找
+
+> 在介绍斐波那契查找算法之前，我们先介绍一下很它紧密相连并且大家都熟知的一个概念——黄金分割。
+>
+> 黄金比例又称黄金分割，是指事物各部分间一定的数学比例关系，即将整体一分为二，较大部分与较小部分之比等于整体与较大部分之比，其比值约为1:0.618或1.618:1。
+>
+> 0.618被公认为最具有审美意义的比例数字，这个数值的作用不仅仅体现在诸如绘画、雕塑、音乐、建筑等艺术领域，而且在管理、工程设计等方面也有着不可忽视的作用。因此被称为黄金分割。
+>
+> 大家记不记得斐波那契数列：1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89…….（从第三个数开始，后边每一个数都是前两个数的和）。然后我们会发现，随着斐波那契数列的递增，前后两个数的比值会越来越接近0.618，利用这个特性，我们就可以将黄金比例运用到查找技术中。
+
+> 为了格式上的统一，以方便递归或者循环程序的编写。表中的数据是F(k)-1个，使用mid值进行分割又用掉一个，那么剩下F(k)-2个。正好分给两个子序列，每个子序列的个数分别是F(k-1)-1与F(k-2)-1个，格式上与之前是统一的。不然的话，每个子序列的元素个数有可能是F(k-1)，F(k-1)-1，F(k-2)，F(k-2)-1个，写程序会非常麻烦
+
+```javascript
+function fibonacciSearch(arr, data) {
+    let n = arr.length;
+    let left = 0;
+    let right = n - 1;
+    // 返回斐波那也固定 key 的值  [1,1,2,3,5,8,13,21,34, ... ]
+    function fibonacci(k) {
+        if (k === 0) return 1;
+        if (k === 1) return 1;
+        return fibonacci(k - 1) + fibonacci(k - 2);
+    }
+    let k = 0;
+    while (true) {
+        if (n < fibonacci(k)) {
+            break;
+        }
+        k++;
+    }
+    // 补齐
+    for (let i = n; i < fibonacci(k) - 1; i++) {
+        arr[i] = arr[i - 1];
+    }
+    while (left <= right) {
+        let mid = left + fibonacci(k - 1) - 1;
+        if (data > arr[mid]) {
+            left = mid + 1;
+            k -= 2;
+        } else if (data < arr[mid]) {
+            right = mid - 1;
+            k -= 1;
+        } else {
+            // 找到了，需要判断是数组本来的元素，还是我们补齐的元素
+            arr.length = n; // 不修改原数组
+            if (mid < n) {
+                return mid; 
+            } else {
+                return n - 1;
+            }
+        }
+    }
+    arr.length = n; // 不修改原数组
+    return -1;
+}
+let arr = [-99,-98,-90,-12,-5,-2,-1,0,1,2,3,4,5,6,7,8,10,11,12,111,123];
+console.log(fibonacciSearch(arr, 0)); // 7
 ```
 
