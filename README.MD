@@ -60,3 +60,6 @@
 
 ## [十大排序算法总结](https://github.com/LiuHao713/daily-accumulation/blob/master/algorithm.md) --- 2019.06.04
 * 时间复杂度 空间复杂度 **冒泡**排序、**选择**排序、**插入**排序、**希尔**排序
+
+## [查找算法总结](https://github.com/LiuHao713/daily-accumulation/blob/master/search-algorithm.md)
+* 顺序查找、二分查找、插值查找、斐波那契查找
