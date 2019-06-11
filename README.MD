@@ -1,6 +1,4 @@
-#  ❤️ Continuous update❤️
-
-##  										--- 2018.10.24                                                                                      
+#  ❤️ Continuous update ❤️   --- 2018.10.24
 
 ## [FE技术图标及其官网收集](https://github.com/LiuHao713/task/blob/master/Technology%20icon.md)
 
