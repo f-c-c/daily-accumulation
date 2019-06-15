@@ -19,3 +19,8 @@
 * 在整个过程中Sequence number 和 Acknowledgment Number是逐渐增加的，不能跳也不能减的
 
 ![tcp-ip3](./assert/tcp-ip3.png)
+
+* 三次🤝四次🙋过程
+
+
+![tcp-ip4](./assert/tcp-ip4.png)

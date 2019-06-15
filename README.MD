@@ -65,5 +65,5 @@
 ## [DNS解析 流程](https://github.com/LiuHao713/daily-accumulation/blob/master/server-side-knowledge-opt.md) --- 2019.06.15
 * dns 解析流程
 
-## [TCP 三次握手🤝与四次挥手🙋‍♂️](https://github.com/LiuHao713/daily-accumulation/blob/master/3handshake-4wave-of-tcp.md)
+## [TCP 三次握手🤝与四次挥手🙋‍♂️](https://github.com/LiuHao713/daily-accumulation/blob/master/3handshake-4wave-of-tcp.md) --- 2019.06.15
 * 协议模型 建立连接过程 三次🤝 四次挥手
