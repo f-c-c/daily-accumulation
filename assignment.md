@@ -21,6 +21,8 @@ console.log(obj);// {a: 2}
 
 如果运行在严格模式下，代码会抛出一个错误。否则，这条赋值语句会被忽略，总之不会发生屏蔽
 
+这种情况只存在 赋值操作中，在 `Reflect.defineProperty()`是不受影响的
+
 ```javascript
 let otherObj = {
 };
@@ -49,5 +51,20 @@ let obj = Object.create(otherObj);
 obj.c = 5;
 obj.b = 3;
 console.log(obj); {c: 3}
+```
+
+#### 一个奇怪的东西
+
+```javascript
+let otherObj = {
+   a: 1
+};
+let obj = Object.create(otherObj);
+console.log('otherObj.a', otherObj.a); // 1
+console.log('obj.a', obj.a);// 1
+otherObj.a++
+obj.a++;
+console.log('otherObj.a', otherObj.a);// 2
+console.log('obj.a', obj.a);// 3
 ```
 
