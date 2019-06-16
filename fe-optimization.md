@@ -206,3 +206,13 @@
 下面的会让gpu参与：
 
 **css3d** **video webgl transform css滤镜**
+
+下面是一些 关于渲染时的一些概念：
+
+![some-concept](./assert/some-concept.png)
+
+每一个网页的 FMP 都不是一样的，不同的业务可以去定义自己的FMP 
+
+PR（一个空的div） 对应 vue 的 created FCP 对应 mounted FMP 对应 updated
+
+页面白屏就是因为处于FP FCP阶段，怎么去解决呢？做ssr, 在FP的时候就把内容灌入
