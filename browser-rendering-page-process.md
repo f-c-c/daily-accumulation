@@ -188,12 +188,12 @@ Render Tree的构建其实就是DOM Tree和CSSOM Attach的过程。
 
 Reflow的成本比Repaint的成本高得多的多。DOM Tree里的每个结点都会有reflow方法，一个结点的reflow很有可能导致子结点，甚至父点以及同级结点的reflow。在一些高性能的电脑上也许还没什么，但是如果reflow发生在手机上，那么这个过程是非常痛苦和耗电的。 所以，下面这些动作有很大可能会是成本比较高的。
 
-基本上来说，reflow有如下的几个原因：
+基本上来说，reflow（重排）有如下的几个原因：
 
 - Initial。网页初始化的时候。
 - Incremental。一些Javascript在操作DOM Tree时。
 - Resize。其些元件的尺寸变了。
-- StyleChange。如果CSS的属性发生变化了。
+- StyleChange。如果CSS的属性发生变化了。比如盒子模型，边距、边框这些改变
 - Dirty。几个Incremental的reflow发生在同一个frame的子树上。
 
 一些出发回流和重绘的操作
@@ -217,6 +217,15 @@ document.body.appendChild(document.createTextNode('dude!'));
 ```
 
 当然，我们的浏览器是聪明的，它不会像上面那样，你每改一次样式，它就reflow或repaint一次。一般来说，浏览器会把这样的操作积攒一批，然后做一次reflow，这又叫异步reflow或增量异步reflow。但是有些情况浏览器是不会这么做的，比如：resize窗口，改变了页面默认的字体，等。对于这些操作，浏览器会马上进行reflow。
+
+但是有些时候，我们的脚本会阻止浏览器这么干，比如：如果我们请求下面的一些DOM值：
+
+```javascript
+offsetTop, offsetLeft, offsetWidth, offsetHeight
+scrollTop/Left/Width/Height
+clientTop/Left/Width/Height
+IE中的 getComputedStyle(), 或 currentStyle
+```
 
 ### Chrome调试工具查看页面渲染顺序
 

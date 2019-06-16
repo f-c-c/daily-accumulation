@@ -198,3 +198,11 @@
 可以看出，我们修改后的代码已经**没有页面重排和重绘**的步骤了，这是因为采用了 gpu 的原因
 
 ![fe-f12-opt02](./assert/fe-f12-opt02.png)
+
+下面的操作会导致元素单独成层，但是单独成层的不一定会让 gpu 参与 
+
+绝对定位 transform 半透明 滤镜 canvas video overflow bfc
+
+下面的会让gpu参与：
+
+**css3d** **video webgl transform css滤镜**
