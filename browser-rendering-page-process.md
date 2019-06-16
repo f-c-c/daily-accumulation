@@ -222,7 +222,7 @@ document.body.appendChild(document.createTextNode('dude!'));
 
 可以通过 chrome 浏览器的 performance 录制页面，查看 call tree 和 event log
 
-也可以查看performance monitor 实时监控内存使用量，这个工具可以很好的测试 内存溢出
+也可以查看performance monitor 实时监控内存使用量，这个工具可以很好的测试 内存泄漏
 
 以前 chrome 还有timeline的时候更加直观：
 

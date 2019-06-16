@@ -52,3 +52,149 @@
 网页加载dom到绘制结束流程：
 
 `gpu.js`可以专门做性能优化，让 js 代码跑在 gpu 里面，比跑在 cpu 里面更快
+
+* 例子一：下面👇的代码跑起来会不断的引起浏览器的重排和重绘，若网页中这种操作过于多则性能会降低，导致页面卡顿
+  * 我们利用chrome调试🔧录制10s的页面，可以看到我们的动画矩形在浏览器窗口里面运动，而且是**绿色的**，页面刚刷新的时候 `body` 是绿色的，后面就是这个矩形一直是绿色的，这说明了一个问题：页面刚开始刷新时 body 进行了一次重排和重绘，之后就是矩形一直在重排和重绘
+
+![fe-f12-opt01](./assert/fe-f12-opt01.png)
+从上图我们可以看出浏览器一直在进行：
+
+**合成Layers->更新Layers->计算Style->回流Layout->重绘Paint**
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>渲染中优化</title>
+    <style>
+        .container{
+            position: relative;
+        }
+        .ball{
+            width: 100px;
+            height: 100px;
+            border: 2px solid #f60;
+            position: absolute;
+            top:0;
+            left: 0;
+        }
+        .ball-running {
+            animation: run-aroud 4s infinite;
+        }
+
+        @keyframes run-aroud 
+        {
+            0% {
+                top: 0;
+                left: 0;
+            }
+            25% {
+                top: 0;
+                left: 200px;
+            }
+            50% {
+                top: 200px;
+                left: 200px;
+            }
+            75% {
+                top:200px;
+                left: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="ball" class="ball">
+
+        </div>
+    </div>
+
+    <script>
+        let ball = document.getElementById('ball')
+        ball.classList.add('ball-running');
+    </script>
+</body>
+
+</html>
+```
+
+现在我们将代码做改动：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>渲染中优化</title>
+    <style>
+        .container{
+            position: relative;
+        }
+        .ball{
+            width: 100px;
+            height: 100px;
+            border: 2px solid #f60;
+            position: absolute;
+            top:0;
+            left: 0;
+        }
+        .ball-running {
+            animation: run-aroud 4s infinite;
+        }
+
+        @keyframes run-aroud 
+        {
+            0% {
+                /* top: 0;
+                left: 0; */
+                transform: translate(0, 0);
+            }
+            25% {
+                /* top: 0;
+                left: 200px; */
+                transform: translate(0, 200px);
+            }
+            50% {
+                /* top: 200px;
+                left: 200px; */
+                transform: translate(200px, 200px);
+            }
+            75% {
+                /* top:200px;
+                left: 0; */
+                transform: translate(200px, 0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="ball" class="ball">
+
+        </div>
+    </div>
+
+    <script>
+        let ball = document.getElementById('ball')
+        ball.classList.add('ball-running');
+    </script>
+</body>
+
+</html>
+```
+
+同样的，我们利用chrome调试🔧录制10s的页面，结果如下：
+
+可以看出，我们修改后的代码已经**没有页面重排和重绘**的步骤了，这是因为采用了 gpu 的原因
+
+![fe-f12-opt02](./assert/fe-f12-opt02.png)
