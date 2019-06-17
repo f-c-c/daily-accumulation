@@ -212,7 +212,7 @@
 
 ![some-concept](./assert/some-concept.png)
 
-每一个网页的 FMP 都不是一样的，不同的业务可以去定义自己的FMP 
+每一个网页的 FMP 都不是一样的，不同的业务可以去定义自己的FMP (对于我们的业务来讲，什么重要的东西展现出来了就是 FMP)
 
 PR（一个空的div） 对应 vue 的 created FCP 对应 mounted FMP 对应 updated
 
@@ -245,3 +245,109 @@ PR（一个空的div） 对应 vue 的 created FCP 对应 mounted FMP 对应 upd
 
 ![FP-FCP](./assert/FP-FCP.png)
 
+#### 监控页面的 FMP
+
+通过自己添加 mark，但是这种添加 mark 的方法已经侵入业务了，不是那么的好
+
+```html
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>渲染中优化</title>
+    <style>
+        .container{
+            position: relative;
+        }
+        .ball{
+            width: 100px;
+            height: 100px;
+            border: 2px solid #f60;
+            position: absolute;
+            top:0;
+            left: 0;
+        }
+        .ball-running {
+            animation: run-aroud 4s infinite;
+        }
+
+        @keyframes run-aroud 
+        {
+            0% {
+                top: 0;
+                left: 0;
+                /* transform: translate(0, 0); */
+            }
+            25% {
+                top: 0;
+                left: 200px;
+                /* transform: translate(0, 200px); */
+            }
+            50% {
+                top: 200px;
+                left: 200px;
+                /* transform: translate(200px, 200px); */
+            }
+            75% {
+                top:200px;
+                left: 0;
+                /* transform: translate(200px, 0); */
+            }
+        }
+    </style>
+    <script>
+        performance.mark('css done');
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div id="ball" class="ball">
+            qqq
+            <script>
+                    performance.mark('text done');
+            </script>
+        </div>
+    </div>
+
+    <script>
+        let ball = document.getElementById('ball')
+        ball.classList.add('ball-running');
+        const observer = new PerformanceObserver((list) => {
+            for (let entry of list.getEntries()) {
+                console.log(entry)
+            }
+        })
+        observer.observe({entryTypes: ["paint"]})
+
+
+        let perfEntries = performance.getEntriesByType('mark')
+        for (let entry of perfEntries) {
+                console.log(entry)
+        }
+    </script>
+</body>
+```
+
+#### 监控 longtask
+
+任何在浏览器中执行超过 **50 ms** 的任务，都是 long task。
+
+long task 会长时间占据主线程资源，进而阻碍了其他关键任务的执行/响应，造成页面卡顿。
+
+```javascript
+        const observer = new PerformanceObserver((list) => {
+            for (let entry of list.getEntries()) {
+                console.log(entry)
+            }
+        })
+        observer.observe({entryTypes: ["paint","longtask"]})
+				// 我们去构造一个 long task
+        for(let i = 0; i< 1000000000; i++){
+
+        }
+```
+
+
+
+![longtask](./assert/longtask.png)
