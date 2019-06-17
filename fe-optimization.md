@@ -351,3 +351,35 @@ long task 会长时间占据主线程资源，进而阻碍了其他关键任务�
 
 
 ![longtask](./assert/longtask.png)
+
+#### 监控 TTI
+
+`npm install tti-polyfill --save-dev`
+
+```html
+<body>
+    <div class="container">
+        <div id="ball" class="ball">
+            qqq
+            <script>
+                    performance.mark('text done');
+            </script>
+        </div>
+    </div>
+    <script src="./node_modules/tti-polyfill/tti-polyfill.js"></script>
+    <script>
+        window.onload = function() {
+            console.log('onload');
+        }
+        ttiPolyfill.getFirstConsistentlyInteractive().then((tti) => {
+            // 统计数据
+            // navigator.sendBeacon("");
+            console.log(tti);//这里输出的是整个网页全部执行完毕的时间 单位为 s tti 是比 window.onload要晚的
+        });
+    </script>
+</body>
+```
+
+#### 在系统空闲（Idle）时干活
+
+requestIdleCallback + webwork. 在这个 idle 的时间段做什么事情嫩？ 做一点耗时认为，系统一点不会卡
