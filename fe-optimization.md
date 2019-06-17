@@ -53,8 +53,9 @@
 
 `gpu.js`可以专门做性能优化，让 js 代码跑在 gpu 里面，比跑在 cpu 里面更快
 
-* 例子一：下面👇的代码跑起来会不断的引起浏览器的重排和重绘，若网页中这种操作过于多则性能会降低，导致页面卡顿
-  * 我们利用chrome调试🔧录制10s的页面，可以看到我们的动画矩形在浏览器窗口里面运动，而且是**绿色的**，页面刚刷新的时候 `body` 是绿色的，后面就是这个矩形一直是绿色的，这说明了一个问题：页面刚开始刷新时 body 进行了一次重排和重绘，之后就是矩形一直在重排和重绘
+#### 例子一：下面👇的代码跑起来会不断的引起浏览器的重排和重绘，若网页中这种操作过于多则性能会降低，导致页面卡顿
+
+* 我们利用chrome调试🔧录制10s的页面，可以看到我们的动画矩形在浏览器窗口里面运动，而且是**绿色的**，页面刚刷新的时候 `body` 是绿色的，后面就是这个矩形一直是绿色的，这说明了一个问题：页面刚开始刷新时 body 进行了一次重排和重绘，之后就是矩形一直在重排和重绘
 
 ![fe-f12-opt01](./assert/fe-f12-opt01.png)
 从上图我们可以看出浏览器一直在进行：
@@ -216,3 +217,31 @@
 PR（一个空的div） 对应 vue 的 created FCP 对应 mounted FMP 对应 updated
 
 页面白屏就是因为处于FP FCP阶段，怎么去解决呢？做ssr, 在FP的时候就把内容灌入
+
+#### 监控页面的 FP 和 FCP
+
+```html
+<body>
+    <div class="container">
+        <div id="ball" class="ball">
+            qqq
+        </div>
+    </div>
+
+    <script>
+        let ball = document.getElementById('ball')
+        ball.classList.add('ball-running');
+        const observer = new PerformanceObserver((list) => {
+            for (let entry of list.getEntries()) {
+                console.log(entry)
+            }
+        })
+        observer.observe({entryTypes: ["paint"]})
+    </script>
+</body>
+```
+
+上面代码如果没有内容 qqq 就只会触发 FP 而不会触发 FCP ,如果有内容 才会两个都触发,如下图：
+
+![FP-FCP](./assert/FP-FCP.png)
+
