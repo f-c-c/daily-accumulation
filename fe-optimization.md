@@ -214,7 +214,9 @@
 
 每一个网页的 FMP 都不是一样的，不同的业务可以去定义自己的FMP (对于我们的业务来讲，什么重要的东西展现出来了就是 FMP)
 
-PR（一个空的div） 对应 vue 的 created FCP 对应 mounted FMP 对应 updated
+FP:仅有一个 div 根节点。 对应 vue 的 created
+
+FCP 对应 mounted FMP 对应 updated
 
 页面白屏就是因为处于FP FCP阶段，怎么去解决呢？做ssr, 在FP的时候就把内容灌入
 
