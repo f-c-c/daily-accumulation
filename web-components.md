@@ -139,3 +139,62 @@ customElements.whenDefined('my-element')
 })
 ````
 
+**Web组件的公共API**
+
+除了生命周期方法之外，你还可以在元素上定义方法，这些方法可以从外部调用。这个功能是React和Angular等框架无法实现的。例如，你可以定义一个名为doSomething的方法：
+
+```javascript
+class MyElement extends HTMLElement {
+  ...
+ 
+  doSomething() {
+    // do something in this method
+  }
+}
+```
+
+然后在组件外部像这样调用它：
+
+```javascript
+const element = document.querySelector('my-element');
+element.doSomething();
+```
+
+任何在元素上定义的属性都会成为它的公开JavaScript API的一部分。这样，只需给元素的属性提供setter，就可以实现数据绑定，从而实现类似于在元素的HTML里渲染属性值等功能。因为原生的HTML属性（attribute）值仅支持字符串，因此对象等复杂的值应该作为自定义元素的属性（properties）。
+
+除了定义Web组件的初始状态之外，HTML属性（attribute）还用来反映相应的组件属性（property）的值，因此元素的JavaScript状态可以反映到其DOM表示中。下面的例子演示了input元素的disabled属性：
+
+```javascript
+<input name="name">
+ 
+const input = document.querySelector('input');
+input.disabled = true;
+```
+
+在将input的disabled属性（property）设置为true后，这个改动会反映到相应的disabled HTML属性（attribute）中：
+
+```html
+<input name="name" disabled>
+```
+
+用setter可以很容易实现从属性（property）到HTML属性（attribute）的映射：
+
+```javascript
+class MyElement extends HTMLElement {
+  ...
+ 
+  set disabled(isDisabled) {
+    if(isDisabled) {
+      this.setAttribute('disabled', '');
+    }
+    else {
+      this.removeAttribute('disabled');
+    }
+  }
+ 
+  get disabled() {
+    return this.hasAttribute('disabled');
+  }
+}
+```
+
