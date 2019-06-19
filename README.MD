@@ -69,7 +69,13 @@
 * 协议模型 建立连接过程 三次🤝 四次挥手
 
 ## [前端性能优化](./fe-optimization.md) --- 2019.06.15
+* 基本的优化点 `多开 cdn` `开启 gzip` `离线缓存` `雅虎军规` `缓存策略` `渲染🀄️性能优化 gpu`
 
 ## [浏览器工作原理](./browser-rendering-page-process.md) --- 2019.06.16
+* 浏览器的主要组件 `DOM Tree` `Style Rules` `Render Tree` `Layout` `Painting`
 
 ## [systemjs 模块加载器](./systemjs.md) --- 2019.06.18
+* `systemjs` `@babel/plugin-transform-modules-systemjs`
+
+## [webComponents](./web-components.md) --- 2019.06.18
+* `Custom elements（自定义元素）` `Shadow DOM（影子DOM）` `HTML templates（HTML模板）`
