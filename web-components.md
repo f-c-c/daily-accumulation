@@ -305,4 +305,268 @@ my-element {
 
 假设组件的影子DOM的根节点的元素为<div id="container">：
 
+```
+#container {
+  background-color: var(--background-color);
+}
+```
+
+ 那么，组件的使用者可以从外部定义其背景色：
+
+```
+my-element {
+  --background-color: #ff0000;
+}
+```
+
+组件内部应该为其定义默认值，以备使用者不定义背景色的情况：
+
+```
+:host {
+  --background-color: #ffffff;
+}
+#container {
+  background-color: var(--background-color);
+}
+```
+
+当然，CSS变量的名字可以任意选择，唯一的要求是必须以“--”开始。
+
+通过对CSS和HTML范围（scope）的支持，影子DOM解决了CSS的全局性带来的问题——会导致巨大的、只能添加的样式表，其中的选择器的规则越来越具体，充满了各种覆盖。影子DOM使得开发者可以将标记语言和样式打包到组件内部，而不需要任何工具或命名规则。这样就不用担心新的class或id会与已有的冲突。
+
+除了能够通过CSS变量给Web组件内部设置样式之外，还可以给Web组件注入HTML。
+
+**通过slot进行组合**
+
+组合就是将影子DOM树与使用者提供的标记语言组合在一起。<slot>元素可以实现这一过程，可以认为它是影子DOM中的一个占位符，使用者提供的标记语言将在此处渲染。使用者提供的标记语言称为“轻量DOM”（light DOM）。组合过程将轻量DOM和影子DOM结合在一起，形成新的DOM树。
+
+例如，你可以创建一个<image-gallery>组件，使用该组件时，提供两个标准的<img>标签供组件渲染用：
+
+```
+<image-gallery>
+  <img src="foo.jpg" slot="image">
+  <img src="bar.jpg" slot="image">
+</image-gallery>
+```
+
+该组件将接受两个图像，并在组件的影子DOM内部渲染。注意图像上的slot="image"属性。该属性告诉组件图像在影子DOM中渲染的位置。影子DOM的样子可能如下：
+
+```
+<div id="container">
+  <div class="images">
+    <slot name="image"></slot>
+  </div>
+</div>
+```
+
+当轻量DOM中的元素被分配到元素的影子DOM中后，得到的DOM树如下所示：
+
+```
+<div id="container">
+  <div class="images">
+    <slot name="image">
+      <img src="foo.jpg" slot="image">
+      <img src="bar.jpg" slot="image">
+    </slot>
+  </div>
+</div>
+```
+
+ 可见，用户提供的带有slot属性的元素将被渲染到slot元素内部，slot元素的name属性值必须匹配相应的slot属性的值。
+
+`<select>`元素就使用了这种方式，你可以在Chrome的开发者工具中查看（如果你勾选了“显示用户代理的影子DOM”选项，如上文所示）：
+
+它接受用户提供的<option>元素，将其渲染成下拉菜单。
+
+带有name属性的slot元素称为命名slot，但该属性并不是必须的。name属性只是用来将内容渲染到特定的位置。如果一个或多个slot没有name属性，内容将会按照使用者提供的顺序进行渲染。如果使用者提供的内容少于slot的个数，slot还可以提供默认内容。
+
+假设<image-gallery>的影子DOM如下所示：
+
+```
+<div id="container">
+  <div class="images">
+    <slot></slot>
+    <slot></slot>
+    <slot>
+      <strong>No image here!</strong> <-- fallback content -->
+    </slot>
+  </div>
+</div>
+```
+
+提供上文中的两个图像时，产生的DOM树如下：
+
+```
+<div id="container">
+  <div class="images">
+    <slot>
+      <img src="foo.jpg">
+    </slot>
+    <slot>
+      <img src="bar.jpg">
+    </slot>
+    <slot>
+     <strong>No image here!</strong>
+    </slot>
+  </div>
+</div>
+```
+
+影子DOM内部通过slot渲染的元素称为分配结点。这些结点的样式会在渲染到组件内部的影子DOM（即“分配”）后依然有效。在影子DOM内部，分配结点还可以通过::slotted()选择器获得额外的样式：
+
+```
+::slotted(img) {
+  float: left;
+}
+```
+
+::slotted()可以接受任何有效的CSS选择器，但只能选择顶层结点。例如，::slot(section img)在这种情况下无法使用：
+
+```
+<image-gallery>
+  <section slot="image">
+    <img src="foo.jpg">
+  </section>
+</image-gallery>
+```
+
+**用JavaScript处理slot**
+
+JavaScript也可以处理slot，可以查看某个slot被分配了什么结点，查看某个元素被分配到了哪个slot，还可以使用slotchange事件。
+
+调用slot.assignedNodes()可以访问slot分配到的结点。如果想获取任何默认内容，可以调用slot.assignedNodes({flatten: true})。
+
+查看element被分配到的slot，可以访问element.assignedSlot。
+
+每当slot内部的结点发生变化（结点被添加或删除）时会产生slotChange事件。注意该事件仅在slot结点本身上触发，而不会在slot结点的子元素上触发
+
+```
+slot.addEventListener('slotchange', e => {
+  const changedSlot = e.target;
+  console.log(changedSlot.assignedNodes());
+});
+```
+
+ Chrome会在元素首次初始化时触发slotchange事件，而Safari和Firefox在此情况下不会。
+
+**影子DOM中的事件**
+
+自定义元素产生的标准事件（如鼠标和键盘事件等）默认情况下会从影子DOM中冒泡出来。如果事件从影子DOM内部的结点产生，那么它的目标会被重新设置，使之看起来像是从自定义元素本身产生的。如果想知道事件到底产生于影子DOM中的哪个元素，可以调用event.composedPath()来获取该事件经过的一系列结点。但是，事件的target属性永远指向自定义元素本身。
+
+从自定义元素中可以通过CustomEvent抛出任何事件。
+
+```
+class MyElement extends HTMLElement {
+  ...
+  connectedCallback() {
+    this.dispatchEvent(new CustomEvent('custom', {
+      detail: {message: 'a custom event'}
+    }));
+  }
+}
+// on the outside
+document.querySelector('my-element').addEventListener('custom', e => console.log('message from event:', e.detail.message));
+```
+
+ 但是，任何影子DOM内部的结点抛出的事件则不会冒泡到影子DOM外面，除非它是使用composed: true创建的：
+
+```
+class MyElement extends HTMLElement {
+  ...
+  connectedCallback() {
+    this.container = this.shadowRoot.querySelector('#container');
+    // dispatchEvent is now called on this.container instead of this
+    this.container.dispatchEvent(new CustomEvent('custom', {
+      detail: {message: 'a custom event'},
+      composed: true  // without composed: true this event will not bubble out of Shadow DOM
+    }));
+  }
+}
+```
+
+### **HTML templates（HTML模板）：**
+
+除了使用this.shadowRoot.innerHTML给影子root中的元素添加HTML之外，还可以使用<template>来实现这一点。模板用来提供一小段代码供以后使用。模板中的代码不会被渲染，初始化时它的内容会被解析，但仅仅用来保证其内容是正确的。模板内部的JavaScript不会被执行，任何外部资源也不会被获取。默认情况下它是隐藏的。
+
+如果Web组件需要根据不同的情况渲染完全不同的标记，那么可以使用不同的模板来实现这一点：
+
+```
+class MyElement extends HTMLElement {
+  ...
  
+  constructor() {
+    const shadowRoot = this.attachShadow({mode: 'open'});
+ 
+    this.shadowRoot.innerHTML = `
+      <template id="view1">
+        <p>This is view 1</p>
+      </template>
+ 
+      <template id="view1">
+        <p>This is view 1</p>
+      </template>
+ 
+      <div id="container">
+        <p>This is the container</p>
+      </div>
+    `;
+  }
+ 
+  connectedCallback() {
+    const content = this.shadowRoot.querySelector('#view1').content.clondeNode(true);
+    this.container = this.shadowRoot.querySelector('#container');
+ 
+    this.container.appendChild(content);
+  }
+}
+```
+
+这里两个模板都通过innerHTML放到了影子root内。一开始时两个模板都是隐藏的，只有容器被渲染。在connectedCallback内我们调用this.shadowRoot.querySelector('#view1').content.cloneNode(true)获取了#view1的内容。模板的content属性返回的模板内容为DocumentFragment实例，该实例可以通过appendChild添加到另一个元素中。由于appendChild在元素已存在于DOM中的情况下会移动元素，所以我们首先需要使用cloneNode(true)来复制它。否则，模板的内容将会被移动而不会被添加，意味着我们只能使用其内容一次。
+
+ 
+
+模板在需要快速改变一大片HTML或重用HTML的情况下非常有用。模板也不限于Web组件，可以用在DOM中的任何地方。
+
+**扩展原生元素**
+
+到目前为止，我们一直在扩展HTMLElement来创建全新的HTML元素。自定义元素还可以用来扩展内置的原生元素，从而实现对图像、按钮等已有HTML元素的增强。在撰写本文时，该功能仅Chrome和Firefox支持。
+
+扩展已有HTML元素的好处是，它能继承所有的属性和方法。这样就可以渐进式增强已有元素，因此即使浏览器不支持自定义元素，该元素也是可用的，它只不过是采用默认的内置行为。而如果撰写全新的HTML标记，在不支持自定义元素的浏览器中就完全无法使用了。
+
+举个例子，假设我们要增强HTML的<button>元素：
+
+```
+class MyButton extends HTMLButtonElement {
+  ...
+ 
+  constructor() {
+    super();  // always call super() to run the parent's constructor as well
+  }
+ 
+  connectedCallback() {
+    ...
+  }
+ 
+  someMethod() {
+    ...
+  }
+}
+ 
+customElements.define('my-button', MyButton, {extends: 'button'});
+```
+
+这里的Web组件没有扩展更通用的HTMLElement，而是扩展了HTMLButtonElement。现在调用customElements.define时还带了另一个参数{extends: 'button'}，来指明我们的类扩展了<button>元素。这看起来有点多余，因为我们已经指明过要扩展HTMLButtonElement了，但这是必要的，因为有可能有其他元素使用了同一个DOM接口。例如，<q>和<blockquote>都使用同一个HTMLQuoteElement接口。
+
+增强后的按钮可以使用is属性了：
+
+```
+<button is="my-button">
+```
+
+### **HTML Imports（HTML导入）：**
+
+**在 Google Chrome 73 后已过时**
+此功能已过时。虽然它可能仍然适用于某些浏览器，但不鼓励使用它，因为它随时可能被删除。尽量避免使用它。
+
+原译文地址：`https://blog.csdn.net/github_38885296/article/details/89432919`
+
