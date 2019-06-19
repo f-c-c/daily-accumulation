@@ -554,6 +554,32 @@ class MyButton extends HTMLButtonElement {
  
 customElements.define('my-button', MyButton, {extends: 'button'});
 ```
+下面的代码已经和 vue 什么的很像了，浏览器原生就支持这些东西，只是当时支持程度问题让 3 大框架钻了空子
+```javascript
+  <script>
+        window.addEventListener('fcc', function(e) {
+            alert(e.detail.info);
+        })
+        class ButtonHelloElement extends HTMLButtonElement {
+            constructor() {
+                super();
+                this.addEventListener('click', () => {
+                    window.dispatchEvent(new CustomEvent('fcc', {
+                        detail: {
+                            info: 'hahaha'
+                        }
+                    }))
+                })
+            }
+        }
+        customElements.define('button-hello', ButtonHelloElement ,{
+            extends: 'button'
+        })
+    </script>
+    <button is="button-hello">hello world</button>
+```
+
+
 
 这里的Web组件没有扩展更通用的HTMLElement，而是扩展了HTMLButtonElement。现在调用customElements.define时还带了另一个参数{extends: 'button'}，来指明我们的类扩展了<button>元素。这看起来有点多余，因为我们已经指明过要扩展HTMLButtonElement了，但这是必要的，因为有可能有其他元素使用了同一个DOM接口。例如，<q>和<blockquote>都使用同一个HTMLQuoteElement接口。
 
