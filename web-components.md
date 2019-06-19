@@ -198,3 +198,111 @@ class MyElement extends HTMLElement {
 }
 ```
 
+如果需要在HTML属性（attribute）发生变化时执行一些动作，那么可以将其加入到observedAttributes数组中。为了保证性能，只有加入到这个数组中的属性（attribute）才会被监视。当HTML属性（attribute）的值发生变化时，attributeChangedCallback就会被调用，同时传入HTML属性的名称、当前值和新值：
+
+```javascript
+class MyElement extends HTMLElement {  
+  static get observedAttributes() {    
+    return ['disabled'];  
+  }
+ 
+  constructor() {    
+    const shadowRoot = this.attachShadow({mode: 'open'});
+    shadowRoot.innerHTML = `      
+      <style>        
+        .disabled {          
+          opacity: 0.4;        
+        }      
+      </style>      
+ 
+      <div id="container"></div>    
+    `;
+ 
+    this.container = this.shadowRoot('#container');  
+  }
+ 
+  attributeChangedCallback(attr, oldVal, newVal) {    
+    if(attr === 'disabled') {      
+      if(this.disabled) {        
+        this.container.classList.add('disabled');      
+      }      
+      else {        
+        this.container.classList.remove('disabled')      
+      }    
+    }
+  }
+}
+```
+
+这样，每当disabled属性（attribute）改变，this.container（即元素的影子DOM中的div元素）上的“disabled”就会随之改变。
+
+### Shadow DOM（影子DOM）：
+
+一组JavaScript API，用于将封装的“影子”DOM树附加到元素（与主文档DOM分开呈现）并控制其关联的功能。通过这种方式，您可以保持元素的功能私有，这样它们就可以被脚本化和样式化，而不用担心与文档的其他部分发生冲突。
+
+使用影子DOM，自定义元素的HTML和CSS可以完全封装在组件内部。这意味着在文档的DOM树中，元素会显示为单一的HTML标签，其实际内部HTML结构会出现在#shadow-root中。
+
+实际上，好几个原生HTML元素也在使用影子DOM。例如，如果在网页上放置一个<video>元素，它会显示为单一的标签，但同时显示的播放、暂停按钮等在开发者工具中查看<video>元素时是看不到的。
+
+这些元素实际上是<video>元素的影子DOM的一部分，因此默认是隐藏的。要在Chrome中显示影子DOM，可以在“偏好设置”中的开发者工具中找到设置，勾选“显示用户代理的影子DOM”。在开发者工具中重新检查<video>元素，就能看到元素的影子DOM。
+
+影子DOM还支持真正的CSS范围（scope）。所有定义在组件内部的CSS只对组件本身有效。元素仅从组件外部定义的CSS中继承最小量的属性，甚至，连这些属性都可以配置为不继承。但是，你可以暴露一些CSS属性，允许组件的使用者给组件添加样式。这种机制解决了现有的CSS的许多问题，同时依然支持自定义组件的样式。
+
+ 定义影子root的方式如下：
+
+```javascript
+const shadowRoot = this.attachShadow({mode: 'open'});
+shadowRoot.innerHTML = `<p>Hello world</p>`;
+```
+
+这段代码在定义影子root时使用了mode: 'open'，其含义是它可以通过开发者工具进行查看和操作，可以查询，也可以配置任何暴露的CSS属性，也可以监听它抛出的事件。影子root的另一个模式是mode: 'closed'，但这个选项不推荐使用，因为使用者将无法与组件进行人和交互，甚至都不能监听其抛出的事件。
+
+要给影子root添加HTML，可以将HTML字符串赋值给影子root的innerHTML属性，也可以使用<template>元素。HTML模板基本上是一段HTML片段，供以后使用。在插入到DOM树中之前，它不可见，也不会被解析，也就是说其内部定义的任何外部资源都不会被下载，任何CSS和JavaScript在插入到DOM之前也不会被解析。例如，你可以定义多个<template>元素，当组件的HTML根据组件状态而发生变化时，将相应的模板插入到DOM中。这样就可以很容易地改变组件的大量HTML，而不需要逐个处理DOM结点。
+
+ 
+
+创建影子root之后，就可以在上面使用所有DOM的方法，就像平常处理document对象那样，如使用this.shadowRoot.querySelector来查找元素。组件的所有CSS都可以定义在<style>标签中，但也可以通过通常的<link rel="stylesheet">来读取外部样式表。除了一般的CSS之外，还可以使用:host选择器给组件自己定义样式。例如，自定义元素默认使用display: inline，使用下面的CSS可以将其定义为块元素：
+
+```
+:host {
+  display: block;
+}
+```
+
+这还可以实现上下文样式。例如，如果想在组件定义了disabled属性时灰掉，可以这样做：
+
+```
+:host([disabled]) {
+  opacity: 0.5;
+}
+```
+
+ 默认情况下，自定义元素会从周围的CSS继承一些属性，如color、font等。但是如果你希望从全新的状态开始，使组件的所有CSS属性重置到默认值，可以这样做：
+
+```
+:host {
+  all: initial;
+}
+```
+
+ 有一点很重要：外部定义在组件上的样式的优先级要高于在影子DOM中使用:host定义的样式。因此，如果定义了：
+
+```
+my-element {
+  display: inline-block;
+}
+```
+
+它将会覆盖：
+
+```
+:host {
+  display: block;
+}
+```
+
+外部不可能给自定义元素内部的任何元素定义样式。但如果希望使用者能够给组件（中的部分元素）定义样式，那么可以通过暴露CSS变量来实现。例如，如果希望使用者能选择组件的背景颜色，那么可以暴露名为--background-color的CSS变量。
+
+假设组件的影子DOM的根节点的元素为<div id="container">：
+
+ 
