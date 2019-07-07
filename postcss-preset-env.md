@@ -1,6 +1,10 @@
-# postcss-cssnext features 未来的CSS
+# 未来的CSS
 
 > 发现未来的CSS
+>
+> [`postcss-cssnext` has been deprecated in favor of `postcss-preset-env`. ]
+>
+> [Use tomorrow’s CSS today.](https://preset-env.cssdb.org/)
 
 ### 声明变量
 
@@ -45,7 +49,19 @@ h1 {
 
 ```css
 @custom-media --small-viewport (max-width: 30em);
+@custom-media --viewport-medium (width <= 50rem);
 /* check out media queries ranges for a better syntax !*/
+
+@media (--viewport-medium) {
+  body {
+    color: var(--mainColor);
+    font-family: system-ui;
+    font-size: var(--fontSize);
+    line-height: calc(var(--fontSize) * 1.5);
+    overflow-wrap: break-word;
+    padding-inline: calc(var(--fontSize) / 2 + 1px);
+  }
+}
 
 @media (--small-viewport) {
   /* styles for small viewport */
@@ -67,10 +83,21 @@ h1 {
 ## 创建自己的选择器
 
 ```css
-@custom-selector :--button button, .button;
+@custom-selector :--heading h1, h2, h3, h4, h5, h6;
 
-:--button {
-  /* styles for your buttons */
+:--heading {
+  margin-block: 0;
 }
+```
+
+## 嵌套选择器
+
+```css
+article {
+  & p {
+    color: #333;
+  }
+}
+
 ```
 
