@@ -6,6 +6,34 @@
 >
 > [Use tomorrow’s CSS today.](https://preset-env.cssdb.org/)
 
+看官网能看见 Stage 0 到 4， 分别表示什么意思：
+
+* ### [Stage 0: Aspirational](https://cssdb.org/#stage-0)（激进的）
+
+  * “This is a crazy idea.”  非官方的草案，它应该被认为是高度不稳定,可能发生变化的
+
+* ### [Stage 1: Experimental](https://cssdb.org/#stage-1)（实验的）
+
+  * “This idea might not be crazy.” 实验的草案，比 Stage 0 好一点点
+
+* ### [Stage 2: Allowable](https://cssdb.org/#stage-2)（容许的）
+
+  * “This idea is not crazy.”
+
+* ### [Stage 3: Embraced](https://cssdb.org/#stage-3)（拥抱的）
+
+  * “This idea is becoming part of the web.” 逐渐定型了，可能成为标准了
+
+* ### [Stage 4: Standardized](https://cssdb.org/#stage-4)（标准化的；定型的）
+
+  * Stage 4 features are web standards.
+
+* ### [Rejected](https://cssdb.org/#rejected)（被拒绝的）
+
+  * “I had no idea what I was doing.”
+
+常见用法如下：其他的可随时看官网
+
 ### 声明变量
 
 ```css
