@@ -587,7 +587,7 @@ customElements.define('my-button', MyButton, {extends: 'button'});
 
 
 
-这里的Web组件没有扩展更通用的HTMLElement，而是扩展了HTMLButtonElement。现在调用customElements.define时还带了另一个参数{extends: 'button'}，来指明我们的类扩展了<button>元素。这看起来有点多余，因为我们已经指明过要扩展HTMLButtonElement了，但这是必要的，因为有可能有其他元素使用了同一个DOM接口。例如，<q>和<blockquote>都使用同一个HTMLQuoteElement接口。
+这里的Web组件没有扩展更通用的HTMLElement，而是扩展了HTMLButtonElement。现在调用customElements.define时还带了另一个参数{extends: 'button'}，来指明我们的类扩展了<button>元素。这看起来有点多余，因为我们已经指明过要扩展HTMLButtonElement了，但这是必要的，因为有可能有其他元素使用了同一个DOM接口。例如，<q>和`<blockquote>`都使用同一个HTMLQuoteElement接口。
 
 增强后的按钮可以使用is属性了：
 
@@ -603,6 +603,8 @@ customElements.define('my-button', MyButton, {extends: 'button'});
 原译文地址：`https://blog.csdn.net/github_38885296/article/details/89432919`
 
 演示例子：
+
+
 
 ```javascript
 <!DOCTYPE html>
