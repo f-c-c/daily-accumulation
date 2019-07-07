@@ -16,6 +16,8 @@ Web组件（Web Component）的概念最初于2011年提出，组件包括一系
 
 它由**四项主要技术**组成，它们可以一起使用来创建封装功能的定制元素，可以在你喜欢的任何地方重用，不必担心代码冲突。
 
+包括`Template`、`Custom Element`、`Shadow DOM`、`HTML Import`**四种技术规范**。使用时，并不一定这四者都要用到。其中，**Custom Element和Shadow DOM最重要**，Template和HTML Import只起到辅助作用。
+
 ### **Custom elements（自定义元素）：**
 
 > 就是用户自定义的HTML元素，可以使用CustomElementRegistry定义自定义元素。如果你想注册新的元素，只需通过window.customElements获得registry的实例，然后调用其define方法：
@@ -486,6 +488,10 @@ class MyElement extends HTMLElement {
 
 ### **HTML templates（HTML模板）：**
 
+template标签表示网页中某些重复出现的部分的代码模板。它存在于DOM之中，但是在页面中不可见。
+
+支持度已经很好了，只有 IE 的不怎么支持
+
 除了使用this.shadowRoot.innerHTML给影子root中的元素添加HTML之外，还可以使用<template>来实现这一点。模板用来提供一小段代码供以后使用。模板中的代码不会被渲染，初始化时它的内容会被解析，但仅仅用来保证其内容是正确的。模板内部的JavaScript不会被执行，任何外部资源也不会被获取。默认情况下它是隐藏的。
 
 如果Web组件需要根据不同的情况渲染完全不同的标记，那么可以使用不同的模板来实现这一点：
@@ -592,7 +598,140 @@ customElements.define('my-button', MyButton, {extends: 'button'});
 ### **HTML Imports（HTML导入）：**
 
 **在 Google Chrome 73 后已过时**
-此功能已过时。虽然它可能仍然适用于某些浏览器，但不鼓励使用它，因为它随时可能被删除。尽量避免使用它。
+此功能已过时。虽然它可能仍然适用于某些浏览器，**但不鼓励使用它，因为它随时可能被删除**。尽量避免使用它。
 
 原译文地址：`https://blog.csdn.net/github_38885296/article/details/89432919`
+
+演示例子：
+
+```javascript
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 一个模板的例子 -->
+    <template id="profileTemplate">
+        <style>
+            /* 下面这样可以设置 被插入的宿主影子dom的样式 不过优先级没有在影子dom里面的高*/
+            :host {
+                color: green;
+            }
+            .profile__img{
+                width: 50px;
+                height: 50px;
+                border: 1px solid red;
+            }
+        </style>
+        <div class="profile">
+            <img src="" class="profile__img">
+            <div class="profile__name"></div>
+            <div class="profile__social"></div>
+        </div>
+    </template>
+    <!-- 一个模板的例子 -->
+
+    <p>外面的元素</p>
+    <my-element></my-element>
+    <div class="container profile__img">12345</div>
+    <script>
+        // 测试浏览器是否支持 template
+        function supportsTemplate() {
+            return 'content' in document.createElement('template');
+        }
+
+        class MyElement extends HTMLElement {
+            static get observedAttributes() {
+                return ['foo', 'bar', 'disabled'];
+            }
+            // 构造函数，元素被创建时调用 document.createElement
+            constructor() {
+                super();
+                console.log('webcomponents has created!');
+            }
+            // 元素真正被插入到DOM中时调用 document.body.appendChild 
+            connectedCallback() {
+                console.log('webcomponents has appended!');
+            }
+            // 元素从DOM中移除时会调用该方法  用户关闭浏览器或关闭浏览器标签页的时候不会被调用
+            disconnectedCallback() {
+                console.log('webcomponents has moved!');
+            }
+            // 监控属性变化
+            attributeChangedCallback(attr, oldVal, newVal) {
+                switch (attr) {
+                    case 'disabled':
+                        console.log('disabled changed');
+                        break;
+                    case 'foo':
+                    // do something with 'foo' attribute
+
+                    case 'bar':
+                    // do something with 'bar' attribute
+
+                }
+            }
+            // 自定义方法
+            doSomething() {
+                // do something in this method
+                console.log('自定义方法');
+            }
+            // set
+            set disabled(val) {
+                if (val) {
+                    this.setAttribute('disabled', 'disabled');
+                } else {
+                    this.removeAttribute('disabled');
+                }
+            }
+        }
+        customElements.define('my-element', MyElement);
+        // 可以在通过customElements.define()注册Web组件之前就使用它
+        // 在通过customElements.define()注册之后，该元素就会通过类定义得到增强。该过程称为“升级”（upgrading）。可以在元素被升级时通过customElements.whenDefined调用一个回调函数，该方法返回一个Promise，在元素被升级时该Promise得到解决：
+        customElements.whenDefined('my-element')
+            .then(() => {
+                console.log('my-element is now defined!');// my-element is now defined
+            })
+        const element = document.querySelector('my-element');
+        element.doSomething(); // 调用 webcomponents 得自定义方法
+        // 通过 set 拦截属性设置
+        element.disabled = true;
+        setTimeout(() => {
+            element.disabled = false;
+        }, 2000)
+        // 给element元素创建影子dom
+        const shadowRoot = element.attachShadow({ mode: 'open' });
+        // 在影子 dom里面定义的 样式只对该影子内部有效
+        shadowRoot.innerHTML = `<style>p{color: yellow}</style><p>Hello world</p>`;
+
+        //测试浏览器是否支持 template
+        console.log(supportsTemplate());
+        // 给影子dom填充内容
+        var template = document.querySelector('#profileTemplate');
+        template.content.querySelector('.profile__img').src = './imagescrop_avatar.jpg';
+        template.content.querySelector('.profile__name').textContent = 'Barack Obama';
+        template.content.querySelector('.profile__social').textContent = 'Follow me on Twitter';
+        // document.body.appendChild(template.content);
+
+        // 同一个模板 template 可以重复使用 反复的插入页面
+        // 接受template插入的元素，叫做宿主元素（host）。在template之中，可以对宿主元素设置样式。
+        // document.importNode方法接受两个参数，第一个参数是外部文档的DOM节点，第二个参数是一个布尔值，表示是否连同子节点一起克隆，默认为false。大多数情况下，必须显式地将第二个参数设为true。
+        var clone0 = document.importNode(template.content, true);
+        var clone1 = document.importNode(template.content, true);
+        // document.querySelector('.container').appendChild(clone0);
+        // document.querySelector('.container').appendChild(clone1);
+        shadowRoot.appendChild(clone0); // 把一个 template 插入一个 shadow dom时，template内的样式只对该影子内部有效
+        // shadowRoot.appendChild(clone1);
+    </script>
+
+</body>
+
+</html>
+```
 
