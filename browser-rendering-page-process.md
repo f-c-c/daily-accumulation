@@ -1,5 +1,23 @@
 # 浏览器工作原理
 
+先介绍下主流浏览器内核：
+
+* IE->Trident->Blink
+
+> 最后微软自己都抛弃了Trident内核该用谷歌的Blink引擎（IE EDGE）
+
+* Safari->Webkit
+
+* Opera->Presto->Blink
+
+* Firefox->Gecko
+
+* Google->Webkit->Blink
+
+> 最开始的Chrome使用的是Safari的webkit内核，怕受制于人，于是搞了个Blink
+
+> 搜狗浏览器、QQ浏览器、2345浏览器、世界之窗浏览器、360浏览器等诸多国内浏览器，都只能算是内核搬运工
+
 在地址栏输入 `google.com` 直到您在浏览器屏幕上看到 Google 首页的整个过程中都发生了些什么?
 
 目前使用的主流浏览器有五个：Internet Explorer、Firefox、Safari、Chrome 浏览器和 Opera。不同的浏览器内核，渲染过程不太一样
