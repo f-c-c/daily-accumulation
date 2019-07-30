@@ -34,7 +34,7 @@
 - `kill -9 PID` 杀掉进程
 - 后台进程的终止可以 `kill %num`
 
-### 安装并配置防火墙（开启对应端口）
+### 4.安装并配置防火墙（开启对应端口）
 
 - 安装防火墙通过命令： `$ yum install firewalld`
 - 启动防火墙通过命令：`$ systemctl start firewalld`
@@ -46,7 +46,7 @@
   - 查看状态：`systemctl status firewalld`
   - 停止：`systemctl disable firewalld`
   - 禁用：`systemctl stop firewalld`
-### `systemctl` 服务管理工具
+### 5.`systemctl` 服务管理工具
 
 > 是 CentOS7 的服务管理工具中主要的工具，它融合之前 `service` 和 `chkconfig` 的功能于一体。
 
@@ -80,7 +80,7 @@
   - 查看 tcp 监听端口 `netstat -lntp`
   - 杀进程 `kill -9 进程id`
 
-### 4.Centos 7安装Nginx
+### 6.Centos 7安装Nginx
 
 * 对于一台干净的 服务器（刚安装的系统没有其他的任何操作），首先**gcc 安装**，安装 nginx 需要先将官网下载的源码进行编译，编译依赖 gcc 环境，如果没有 gcc 环境，则需要安装：`yum install gcc-c++`
 
@@ -146,7 +146,7 @@
 
 * Nginx 的安装目录 `/usr/local/nginx`
 
-### 5.Centos 7 源码安装 Node.js(没有成功过，好想是因为gcc版本低)
+### 7.Centos 7 源码安装 Node.js(没有成功过，好想是因为gcc版本低)
 
 * 1.安装gcc，make，openssl，wget `yum install -y gcc make gcc-c++ openssl-devel wget`
 * yum -y install gcc gcc-c++ kernel-devel make openssl-devel wget
@@ -158,7 +158,7 @@
 * 5.测试： `node -v` `npm -v`
 * ⚠️： 我linux的gcc版本低，升级花好长时间都不成功导致 源码安装node没有成功过
 
- ### 6.Centos 7 安装 git 客户端
+ ### 8.Centos 7 安装 git 客户端
 
 * `yum install -y git`
 
@@ -172,7 +172,7 @@
 
 * 就可以 从 github 克隆代码了，接着`npm i` 启动项目
 
-### 7.Centos 7 安装 Node
+### 9.Centos 7 安装 Node
 
 * `curl -sL https://rpm.nodesource.com/setup_10.x | sudo bash -`
 * `sudo yum install nodejs`
@@ -180,7 +180,7 @@
 * `npm --version`
 * 参考 [这里](https://linux4one.com/how-to-install-node-js-with-npm-on-centos-7/)
 
-### 8.Centos 7 安装 jenkins
+### 10.Centos 7 安装 jenkins
 
 `Jenkins`依赖`Java`，如果你的系统没有安装的话，需要先安装`Java`，已安装的话，可以忽略。使用以下命令
 
@@ -218,4 +218,8 @@ firewall-cmd --reload
 
 还可以搜索 `jenkins 邮件服务`，只要我们的 构建失败就会自动发邮件给 相关人员，我的机器上没有配，除了邮件也可以有其他方式如qq
 
-### 9.Centos 7 安装 Travis(待补充)
+### 11.Centos 7 安装 Travis(待补充)
+
+### 12.ng 转发的一个错误
+又一次配置ng规则时已经有一个规则叫 `/activity`,我又配置了一个规则`/activity_xxx`就不生效，原因是匹配上了第一个规则就不往下面走了，之后将第一个规则改了下就好了 `/activity/`,这样就不会匹配上第一个了
+还有一个ng负载均衡的3台机器之一出问题了，导致返回结果固定的 1/3 概率出问题了
