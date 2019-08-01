@@ -15,7 +15,7 @@ mv composer.phar /usr/local/bin/composer
 将composer.phar移动到 /usr/local/bin/composer支持全局访问composer命令
 验证: `composer -v`
 
-![image-20181112101924703](./assert/image-20181112101924703.png)
+![image-20181112101924703](../assert/image-20181112101924703.png)
 ### 安装Yii2
 安装 Composer 后，您可以通过在 Web 可访问的文件夹下运行以下命令来 安装Yii应用程序模板：
 
@@ -25,7 +25,7 @@ composer create-project --prefer-dist yiisoft/yii2-app-basic basic
 
 这将在一个名为 `basic` 的目录中安装Yii应用程序模板的最新稳定版本。 如果需要，您可以选择不同的目录名称。
 
-![WechatIMG3](./assert/WechatIMG3.jpeg)
+![WechatIMG3](../assert/WechatIMG3.jpeg)
 
 出现以上界面就代表安装成功了
 
@@ -51,7 +51,7 @@ http://localhost:8888
 
 出现以下界面就代表成功了
 
-![WechatIMG4](./assert/WechatIMG4.jpeg)
+![WechatIMG4](../assert/WechatIMG4.jpeg)
 ### 应用结构
 应用中最重要的目录和文件（假设应用根目录是 basic）：
 ```
@@ -73,10 +73,10 @@ basic/                  应用根目录
 ```
 一般来说，应用中的文件可被分为两类：在 basic/web 下的和在其它目录下的。 前者可以直接通过 HTTP 访问（例如浏览器），后者不能也不应该被直接访问。
 models 目录包含了所有模型类， views 目录包含了所有视图脚本， controllers 目录包含了所有控制器类。
-![request-lifecycle](./assert/request-lifecycle.png)
+![request-lifecycle](../assert/request-lifecycle.png)
 每个应用都有一个入口脚本 web/index.php，这是整个应用中唯一可以访问的 PHP 脚本。 入口脚本接受一个 Web 请求并创建应用实例去处理它。 应用在它的组件辅助下解析请求， 并分派请求至 MVC 元素。视图使用小部件 去创建复杂和动态的用户界面。
 以下图表展示了一个应用如何处理请求：
-![application-structure](./assert/application-structure.png)
+![application-structure](../assert/application-structure.png)
 ### 创建新的页面
 * 视图层写在 views／site下面：
 
@@ -104,7 +104,7 @@ models 目录包含了所有模型类， views 目录包含了所有视图脚本
 
 * 刷新页面，就出来效果了
 
-![Snipaste_2018-11-12_12-19-00](./assert/Snipaste_2018-11-12_12-19-00.png)
+![Snipaste_2018-11-12_12-19-00](../assert/Snipaste_2018-11-12_12-19-00.png)
 
 以上是关于 基本模板的安装，如果想使用高级模板，可以看这里 [点我](https://github.com/yiisoft/yii2-app-advanced/blob/master/docs/guide-zh-CN/start-installation.md)
 

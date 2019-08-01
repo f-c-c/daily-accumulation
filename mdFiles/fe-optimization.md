@@ -31,7 +31,7 @@
 * 雅虎军规
 * 缓存策略优先级非常重要 **cache-control > expires > Etag > Last Modify**，清楚过后才知道什么时候去设置 **强缓**，有针对性的和运维沟通优化策略，**业务的东西走离线缓存，库走http强缓（jquery vue react.min 字体库 这些东西）**，业务的东西我们可以用激活的js 去负责所有业务
 
-![cache-priority](./assert/cache-priority.png)
+![cache-priority](../assert/cache-priority.png)
 
 * 根据用户网络类型（检测用户网络）（2g 3g等）提供不同的资源如（2g提供小的资源，网络好则提供高清资源），检测用户网络类型可以用 h5 天生的属性： connection.type 但是呢，这个东西浏览器的支持程度是不怎么好的，我们可以用图片去测试速度 ：速度 = 时间 / 文件大小
   * 这里介绍一种 多普勒 测试，分五次请求计算公式
@@ -41,7 +41,7 @@
 
 浏览器请求//xx.cn/a.js-->解析域名—>HTTP连接—>服务器处理文件—>返回数据-->浏览器解析、渲染文件。Keep-Alive解决的核心问题就在此，一定时间内，同一域名多次请求数据，只建⽴一次HTTP请求，其他请求可复用每一次建立的连接通道，以达到提高请求效率的问题。一定时间是可以配置的，HTTP1.1还是存在效率问题，第一个:串行的⽂件传输。第二个:连接数过多。HTTP/2对同一域名下所有请求都是基于流，也就是说同⼀一域名不管访问多少文件，也只建⽴一路连接。同样Apache的最大连接数为300，因为有了这个新特性，最大的并发就可以提升到300，⽐比原来提升了了6倍!
 
-![http2](./assert/http2.png)
+![http2](../assert/http2.png)
 
 ### 渲染🀄️性能优化
 
@@ -57,7 +57,7 @@
 
 * 我们利用chrome调试🔧录制10s的页面，可以看到我们的动画矩形在浏览器窗口里面运动，而且是**绿色的**，页面刚刷新的时候 `body` 是绿色的，后面就是这个矩形一直是绿色的，这说明了一个问题：页面刚开始刷新时 body 进行了一次重排和重绘，之后就是矩形一直在重排和重绘
 
-![fe-f12-opt01](./assert/fe-f12-opt01.png)
+![fe-f12-opt01](../assert/fe-f12-opt01.png)
 从上图我们可以看出浏览器一直在进行：
 
 **合成Layers->更新Layers->计算Style->回流Layout->重绘Paint**
@@ -198,7 +198,7 @@
 
 可以看出，我们修改后的代码已经**没有页面重排和重绘**的步骤了，这是因为采用了 gpu 的原因
 
-![fe-f12-opt02](./assert/fe-f12-opt02.png)
+![fe-f12-opt02](../assert/fe-f12-opt02.png)
 
 下面的操作会导致元素单独成层，但是单独成层的不一定会让 gpu 参与 
 
@@ -210,7 +210,7 @@
 
 下面是一些 关于渲染时的一些概念：
 
-![some-concept](./assert/some-concept.png)
+![some-concept](../assert/some-concept.png)
 
 每一个网页的 FMP 都不是一样的，不同的业务可以去定义自己的FMP (对于我们的业务来讲，什么重要的东西展现出来了就是 FMP)
 
@@ -245,7 +245,7 @@ FCP 对应 mounted FMP 对应 updated
 
 上面代码如果没有内容 qqq 就只会触发 FP 而不会触发 FCP ,如果有内容 才会两个都触发,如下图：
 
-![FP-FCP](./assert/FP-FCP.png)
+![FP-FCP](../assert/FP-FCP.png)
 
 #### 监控页面的 FMP
 
@@ -352,7 +352,7 @@ long task 会长时间占据主线程资源，进而阻碍了其他关键任务�
 
 
 
-![longtask](./assert/longtask.png)
+![longtask](../assert/longtask.png)
 
 #### 监控 TTI
 

@@ -36,7 +36,7 @@
 * 每次外层循环，将相对最大的元素往右边放
 * 外层循环次数：arr.length - 1
 
-![bubble-sort](./assert/bubble-sort.gif)
+![bubble-sort](../assert/bubble-sort.gif)
 
 ```javascript
 function bubbleSort(arr) {
@@ -68,7 +68,7 @@ function bubbleSort(arr) {
 * 外层循环次数为：arr.length - 1
 * n-1趟结束，数组有序化了
 
-![select-sort](./assert/select-sort.gif)
+![select-sort](../assert/select-sort.gif)
 ```javascript
 function selectSort(arr) {
     let len = arr.length;
@@ -107,7 +107,7 @@ function selectSort(arr) {
 * 从下标第 1 开始循环，大循环次数为 arr.length - 1
 * 看每一个元素 应该被插入的位置
 
-![insert-sort](./assert/insert-sort.gif)
+![insert-sort](../assert/insert-sort.gif)
 ```javascript
 function insertSort(arr) {
     let len = arr.length;
@@ -128,7 +128,7 @@ function insertSort(arr) {
 #### 四. 希尔排序(Shell Sort)
 > 1959年Shell发明，第一个突破O(n2)的排序算法，是简单插入排序的改进版。它与插入排序的不同之处在于，它会优先比较距离较远的元素。希尔排序又叫缩小增量排序。
 
-![shell-sort](./assert/shell-sort.jpg)
+![shell-sort](../assert/shell-sort.jpg)
 
 ```javascript
 function shellSort(arr) {
@@ -157,7 +157,7 @@ function shellSort(arr) {
 >
 > 归并排序是建立在归并操作上的一种有效的排序算法。该算法是采用分治法（Divide and Conquer）的一个非常典型的应用。归并排序是一种稳定的排序方法。将已有序的子序列合并，得到完全有序的序列；即先使每个子序列有序，再使子序列段间有序。若将两个有序表合并成一个有序表，称为2-路归并
 
-![merge-sort](./assert/merge-sort.gif)
+![merge-sort](../assert/merge-sort.gif)
 
 ```javascript
 // 归并排序

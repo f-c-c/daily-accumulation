@@ -46,19 +46,19 @@
 6. **JavaScript 解释器**。用于解析和执行 JavaScript 代码。
 7. **数据存储**。这是持久层。浏览器需要在硬盘上保存各种数据，例如 Cookie。新的 HTML 规范 (HTML5) 定义了“网络数据库”，这是一个完整（但是轻便）的浏览器内数据库。
 
-![browser-component](./assert/browser-component.png)
+![browser-component](../assert/browser-component.png)
 
 值得注意的是，和大多数浏览器不同，**Chrome 浏览器的每个标签页都分别对应一个呈现引擎实例**。每个标签页都是一个独立的进程。
 
 webkit 内核渲染流程：
 
-![webkit-process](./assert/webkit-process.png)
+![webkit-process](../assert/webkit-process.png)
 
 
 
 Mozilla 的 Gecko 呈现引擎主流程:
 
-![gecko-process](./assert/gecko-process.png)
+![gecko-process](../assert/gecko-process.png)
 
 虽然主流浏览器渲染过程叫法有区别，但是主要流程还是相同的
 
@@ -101,7 +101,7 @@ DOM 与标记之间几乎是一一对应的关系。算法由两个阶段组成�
 
 可翻译成如下的 DOM 树：
 
-![dom-parse](./assert/dom-parse.png)
+![dom-parse](../assert/dom-parse.png)
 
 解析结束后：
 
@@ -117,7 +117,7 @@ WebKit 内核 和 Firefox的 Gecko内核使用的解析算法也是不一样的�
 
 WebKit 使用 [Flex 和 Bison](https://www.html5rocks.com/zh/tutorials/internals/howbrowserswork/#parser_generators) 解析器生成器，通过 CSS 语法文件自动创建解析器。正如我们之前在解析器简介中所说，Bison 会创建自下而上的移位归约解析器。Firefox 使用的是人工编写的自上而下的解析器。这两种解析器都会将 CSS 文件解析成 StyleSheet 对象，且每个对象都包含 CSS 规则。CSS 规则对象则包含选择器和声明对象，以及其他与 CSS 语法对应的对象
 
-![css-parse](./assert/css-parse.png)
+![css-parse](../assert/css-parse.png)
 
 于HTML Parser相似，CSS Parser作用就是将很多个CSS文件中的样式合并解析出具有树形结构Style Rules
 
@@ -133,7 +133,7 @@ Render Tree的构建其实就是DOM Tree和CSSOM Attach的过程。
 
 呈现器是和 DOM 元素相对应的，但并非一一对应。非可视化的 DOM 元素不会插入呈现树中，例如“head”元素。如果元素的 display 属性值为“none”，那么也不会显示在呈现树中（但是 visibility 属性值为“hidden”的元素仍会显示）
 
-![render-tree](./assert/render-tree.png)
+![render-tree](../assert/render-tree.png)
 
 ####  样式表层叠顺序
 
@@ -264,7 +264,7 @@ IE中的 getComputedStyle(), 或 currentStyle
 5. 布局；
 6. 绘制
 
-![timeline](./assert/timeline.png)
+![timeline](../assert/timeline.png)
 
 ### 页面渲染优化
 

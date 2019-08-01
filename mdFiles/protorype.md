@@ -9,7 +9,7 @@
 * 构造函数被当成对象看待时，内部有一个`__proto__`属性指向它的原型对象
 * 原型对象是谁的：是实例（对象）的，不是构造函数的，找一个对象的的原型对象跟着它的`__proto__`走
 
-![prototype](./assert/prototype.png "prototype")
+![prototype](../assert/prototype.png "prototype")
 
 构造函数的实例（比喻为孙子）的原型链：
 ```javascript

@@ -37,7 +37,7 @@
 一个CPU时钟周期： `1/cpu主频`：如：`1/2.7 GHz`
 #### Node对异步IO的实现
 
-![](./assert/even-loop.jpeg)
+![](../assert/even-loop.jpeg)
 
 异步IO是操作系统做的，NodeJs是单线程的，LIBUV是辅助 NodeJs进行 eventloop 的，LIBUV 封装了📦这么一套回调机制
 
@@ -124,7 +124,7 @@ function sleep(ms) {
 
 新生代垃圾回收特点：内存区小、浪费一半空间、被清除的对象少，回收范围小、拷贝范围小、执行频率低且较慢
 
-![](./assert/from_to.png)
+![](../assert/from_to.png)
 
 
 ##### 对象的晋升
@@ -183,5 +183,5 @@ PM2 可以做到：
 
 #### 服务器集群
 
-![](./assert/fuwuqijiqun.png)
+![](../assert/fuwuqijiqun.png)
 现在也有很多用 `k8s + docker` 代替 `nginx + pm2`

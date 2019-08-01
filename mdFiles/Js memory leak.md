@@ -66,7 +66,7 @@ setInterval(function() {
 ```
 以上代码的结果：
 
-![image-20181122113747031](./assert/image-20181122113747031.png)
+![image-20181122113747031](../assert/image-20181122113747031.png)
 
 #### with 会导致内存泄漏 
 
@@ -155,7 +155,7 @@ setInterval(function() {
 ```
 以上代码结果：
 
-![1542916357295](./assert/1542916357295.jpg)
+![1542916357295](../assert/1542916357295.jpg)
 
 #### try catch  try里面是可以回收的，但是不会回收到catch
 
