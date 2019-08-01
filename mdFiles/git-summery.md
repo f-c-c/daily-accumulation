@@ -28,9 +28,12 @@ $ git config --global alias.st status
 - `$ git log` 查看提交日志（commit的日志）
 - `$ git diff` 查看工作树和暂存区的区别（只有add过的文件才能看见区别）
 - `$ git diff HEAD` 查看工作树和最新提交（commit）的差别。commit之前运行该命令是一个好习惯
-- `$ git branch` 查看分支一览表
+- `$ git fetch` 取回所有分支的更新，比如远程别人又新建了分支，我们需要执行该命令同步信息
+- `$ git branch` 查看本地分支
+- `$ git branch -a` 查看远程分支
 - `$ git branch -b feature-A` 基于master创建一个分支feature-A，并切换到分支feature-A
-- `$ git checkout master` 切换回分支master（可在已有的分支间来回的切换）
+- `$ git checkout master` 切换回本地分支master（可在本地已有的分支间来回的切换）
+- `$ git checkout -b xxx origin/xxx` 基于远程的xxx分支在本地创建分支并命名为xxx，并切换到该分支
 - `$ no next tag解决办法` 出现no next tag ，此时按 `q + enter` 即可退出
 - `$ ssh-keygen -t rsa -C "your_email@youremail.com"` 在新的电脑上使用git时，需要从新生成秘钥对
 - 查看本地文件id_rsa.pub或者使用命令`$ cat ~/.ssh/id_rsa.pub`查看公钥。以便在github上新增一个公钥
