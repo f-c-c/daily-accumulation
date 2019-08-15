@@ -5,7 +5,7 @@
   ssh: connect to host 192.168.0.200 port 22: Operation timed out
   ```
 
-`vi /etc/ssh/sshd_config`  #MaxStartups 10，#去掉，修改10为1000，MaxStartups 1000
+`vi /etc/ssh/sshd_config`  #MaxSessions 10，#去掉，修改10为1000，MaxSessions 1000
 
 在连接远程vps的时候经常调，我们可以设置每隔多长时间向服务器发一个保持连接的请求 `-o ServerAliveInterval=30`
 
@@ -223,3 +223,7 @@ firewall-cmd --reload
 ### 12.ng 转发的一个错误
 又一次配置ng规则时已经有一个规则叫 `/activity`,我又配置了一个规则`/activity_xxx`就不生效，原因是匹配上了第一个规则就不往下面走了，之后将第一个规则改了下就好了 `/activity/`,这样就不会匹配上第一个了
 还有一个ng负载均衡的3台机器之一出问题了，导致返回结果固定的 1/3 概率出问题了
+### 查看端口占用 
+`ps aux | grep node` `lsof -i:8083`
+`netstat -tunlp|grep 端口号`
+如果提示命令找不到 就`yum install lsof`  `yum -y install net-tools`
