@@ -5,6 +5,8 @@
 ## [leetcode 刷题同步记录](https://github.com/LiuHao713/leetcode-practice)
 * leetcode
 
+## [React 生命周期](./the-life-cycle-of-React.md) --- 2018.11.06
+
 ## [javascript & OA测试工程师](./mdFiles/JavaScript%20%26%20QA.md) --- 2018.11.07
 * 关于 **单元测试**、**e2e测试**、**UI自动化**、**service端测试**
 ## [函数式编程](./mdFiles/functional%20programming.md) --- 2018.11.11
