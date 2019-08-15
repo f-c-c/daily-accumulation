@@ -195,3 +195,23 @@ PgDown 向下翻页
 Command + Home 滚动到顶部
 Command + End 滚动到底部
 ```
+
+### item 常用快捷键
+
+- 新建标签：command + t
+- 关闭标签：command + w
+- 切换标签：command + 数字 或者 command + 左右方向键
+- 切换全屏：command + enter
+- 垂直分屏：command + d
+- 水平分屏：command + shift + d
+- 切新的一屏：command + r
+- 查看历史命令：command + ;
+- 查看剪贴板历史：command + shift + h
+- 删除当前行：ctrl + u
+- 删除当前光标的单个字符：ctrl + d
+- 删除当前光标前面一个字符：ctrl + h
+- 删除当前光标到文本末尾：ctrl + k
+- 移动光标到行首：ctrl + a
+- 移动光标到行尾：ctrl + e
+- 前进后退：ctrl + f/b(相当于左右方向键)
+- 创建一个空屏：clear

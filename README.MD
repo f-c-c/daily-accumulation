@@ -35,7 +35,7 @@
 ## [Linux 基础命令](./mdFiles/Linux%20basic.md) --- 2018.12.06
 * `ssh`，`vi`，`curl`，`wget`, 进程、线程、协程，进程管理命令、网络管理命令、 `linux`远程免密登陆，`banner`设置
 
-## [Vscode 快捷键-Mac](./mdFiles/Mac%20vscode%20hot%20key.md) --- 2019.03.01
+## [Vscode & item 快捷键-Mac](./mdFiles/Mac%20vscode%20hot%20key.md) --- 2019.03.01
 * `Mac` 下 `Vscode` 常用快捷键
 
 ## [大规模 Node.js 项目架构与优化](./mdFiles/NodeJs-architecture-optimization.md) --- 2019.04.01
