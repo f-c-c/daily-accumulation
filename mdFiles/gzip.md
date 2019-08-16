@@ -53,3 +53,81 @@ Vary: Accept-Encoding
 ### 如何开启gzip压缩
 
 > 启用gzip需要客户端和服务端的支持，如果客户端支持gzip的解析，那么只要服务端能够返回gzip的文件就可以启用gzip了，现在来说一下几种不同的环境下的服务端如何配置
+
+#### node端(待⌛️实践)
+
+node端很简单，只要加上compress模块即可，代码如下
+
+```
+var compression = require('compression')
+var app = express();
+
+//尽量在其他中间件前使用compression
+app.use(compression());
+```
+
+这是基本用法，如果还要对请求进行过滤的话，还要加上
+
+```
+app.use(compression({filter: shouldCompress}))
+
+function shouldCompress (req, res) {
+  if (req.headers['x-no-compression']) {
+    // 这里就过滤掉了请求头包含'x-no-compression'
+    return false
+  }
+
+  return compression.filter(req, res)
+}
+```
+
+更多用法请移步[compression文档](https://github.com/expressjs/compression)
+如果用的是koa，用法和上面的差不多
+
+```
+const compress = require('koa-compress');
+const app = module.exports = new Koa();
+app.use(compress());
+```
+
+因为node读取的是生成目录中的文件，所以要先用webpack等其他工具进行压缩成gzip，webpack的配置如下
+
+```
+const CompressionWebpackPlugin = require('compression-webpack-plugin');
+plugins.push(
+    new CompressionWebpackPlugin({
+        asset: '[path].gz[query]',// 目标文件名
+        algorithm: 'gzip',// 使用gzip压缩
+        test: new RegExp(
+            '\\.(js|css)$' // 压缩 js 与 css
+        ),
+        threshold: 10240,// 资源文件大于10240B=10kB时会被压缩
+        minRatio: 0.8 // 最小压缩比达到0.8时才会被压缩
+    })
+);
+```
+
+plugins是webpack的插件
+
+#### nginx
+
+gzip使用环境:http,server,location,if(x),一般把它定义在nginx.conf的http{…..}之间
+
+- **gzip on**
+  on为启用，off为关闭
+- **gzip_min_length 1k**
+  设置允许压缩的页面最小字节数，页面字节数从header头中的Content-Length中进行获取。默认值是0，不管页面多大都压缩。建议设置成大于1k的字节数，小于1k可能会越压越大。
+- **gzip_buffers 4 16k**
+  获取多少内存用于缓存压缩结果，‘4 16k’表示以16k*4为单位获得
+- **gzip_comp_level 5**
+  gzip压缩比（1~9），越小压缩效果越差，但是越大处理越慢，所以一般取中间值;
+- **gzip_types text/plain application/x-javascript text/css application/xml text/javascript application/x-httpd-php**
+  对特定的MIME类型生效,其中'text/html’被系统强制启用
+- **gzip_http_version 1.1**
+  识别http协议的版本,早起浏览器可能不支持gzip自解压,用户会看到乱码
+- **gzip_vary on**
+  启用应答头"Vary: Accept-Encoding"
+- **gzip_proxied off**
+  nginx做为反向代理时启用,off(关闭所有代理结果的数据的压缩),expired(启用压缩,如果header头中包括"Expires"头信息),no-cache(启用压缩,header头中包含"Cache-Control:no-cache"),no-store(启用压缩,header头中包含"Cache-Control:no-store"),private(启用压缩,header头中包含"Cache-Control:private"),no_last_modefied(启用压缩,header头中不包含"Last-Modified"),no_etag(启用压缩,如果header头中不包含"Etag"头信息),auth(启用压缩,如果header头中包含"Authorization"头信息)
+- **gzip_disable msie6**
+  (IE5.5和IE6 SP1使用msie6参数来禁止gzip压缩 )指定哪些不需要gzip压缩的浏览器(将和User-Agents进行匹配),依赖于PCRE库
