@@ -227,3 +227,16 @@ firewall-cmd --reload
 `ps aux | grep node` `lsof -i:8083`
 `netstat -tunlp|grep 端口号`
 如果提示命令找不到 就`yum install lsof`  `yum -y install net-tools`
+
+### 13. vscode 对装饰器报错解决办法：
+
+在目录中加一个 `jsconfig.json` 文件
+
+```javascript
+{
+    "compilerOptions": {
+        "experimentalDecorators": true
+    }
+}
+```
+

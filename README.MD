@@ -1,6 +1,5 @@
 #  ❤️ Continuous update ❤️   --- 2018.10.24
 
-## [FE技术图标及其官网收集](./mdFiles/Technology%20icon.md)
 
 ## [leetcode 刷题同步记录](https://github.com/LiuHao713/leetcode-practice)
 * leetcode
