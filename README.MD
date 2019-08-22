@@ -87,4 +87,6 @@
 ## [git 常见操作](./mdFiles/git-summery.md) --- 2019.08.01
 * 总结平时用的比较频繁的git操作
 
-## [node-eventLoop](./mdFiles/eventLoop-node.md) --- 2019.08.21
+## [node端的 eventLoop](./mdFiles/eventLoop-node.md) --- 2019.08.21
+
+## [浏览器端的 eventLoop](./mdFiles/mdFiles/eventLoop-for-browser.md) --- 2019.08.22
