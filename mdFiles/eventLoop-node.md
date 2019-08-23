@@ -152,10 +152,12 @@ setTimeout(function(){
 在Node中`setTimeout`和`setImmediate`执行顺序是随机性的：解释如下：
 
 setTimeout的优先级高于setImmediate，但是因为setTimeout的after被**强制修正为1**，这就可能存在下一个tick触发时，耗时尚不足1ms，setTimeout的回调依然未超时，因此setImmediate就先执行了！这可以通过在本次tick中加入一段耗时较长的代码来来保证本次tick耗时必须超过1ms来检测
-timers 是在 check 之前的。但事实上，Node 并不能保证 timers 在预设时间到了就会立即执行
-所以，当 Node 准备 event loop 的时间大于 1ms 时，进入 timers 阶段时，setTimeout 已经到期，则会先执行 setTimeout；反之，若进入 timers 阶段用时小于 1ms，setTimeout 尚未到期，则会错过 timers 阶段，先进入 check 阶段，而先执行 setImmediate
+timers 是在 check 之前的。
+
+另一个解释：当 Node 准备 event loop 的时间大于 1ms 时，进入 timers 阶段时，setTimeout 已经到期，则会先执行 setTimeout；反之，若进入 timers 阶段用时小于 1ms，setTimeout 尚未到期，则会错过 timers 阶段，先进入 check 阶段，而先执行 setImmediate
 但有一种情况，它们两者的顺序是固定的：
-```
+
+```javascript
 const fs = require('fs')
 
 fs.readFile('test.txt', () => {
