@@ -1,5 +1,7 @@
-# eventLoop for browser
+# 浏览器下的 eventLoop
 
+> Javascript是单线程的，但是却能执行异步任务，这主要是因为 JS 中存在`事件循环`（Event Loop）和`任务队列`（Task Queue）
+>
 > js 里面执行的代码分为**同步任务(Synchronous)**和**异步执行队列(Asynchronous)**，异步执行队列又细分为**宏任务（macroTask）队列**和**微任务（microTask）队列**
 >
 > 在浏览器中，我们讨论事件循环，是以“从**宏任务队列**中取一个任务执行，再取出**微任务队列**中的所有任务来执行”来分析执行代码的。进入整体代码(宏任务)后，开始第一次循环。接着执行所有的微任务。然后再执行下一个宏任务(按照**添加的先后顺序**进行执行)，再执行所有的微任务
@@ -12,12 +14,31 @@
 
 Eventloop 流程：事件循环的顺序，决定js代码的执行顺序。进入整体代码(宏任务)后，开始第一次循环。接着执行所有的微任务。然后再执行下一个宏任务(按照**添加的先后顺序**进行执行)，再执行所有的微任务
 
+```
+   ┌───────────────────────┐
+┌─>│        timers         │<————— 执行一个 MacroTask Queue 的回调
+│  └──────────┬────────────┘
+|             |<-- 执行所有 MicroTask Queue 的回调
+| ────────────┘
+```
+
 1. **执行一段代码（一个 script 标签）**—这是一个macro-task，event-loop start，执行完所有的同步代码，主线程空闲
+
 2. 去执行所有的 微任务（microTask）队列
+
 3. 一次eventloop结束
+
 4. 再去macroTasks 队列抽取一个任务，执行
+
 5. 去执行所有的 微任务（microTask）队列
+
 6. 又一次eventloop结束
+
+先执行一个 MacroTask，然后执行所有的 MicroTask；
+再执行一个 MacroTask，然后执行所有的 MicroTask；
+……
+如此反复，无穷无尽……
+
 
 notes：macroTask被套在 其他宏任务或者微任务里面时，要搞清楚宏任务被添加到macroTask异步执行队列的**顺序**，事件循环会按照这个顺序进行（重要）
 
@@ -40,6 +61,10 @@ microTask被套在 其他microTask时相当于在当前tick立即执行
 `setInterval`会每隔指定的时间将注册的函数置入Event Queue，如果前面的任务耗时太久，那么同样需要等待
 
 对于`setInterval(fn,ms)`来说，我们已经知道不是每过`ms`秒会执行一次`fn`，而是每过`ms`秒，会有`fn`进入Event Queue。一旦**setInterval的回调函数fn执行时间超过了延迟时间ms，那么就完全看不出来有时间间隔了**。
+
+### async await
+
+await 后面等待的相当于 Promise 的参数函数，await 下面的代码相当于 .then
 
 ```javascript
 setTimeout(_ => console.log(4))

@@ -1,80 +1,57 @@
-# eventLoop
+# node下的 eventLoop
 
-> Javascript是单线程的，但是却能执行异步任务，这主要是因为 JS 中存在`事件循环`（Event Loop）和`任务队列`（Task Queue）。
->
-> js 里面执行的代码分为**同步任务(Synchronous)**和**异步执行队列(Asynchronous)**，异步执行队列又细分为**宏任务（macroTask）**和**微任务（microTask）**
->
-> **任务队列**：异步操作会将相关回调添加到任务队列中。而不同的异步操作添加到任务队列的时机也不同，如`onclick`, `setTimeout`,`ajax`处理的方式都不同，这些异步操作是由浏览器内核的`webcore`来执行的，`webcore`包含下图中的3种 webAPI，分别是`DOM Binding`、`network`、`timer`模块。
->
-> - **DOM Binding** 模块处理一些DOM绑定事件，如`onclick`事件触发时，回调函数会立即被`webcore`添加到任务队列中。
-> - **network** 模块处理`Ajax`请求，在网络请求返回时，才会将对应的回调函数添加到任务队列中。
-> - **timer** 模块会对`setTimeout`等计时器进行延时处理，当时间到达的时候，才会将回调函数添加到任务队列中。
->
-> 在浏览器中，我们讨论事件循环，是以“从宏任务队列中取一个任务执行，再取出微任务队列中的所有任务”来分析执行代码的。
->
-> **主线程**：JS 只有一个线程，称之为主线程。而事件循环是主线程中执行栈里的代码执行完毕之后，才开始执行的。所以，主线程中要执行的代码时间过长，会阻塞事件循环的执行，也就会阻塞异步操作的执行。只有当主线程中执行栈为空的时候（即同步代码执行完后），才会进行事件循环来观察要执行的事件回调，当事件循环检测到任务队列中有事件就取出相关回调放入执行栈中由主线程执行。
->
-> - js引擎首先从macrotask queue中取出第一个任务，执行完毕后，将microtask queue中的所有任务取出，按顺序全部执行；
-> - 然后再从**macrotask queue**（宏任务队列）中取下一个，执行完毕后，再次将**microtask queue**（微任务队列）中的全部取出；
-> - 循环往复，直到两个queue中的任务都取完。
+```
+   ┌───────────────────────┐
+┌─>│        timers         │<————— 执行 setTimeout()、setInterval() 的回调
+│  └──────────┬────────────┘
+|             |<-- 执行所有 Next Tick Queue 以及 MicroTask Queue 的回调
+│  ┌──────────┴────────────┐
+│  │     pending callbacks │<————— 执行由上一个 Tick 延迟下来的 I/O 回调（待完善，可忽略）
+│  └──────────┬────────────┘
+|             |<-- 执行所有 Next Tick Queue 以及 MicroTask Queue 的回调
+│  ┌──────────┴────────────┐
+│  │     idle, prepare     │<————— 内部调用（可忽略）
+│  └──────────┬────────────┘     
+|             |<-- 执行所有 Next Tick Queue 以及 MicroTask Queue 的回调
+|             |                   ┌───────────────┐
+│  ┌──────────┴────────────┐      │   incoming:   │ - (执行几乎所有的回调，除了 close callbacks 以及 timers 调度的回调和 setImmediate() 调度的回调，在恰当的时机将会阻塞在此阶段)
+│  │         poll          │<─────┤  connections, │ 
+│  └──────────┬────────────┘      │   data, etc.  │ 
+│             |                   |               | 
+|             |                   └───────────────┘
+|             |<-- 执行所有 Next Tick Queue 以及 MicroTask Queue 的回调
+|  ┌──────────┴────────────┐      
+│  │        check          │<————— setImmediate() 的回调将会在这个阶段执行
+│  └──────────┬────────────┘
+|             |<-- 执行所有 Next Tick Queue 以及 MicroTask Queue 的回调
+│  ┌──────────┴────────────┐
+└──┤    close callbacks    │<————— socket.on('close', ...)
+   └───────────────────────┘
+```
 
-- macro-task(宏任务)：包括**整体代码script**，**setTimeout**，**setInterval**， **setImmediate**， **I/O**
+- node 的 macro-task(宏任务)：包括**整体代码script**，**setTimeout**，**setInterval**， **setImmediate**， **I/O**
 
-- micro-task(微任务)：process.nextTick，Promises， `Object.observe`， MutationObserver
+- node 的 micro-task(微任务)：process.nextTick，Promises， `Object.observe`， MutationObserver
 
-不同类型的任务会进入对应的Event Queue：
+其实nodejs与浏览器的区别，就是nodejs的 MacroTask 分好几种，而这好几种又有不同的 task queue，而不同的 task queue 又有顺序区别
 
-* macro-task 会进入 宏任务的 异步执行队列
-* micro-task 会进入 微任务的 异步执行队列
+> setTimeout/setInterval 属于 timers 类型；
+> setImmediate 属于 check 类型；
+> socket 的 close 事件属于 close callbacks 类型；
+> 其他 MacroTask 都属于 poll 类型。
+> process.nextTick 本质上属于 MicroTask，但是它先于所有其他 MicroTask 执行；
+> 所有 MicroTask 的执行时机，是不同类型 MacroTask 切换的时候。
+> idle/prepare 仅供内部调用，我们可以忽略。
+> pending callbacks 不太常见，我们也可以忽略。
 
-> 事件循环的顺序，决定js代码的执行顺序。进入整体代码(宏任务)后，开始第一次循环。接着执行所有的微任务。然后再执行下一个宏任务(按照**添加的先后顺序**进行执行)，再执行所有的微任务
->
-> macroTask被套在 其他宏任务或者微任务里面时，要搞清楚宏任务被添加到macroTask异步执行队列的**顺序**，事件循环会按照这个顺序进行（重要）
->
-> microTask被套在 其他宏任务时相当于在当前tick立即执行
->
-> microTask被套在 其他microTask时相当于在当前tick立即执行
-
-`setTimeout`有一个最小的时间间隔限制：
-
-定时器最小时间间隔：在苹果机上的最小时间间隔是**10ms**，在Windows系统上的最小时间间隔大约是**15ms**。Firefox中定义的最小时间间隔是**10ms**，而HTML5规范中定义的最小时间间隔是**4ms**。
-
-![eventloop1](../assert/eventloop1.jpeg)
+> 先执行所有类型为 timers 的 MacroTask，然后执行所有的 MicroTask（注意 NextTick 要优先哦）；
+> 进入 poll 阶段，执行几乎所有 MacroTask，然后执行所有的 MicroTask；
+> 再执行所有类型为 check 的 MacroTask，然后执行所有的 MicroTask；
+> 再执行所有类型为 close callbacks 的 MacroTask，然后执行所有的 MicroTask；
+> 至此，完成一个 Tick，回到 timers 阶段；
+> ……
 
 看一个例子：
-
-```javascript
-setTimeout(_ => console.log(4))
-
-new Promise(resolve => {
-  resolve()
-  console.log(1)
-}).then(_ => {
-  console.log(3)
-  Promise.resolve().then(_ => {
-    console.log('before timeout')
-  }).then(_ => {
-    Promise.resolve().then(_ => {
-      console.log('also before timeout')
-    })
-  })
-})
-
-console.log(2)
-```
-
-输出：
-
-```
-1
-2
-3
-before timeout
-also before timeout
-4
-```
-
-再看一个：
 
 ```javascript
 console.log('1');
@@ -161,40 +138,7 @@ setTimeout(function() {
 300
 ```
 
-继续：
-
-```
-setTimeout(function() {
-　　console.log(1);
-}, 0);
-
-console.log(2);
-
-let end = Date.now() + 1000*5;
-
-while (Date.now() < end) {
-}
-
-console.log(3);
-
-end = Date.now() + 1000*5;
-
-while (Date.now() < end) {
-}
-
-console.log(4);
-```
-
-输出：(说明了：异步代码是在所有同步代码执行完毕以后才开始执行的)
-
-```
-2
-3
-4
-1
-```
-
-### setTimeout && setImmediate
+### setTimeout && setImmediate 的顺序
 
 ```javascript
 setImmediate(function(){
@@ -208,7 +152,23 @@ setTimeout(function(){
 在Node中`setTimeout`和`setImmediate`执行顺序是随机性的：解释如下：
 
 setTimeout的优先级高于setImmediate，但是因为setTimeout的after被**强制修正为1**，这就可能存在下一个tick触发时，耗时尚不足1ms，setTimeout的回调依然未超时，因此setImmediate就先执行了！这可以通过在本次tick中加入一段耗时较长的代码来来保证本次tick耗时必须超过1ms来检测
+timers 是在 check 之前的。但事实上，Node 并不能保证 timers 在预设时间到了就会立即执行
+所以，当 Node 准备 event loop 的时间大于 1ms 时，进入 timers 阶段时，setTimeout 已经到期，则会先执行 setTimeout；反之，若进入 timers 阶段用时小于 1ms，setTimeout 尚未到期，则会错过 timers 阶段，先进入 check 阶段，而先执行 setImmediate
+但有一种情况，它们两者的顺序是固定的：
+```
+const fs = require('fs')
 
+fs.readFile('test.txt', () => {
+  console.log('readFile')
+  setTimeout(() => {
+    console.log('timeout')
+  }, 0)
+  setImmediate(() => {
+    console.log('immediate')
+  })
+})
+```
+和之前情况的区别在于，此时 setTimeout 和 setImmediate 是写在 I/O callbacks 中的，这意味着，我们处于 poll 阶段，然后是 check 阶段，所以这时无论 setTimeout 到期多么迅速，都会先执行 setImmediate。本质上是因为，我们从 poll 阶段开始执行，而非一个 Tick 的初始阶段
 再看一个类似的：
 
 ```javascript
@@ -246,6 +206,17 @@ setTimeout
 ```
 
 有一点可以确定： setTimeout 会 在xixi 之后
+### poll 阶段
+poll 阶段主要有两个功能：
+
+获取新的 I/O 事件，并执行这些 I/O 的回调，之后适当的条件下 node 将阻塞在这里
+当有 immediate 或已超时的 timers，执行它们的回调
+
+poll 阶段用于获取并执行几乎所有 I/O 事件回调，是使得 node event loop 得以无限循环下去的重要阶段。所以它的首要任务就是同步执行所有 poll queue 中的所有 callbacks 直到 queue 被清空或者已执行的 callbacks 达到一定上限，然后结束 poll 阶段，接下来会有几种情况：
+
+setImmediate 的 queue 不为空，则进入 check 阶段，然后是 close callbacks 阶段……
+setImmediate 的 queue 为空，但是 timers 的 queue 不为空，则直接进入 timers 阶段，然后又来到 poll 阶段……
+setImmediate 的 queue 为空，timers 的 queue 也为空，此时会阻塞在这里，因为无事可做，也确实没有循环下去的必要
 
 ### process.nextTick
 
@@ -262,4 +233,10 @@ process.nextTick(function A() {
 ```
 
  输出：
+
+```
+1
+2
+3
+```
 
