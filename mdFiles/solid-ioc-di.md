@@ -32,5 +32,6 @@
 
 ![di.jpg](../assert/ioc.jpg)
 
+### ⾯向切面(Aspect Oriented Programming)
 
-
+> 意为:面向切面编程，通过预编译方式和 运行期动态代理实现程序功能的统一维护的一种技 术。AOP是OOP的延续，是软件开发中的一个热 点，也是Spring框架中的⼀个重要内容，是函数式 编程的一种衍生范型。
