@@ -92,4 +92,10 @@
 ## [浏览器端的 eventLoop](./mdFiles/eventLoop-for-browser.md) --- 2019.08.22
 
 ## [vue源码简要分析](./mdFiles/vue-principle.md) --- 2019.08.22
+* 分析 vue 核心原理
+
+## [solid、ioc、di、aop](./mdFiles/solid-ioc-di.md) --- 2019.09.08
+* solid 设计原则、ioc控制反转、di依赖注入、aop面向切面编程
+
+
 
