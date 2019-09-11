@@ -1,6 +1,6 @@
-容错
+# 容错
 
-### try {} catch () {}
+### 每一个<script></script>是独立的
 
 下面👇 `console.log('1');` 不会被执行，`console.log('2');`会被执行，这两个`script`是**独立的**
 
@@ -14,7 +14,9 @@
     </script>
 ```
 
-下面👇的运行时错误是能捕获到的，会输出
+### try {} catch () {}
+
+下面👇的运行时错误`try {} catch () {}`是能捕获到的，会输出
 
 ```
 知道错误了
@@ -25,7 +27,7 @@ over
 
 ```javascript
     <script>
-        // 允许时错误
+        // 运行时错误
         try {
             error //未定义变量
         } catch (e) {
@@ -58,8 +60,6 @@ text.html:21 Uncaught ReferenceError: error is not defined
     at text.html:21
 ```
 
-
-
 ```javascript
     <script>
         try {
@@ -74,7 +74,7 @@ text.html:21 Uncaught ReferenceError: error is not defined
     </script>
 ```
 
-结论： `try {} catch () {}` 能力有限，只能捕捉到 **运行时非异步错误**
+结论： `try {} catch () {}` 能力有限，只能捕捉到 **运行时非异步错误**，对于语法错误和异步错误就显得无能为力，捕捉不到。
 
 ### window.onerror
 
@@ -109,7 +109,7 @@ over
 
 结论：
 
-* `window.onerror`主要是用来捕获预料之外的错误，而`try {} catch () {}`则是用来在可预见的情况下区捕获错误
+* `window.onerror`主要是用来捕获预料之外的错误，而`try {} catch () {}`则是用来在可预见的情况下捕获错误
 * `window.onerror` 只有在 返回 `true`的情况下，异常才不会向上抛出
 
 * 当我们遇到`<img src="./404.png" />`报 `404`网络请求异常的时候，我们用 `window.onerror`可以捕获到网络请求异常，但是无法判断 `http` 的状态`400` 或者 `500`，所以还需要配合服务器端日志排查分析
@@ -148,29 +148,26 @@ over
             console.log(e.reason);
             return true;
         }, false); // 如果不捕获的话，会爆红的
-        Promise.reject("promise error1");
-        new Promise((resolve, reject) => {
-            reject(reject);
+        Promise.reject('promise error').catch((err)=>{
+            console.log(err);
         })
         new Promise((resolve, reject) => {
+            reject('promise error');
+        }).catch((err)=>{
+            console.log(err);
+        })
+        new Promise((resolve) => {
             resolve();
         }).then(() => {
-            throw 'promise error2'
+            throw 'promise error'
+        });
+        new Promise((resolve, reject) => {
+            reject(123);
         })
     </script>
 </body>
 ```
 
-输出：
-
-```
-我知道 promise 错误了
-promise error1
-我知道 promise 错误了
-ƒ () { [native code] }
-我知道 promise 错误了
-promise error2
-```
 
 ### 遇到跨域的就需要用 node 设置 头
 
@@ -184,4 +181,91 @@ promise error2
         app.listen(8081, () => {
             console.log('koa app listening at 8081');
         })
+
+        <script>
+        window.onerror = function(msg, url, row, col, error) {
+            console.log('我知道错误了，也知道错误信息');
+            console.log({
+                msg,
+                url,
+                row,
+                col,
+                error
+            })
+            return true;
+        };
+        </script>
+        <script src="http://localhost:8081/test.js" crossorigin></script>
+        // http://localhost:8081/test.js setTimeout(() => { console.log(error); }); //后端的node
+        <script>
+        const Koa = require('koa');
+        const path = require('path');
+        const cors = require('koa-cors');
+        const app = new Koa();
+
+        app.use(cors());
+        app.use(require('koa-static')(path.resolve(__dirname, './public')));
+
+        app.listen(8081, () => {
+            console.log('koa app listening at 8081')
+        });
+        </script>
 ```
+
+### ifram
+
+```javascript
+<iframe src="./iframe.html" frameborder="0"></iframe>
+<script>
+  window.frames[0].onerror = function (msg, url, row, col, error) {
+    console.log('我知道 iframe 的错误了，也知道错误信息');
+    console.log({
+      msg,  url,  row, col, error
+    })
+    return true;
+  };
+</script>
+```
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>跨域错误</title>
+</head>
+
+<body>
+    结果显示，跨域之后window.onerror根本捕获不到正确的异常信息，而是统一返回一个Script error，
+
+    解决方案：对script标签增加一个crossorigin=”anonymous”，并且服务器添加Access-Control-Allow-Origin。
+
+    <script src="http://cdn.xxx.com/index.js" crossorigin="anonymous"></script>
+</body>
+
+</html>
+```
+
+### source
+
+sourceMap 绝对不能上线，一旦 sourceMap 上线了就面临了源代码的泄露
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>sourceMap分析</title>
+</head>
+<body>
+    
+</body>
+</html>
+```
+
+自己做 监控平台：用rollup去打包，umd规范 参考（fundebug ）
