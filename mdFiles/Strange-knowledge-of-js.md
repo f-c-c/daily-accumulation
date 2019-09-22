@@ -267,3 +267,51 @@ console.log(true + '');// 'true'
 console.log(false + '');// 'false'
 ```
 
+### 比较运算
+
+* 两个都为数字时：正常的数字的比较
+* 都为字符串时：从第一个字符开始比较 字符编码（a->97  A->65）
+* 一个为数字另一个不是数字：将那个非数字转为数字 再比较（如果转为非 NaN就正常比较）如果转为 NaN，直接返回 false
+* 按照常理一个值不是>另一个值就是<=另一个值，但是在涉及到 NaN 时 都返回false
+
+```javascript
+console.log(3 > '2');// true
+console.log('B' < 'a');// true 
+console.log(1 > []);// true 
+console.log(2 > [1]);// true 
+console.log(1 > {});// false  相当于 console.log(1 > 'object Object');  -> 1 > NaN
+console.log(1 <= {});// false  相当于 console.log(1 <= 'object Object');  -> 1 >= NaN
+console.log(1 > 'a');// false 
+console.log(1 <= 'a');// false 
+```
+
+### 相等运算符 ==
+
+* 如果一个操作数为 Boolean，则先将其转为 数字 true->1 false->0
+* 如果一个操作数为 String，则先将其转为 数字 
+* 一个为对象一个不是对象，调用对象的 valueOf 再比较
+* 如果两个都是对象，则比较两个对象是否是同一个引用
+
+```javascript
+console.log(true == 1);// true
+console.log(false == 1);// false
+console.log(false == 0);// true
+
+console.log('1' == 1);// true
+console.log('' == 0);// true
+console.log('2' == 1);// false
+
+
+console.log(null == undefined);// true
+console.log(NaN == NaN);// false
+console.log(null == 0);// false
+console.log(undefined == 0);// false
+
+let obj = {
+    valueOf() {
+        return '1'
+    }
+}
+console.log(1 == obj);// true
+```
+
