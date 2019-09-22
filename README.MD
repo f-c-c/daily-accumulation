@@ -100,4 +100,5 @@
 ## [promise、generator、async](./mdFiles/Promise-generator-async-await.md) --- 2019.09.16
 * promise（手写）、generator、async/await 
 
+## [js 中的奇怪的小知识](./mdFiles/Strange-knowledge-of-js.md) --- 2019.09.21
 
