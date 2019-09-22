@@ -20,7 +20,26 @@ console.log(-0 === +0) //true
 // 关于 NaN
 // 0/0 得到NaN，正数/0 得到正无穷（Infinity），负数/0 得到负无穷（-Infinity）
 // NaN 与任何值都不相等包括它自己，任何涉及 NaN 的操作也将返回NaN
-console.log(0/0); //NaN
+console.log(Infinity - Infinity);// NaN
+console.log(-Infinity - -Infinity);// NaN
+console.log(Infinity - -Infinity);// Infinity
+console.log(-Infinity - Infinity);// -Infinity
+console.log(Infinity * 2);// Infinity
+console.log(Infinity * Infinity);// Infinity
+console.log(-Infinity * -Infinity);// Infinity
+console.log(Infinity * -Infinity);// -Infinity
+console.log(-Infinity * 0);// NaN
+console.log(Infinity * 0);// NaN
+console.log(Infinity/Infinity);// NaN
+console.log(Infinity/-Infinity);// NaN
+console.log(-Infinity/Infinity);// NaN
+console.log(-Infinity/-Infinity);// NaN
+console.log(Infinity/0);// Infinity
+console.log(-Infinity/0);// -Infinity
+console.log(0/0);// NaN
+console.log(-0/0);// NaN
+console.log(0/-0);// NaN
+console.log(-0/-0);// NaN
 console.log(5/0); //Infinity
 console.log(-5/0); //-Infinity
 console.log(NaN == NaN);// false
@@ -192,5 +211,59 @@ let a = [5,3];
 let b = +a;
 console.log(typeof a, a);// object [5, 3]
 console.log(typeof b, b);// number NaN
+```
+
+### 按位非 ~
+
+```javascript
+console.log(~null);// -1
+console.log(~undefined);// -1
+console.log(~[]);// -1
+console.log(~{});// -1
+console.log(~'');// -1
+console.log(~'0');// -1
+console.log(~true);// -2
+console.log(~false);// -1
+console.log(~[3, 4]);// -1
+console.log(~NaN);// -1
+console.log(~{
+    valueOf() {
+        return 3
+    }
+});// -4
+```
+
+### 布尔操作符 !
+
+可以用于任何数据类型(不会改变原数据类型)，这里和 Boolean() 是一致的
+
+!!a 其实就和 Boolean() 是一致的
+
+```javascript
+console.log(!{}); // false
+console.log(![]);// false
+console.log(!'123');// false
+console.log(!123);// false
+console.log(!'');// true
+console.log(!0);// true
+console.log(!null);// true
+console.log(!undefined);// true
+console.log(!NaN);// true
+```
+
+### 加法 （字符串链接符号）+
+
+两个为数字：执行数字的加法
+
+其中一个为字符串：将另一个转为 字符串执行字符串🔗
+
+没有字符串，有非数字：将非数字转为数字执行 数字的➕
+
+```javascript
+console.log(true + false); // 1
+console.log(true + 1);// 2
+console.log(false + 1);// 1
+console.log(true + '');// 'true'
+console.log(false + '');// 'false'
 ```
 
