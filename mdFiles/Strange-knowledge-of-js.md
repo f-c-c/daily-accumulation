@@ -79,10 +79,9 @@ console.log(obj.toString());// [object Object]  返回字符串表示
 console.log(obj.toLocaleString());// [object Object] 返回字符串表示
 ```
 
-### 操作符
+### 自增自减操作符
 
 ```javascript
-// 一元操作符
 ++a --a a++ a--  这四个一元操作符对任何值都适用的
 //在操作非 Number 类型值的情况遵循以下规则：
 // 1 被操作数为 包含 有效数字字符的字符串时，会将其转为数字，再加或减（被操作数类型会转为 Number）
@@ -113,6 +112,16 @@ let a = {d:1};
 let b = ++a;
 console.log(typeof a, a);// number NaN
 console.log(typeof b, b);// number NaN
+// 4 原理：调用a的valueOf 得到 -5 给到 b，a 再加 1得到 -4
+let a = {
+    d:1,
+    valueOf() {
+        return -5
+    }
+};
+let b = a++;
+console.log(typeof a, a);// number -4
+console.log(typeof b, b);// number -5
 // 5 作用于数组，原理：[]->[]->''->0
 let a = [];
 let b = a++;
@@ -129,5 +138,59 @@ let b = a++;
 console.log(typeof a, a);// number NaN
 console.log(typeof b, b);// number NaN
 // 得出结论：++a --a a++ a-- 会转换变量类型（按照 Number()转型函数来转）
+```
+
+### 一元加减操作符
+
+一元加减操作符 和 上面的 自增自减操作符 类似，但是有一点区别（**++a --a a++ a-- 会转变原数据类型**），一元加减操作符 不会改变原数据类型，只会返回一个 `Number` 类型
+
+```javascript
+let a = '123';
+let b = +a;
+console.log(typeof a, a);// string 123
+console.log(typeof b, b);// number 123
+//---分割线---//
+let a = '123a';
+let b = +a;
+console.log(typeof a, a);// string 123a
+console.log(typeof b, b);// number NaN
+//---分割线---//
+let a = false, b = true;
+let c = +a;
+let d = -b;
+console.log(typeof a, a);// boolean false
+console.log(typeof b, b);// boolean true
+console.log(typeof c, c);// number 0
+console.log(typeof d, d);// number -1
+//---分割线---//
+let a = {d:1};
+let b = +a;
+console.log(typeof a, a);// object {d:1}
+console.log(typeof b, b);// number NaN
+//---分割线---//
+let a = {
+    d:1,
+    valueOf() {
+        return -5
+    }
+};
+let b = -a;
+console.log(typeof a, a);// object
+console.log(typeof b, b);// number 5
+//---分割线---//
+let a = [];
+let b = +a;
+console.log(typeof a, a);// object []
+console.log(typeof b, b);// number 0
+//---分割线---//
+let a = [5];
+let b = +a;
+console.log(typeof a, a);// object [5]
+console.log(typeof b, b);// number 5
+//---分割线---//
+let a = [5,3];
+let b = +a;
+console.log(typeof a, a);// object [5, 3]
+console.log(typeof b, b);// number NaN
 ```
 
