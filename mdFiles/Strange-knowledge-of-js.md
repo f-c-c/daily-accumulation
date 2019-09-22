@@ -38,5 +38,39 @@ console.log(parseInt(false));// NaN
 console.log(parseInt(null));// NaN
 console.log(parseInt(undefined));// NaN
 console.log(parseInt([1,2]));// 1 相当于 console.log(parseInt('1,2'));
+
+// Number() parseInt() 的一些差异
+// Number() 可以作用于任何数据类型，parseInt()主要用于将字符串转为 整数
+console.log(Number('')); // 0
+console.log(parseInt('')); // NaN
+console.log(Number(null)); // 0
+console.log(parseInt(null)); // NaN 
+```
+
+### 字符串相关
+
+```javascript
+let arr = [1,2,3];
+arr.length = 2;
+console.log(arr);// [ 1, 2 ]
+// 数组的 length 属性是可写的，而字符串的length属性是不可写的
+let str = '123';
+str.length = 2;
+console.log(str);// 123
+// null 和 undefined 是没有 toString() 方法的， String() 这个转型函数是可以作用于任何数据类型的
+
+```
+
+### 对象相关
+
+```javascript
+// 一个空对象的原型上面都有 下面几个属性or方法：
+// obj.constructor 指向该对象的构造函数
+// obj.hasOwnProperty('name') 用来判断对象 obj 是否拥有自己的实例属性 name
+// obj.isPrototypeOf(obj1) 判断对象 obj 是否在 对象 obj1 的原型连中
+// obj.propertyIsEnumerable('name') 判断属性  name 是否是可遍历的（for in）
+// obj.toLocalString() 
+// obj.toString()
+// obj.valueOf()
 ```
 
