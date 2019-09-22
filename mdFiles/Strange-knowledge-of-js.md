@@ -69,8 +69,65 @@ console.log(str);// 123
 // obj.hasOwnProperty('name') 用来判断对象 obj 是否拥有自己的实例属性 name
 // obj.isPrototypeOf(obj1) 判断对象 obj 是否在 对象 obj1 的原型连中
 // obj.propertyIsEnumerable('name') 判断属性  name 是否是可遍历的（for in）
-// obj.toLocalString() 
-// obj.toString()
-// obj.valueOf()
+// obj.toLocalString() 返回字符串表示
+// obj.toString() 返回字符串表示
+// obj.valueOf() 返回了自己本身
+
+let obj = {a: 1};
+console.log(obj.valueOf());// { a: 1 }  返回了自己本身
+console.log(obj.toString());// [object Object]  返回字符串表示
+console.log(obj.toLocaleString());// [object Object] 返回字符串表示
+```
+
+### 操作符
+
+```javascript
+// 一元操作符
+++a --a a++ a--  这四个一元操作符对任何值都适用的
+//在操作非 Number 类型值的情况遵循以下规则：
+// 1 被操作数为 包含 有效数字字符的字符串时，会将其转为数字，再加或减（被操作数类型会转为 Number）
+let a = '123';
+a++;
+console.log(typeof a, a);// number 124
+// 2 被操作数为 不包含 有效数字字符的字符串时，会将其转为NaN，再加或减结果还是NaN（被操作数类型会转为 Number）
+let a = '123a';
+a++;
+console.log(typeof a, a);// number NaN
+// 3 对于布尔类型 会将false转为0，true 转为 1 再运算（被操作数类型会转为 Number）
+let a = false, b = true;
+a++; b++;
+console.log(typeof a, a);// number 1
+console.log(typeof b, b);// number 2
+// 3 下面这个很有趣，说明了 a++ 会先将 a 转为Number类型 0 赋给 b（这个时候 b就是数字类型 0），接着 a 再➕1 变成 1
+let a = false;
+let b = a++;
+console.log(typeof a, a);// number 1
+console.log(typeof b, b);// number 0
+// 将 a++ 换成 ++a 后
+let a = false;
+let b = ++a;
+console.log(typeof a, a);// number 1
+console.log(typeof b, b);// number 1
+// 4 作用于对象时,原理：{d:1} 先调用 valueOf() -> {d:1} 再调用 toString() -> [object Object]->应用上面的规则2 -> NaN
+let a = {d:1};
+let b = ++a;
+console.log(typeof a, a);// number NaN
+console.log(typeof b, b);// number NaN
+// 5 作用于数组，原理：[]->[]->''->0
+let a = [];
+let b = a++;
+console.log(typeof a, a);// number 1
+console.log(typeof b, b);// number 0
+// 5 原理：[5]->[5]->'5'->5
+let a = [5];
+let b = a++;
+console.log(typeof a, a);// number 6
+console.log(typeof b, b);// number 5
+// 5 原理：[5,3]->[5,3]->'5,3'->NaN
+let a = [5,3];
+let b = a++;
+console.log(typeof a, a);// number NaN
+console.log(typeof b, b);// number NaN
+// 得出结论：++a --a a++ a-- 会转换变量类型（按照 Number()转型函数来转）
 ```
 
