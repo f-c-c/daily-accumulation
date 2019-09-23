@@ -42,8 +42,8 @@ console.log(0/-0);// NaN
 console.log(-0/-0);// NaN
 console.log(5/0); //Infinity
 console.log(-5/0); //-Infinity
-console.log(NaN == NaN);// false
-console.log(NaN + 1);// NaN
+console.log(NaN == NaN);// false NaN 和任何值都不等，包括它自己
+console.log(NaN + 1);// NaN 任何涉及到 NaN 的操作都将返回 NaN 除了（~NaN === -1）
 
 // 关于将 parseInt 传给数组的 map
 console.log(parseInt(1,0)); // 1
@@ -218,10 +218,10 @@ console.log(typeof b, b);// number NaN
 ```javascript
 console.log(~null);// -1
 console.log(~undefined);// -1
-console.log(~[]);// -1
-console.log(~{});// -1
+console.log(~[]);// -1     [] -> [] -> '' -> 0 -> -0-1 -> -1
+console.log(~{});// -1     {} -> {} -> 'object Object' -> NaN -> -1
 console.log(~'');// -1
-console.log(~'0');// -1
+console.log(~'0');// -1    '0' -> 0 -> -0-1 -> -1
 console.log(~true);// -2
 console.log(~false);// -1
 console.log(~[3, 4]);// -1
@@ -306,6 +306,12 @@ console.log(null == undefined);// true
 console.log(NaN == NaN);// false
 console.log(null == 0);// false
 console.log(undefined == 0);// false
+
+console.log([] == ![]);// true
+console.log([] == false);// true
+console.log([] == 0);// true
+console.log('' == 0);// true
+console.log(0 == 0);// true
 
 let obj = {
     valueOf() {
