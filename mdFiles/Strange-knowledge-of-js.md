@@ -71,8 +71,8 @@ console.log(parseInt(null)); // NaN
 ```javascript
 let arr = [1,2,3];
 arr.length = 2;
-console.log(arr);// [ 1, 2 ]
-// 数组的 length 属性是可写的，而字符串的length属性是不可写的
+console.log(arr);// [ 1, 2 ]  可以通过改变数组的 length 属性改变数组长度
+// 数组的 length 属性是可读可写的，而字符串的length属性是不可写的
 let str = '123';
 str.length = 2;
 console.log(str);// 123
@@ -216,21 +216,21 @@ console.log(typeof b, b);// number NaN
 ### 按位非 ~
 
 ```javascript
-console.log(~null);// -1
-console.log(~undefined);// -1
+console.log(~null);// -1   null -> 0 -> -0-1 -> -1
+console.log(~undefined);// -1   undefined -> NaN -> -1
 console.log(~[]);// -1     [] -> [] -> '' -> 0 -> -0-1 -> -1
 console.log(~{});// -1     {} -> {} -> 'object Object' -> NaN -> -1
-console.log(~'');// -1
+console.log(~'');// -1     '' -> 0 -> -0-1 -> -1
 console.log(~'0');// -1    '0' -> 0 -> -0-1 -> -1
-console.log(~true);// -2
-console.log(~false);// -1
-console.log(~[3, 4]);// -1
+console.log(~true);// -2    true -> 1 -> -1-1 -> -2
+console.log(~false);// -1   false -> 0 -> -0-1 -> -1
+console.log(~[3, 4]);// -1  [3,4] -> [3,4] -> '3,4' -> NaN -> -1
 console.log(~NaN);// -1
 console.log(~{
     valueOf() {
         return 3
     }
-});// -4
+});// -4     ~3 -> -3-1 -> -4
 ```
 
 ### 布尔操作符 !
