@@ -24,6 +24,8 @@
 
 `npm install -g typescript` 该命令会在全局环境下安装 `tsc`命令，安装完成之后，我们就可以在任何地方执行 `tsc`命令： `tsc hello.ts` 这时候会生成一个编译好的文件 `hello.js` TypeScript 只会进行静态检查，如果发现有错误，编译的时候就会报错，TypeScript 编译的时候即使报错了，还是会生成编译结果
 
+TypeScript 中，使用 `:`指定变量的类型，`:`的前后有没有空格都可以
+
 ### 约定
 
 > 使用 TypeScript 编写的文件以 `.ts`为后缀，用 TypeScript 编写 React 时，以 `.tsx`为后缀
@@ -33,4 +35,41 @@
 `VSCode` 它本身也是 TypeScript 写的
 
 ### 布尔值
+
+```typescript
+let isDone: boolean = false;
+```
+
+```typescript
+let bool: boolean = new Boolean(true);
+// boolean' is a primitive, but 'Boolean' is a wrapper object. Prefer using 'boolean' when possible.
+```
+
+```typescript
+let boolObject: Boolean = new Boolean(1);
+```
+
+### 数值
+
+```typescript
+let decLiteral: number = 6;
+let hexLiteral: number = 0xf00d;
+// ES6 中的二进制表示法
+let binaryLiteral: number = 0b1010;
+// ES6 中的八进制表示法
+let octalLiteral: number = 0o744;
+let notANumber: number = NaN;
+let infinityNumber: number = Infinity;
+
+// 编译结果：
+//  ES6 中的二进制和八进制表示法，它们会被编译为十进制数字。
+var decLiteral = 6;
+var hexLiteral = 0xf00d;
+// ES6 中的二进制表示法
+var binaryLiteral = 10;
+// ES6 中的八进制表示法
+var octalLiteral = 484;
+var notANumber = NaN;
+var infinityNumber = Infinity;
+```
 
