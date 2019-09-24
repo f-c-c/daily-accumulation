@@ -336,3 +336,236 @@ let tom: Person = {
 tom.id = 89757;
 ```
 
+### 数组类型
+
+**类型 + 方括号 表示法**：
+
+```typescript
+let fibonacci: number[] = [1, 1, 2, 3, 5];
+```
+
+数组的项中**不允许**出现其他的类型：
+
+```typescript
+let fibonacci: number[] = [1, '1', 2, 3, 5];
+// error TS2322: Type 'string' is not assignable to type 'number'.
+```
+
+```typescript
+let fibonacci: number[] = [1, 1, 2, 3, 5];
+fibonacci.push('8');
+// error TS2322: Type 'string' is not assignable to type 'number'.
+```
+
+**数组泛型 表示法**：
+
+```typescript
+let fibonacci: Array<number> = [1, 1, 2, 3, 5];
+```
+
+**接口表示数组**:
+
+```typescript
+interface NumberArray {
+    [index: number]: number;
+}
+let fibonacci: NumberArray = [1, 1, 2, 3, 5];
+```
+
+`NumberArray`表示：只要索引的类型是数字时，那么值的类型必须是数字。
+
+虽然接口也可以用来描述数组，但是我们一般不会这么做，因为这种方式比前两种方式复杂多了。
+
+不过有一种情况例外，那就是它常用来表示类数组。
+
+**类数组**:
+
+```typescript
+function sum() {
+    let args: number[] = arguments;
+}
+//  error TS2740: Type 'IArguments' is missing the following properties from type 'number[]': pop, push, concat, join, and 15 more.
+```
+
+上例中，`arguments`实际上是一个类数组，不能用普通的数组的方式来描述，而应该用接口：
+
+```typescript
+function sum() {
+    let args: {
+        [index: number]: number;
+        length: number;
+        callee: Function;
+    } = arguments;
+}
+```
+
+事实上常用的类数组都有自己的接口定义，如 `IArguments`, `NodeList`, `HTMLCollection`等：
+
+```typescript
+function sum() {
+    let args: IArguments = arguments;
+}
+```
+
+其中 `IArguments`是 TypeScript 中定义好了的类型，它实际上就是：
+
+```typescript
+interface IArguments {
+    [index: number]: any;
+    length: number;
+    callee: Function;
+}
+```
+
+**any 在数组中的应用**:
+
+```typescript
+let list: any[] = ['a', 25, { a: 123 }];
+```
+
+### 函数
+
+**函数声明**：注意，**输入多余的（或者少于要求的）参数，是不被允许的**
+
+```typescript
+function sum1(x: number, y: number): number {
+    return x + y;
+}
+// 下面两种都是会报错的
+function sum2(x: number, y: number): number {
+    return x + y;
+}
+sum(1, 2, 3);
+function sum3(x: number, y: number): number {
+    return x + y;
+}
+sum(1);
+```
+
+**函数表达式：**
+
+```typescript
+let mySum = function (x: number, y: number): number {
+    return x + y;
+};
+```
+
+这是可以通过编译的，不过事实上，上面的代码只对等号右侧的匿名函数进行了类型定义，而等号左边的 `mySum`，是通过赋值操作进行类型推论而推断出来的。如果需要我们手动给 `mySum`添加类型，则应该是这样：
+
+```typescript
+let mySum: (x: number, y: number) => number = function (x: number, y: number): number {
+    return x + y;
+};
+```
+
+注意不要混淆了 TypeScript 中的 `=>`和 ES6 中的 `=>`
+
+在 TypeScript 的类型定义中，`=>`用来表示函数的定义，左边是输入类型，需要用括号括起来，右边是输出类型
+
+在 ES6 中，`=>`叫做箭头函数
+
+**用接口定义函数的形状:**
+
+```typescript
+interface SearchFunc {
+    (source: string, subString: string): boolean;
+}
+
+let mySearch: SearchFunc;
+mySearch = function(source: string, subString: string) {
+    return source.search(subString) !== -1;
+}
+```
+
+**可选参数:**
+
+```typescript
+function buildName(firstName: string, lastName?: string) {
+    if (lastName) {
+        return firstName + ' ' + lastName;
+    } else {
+        return firstName;
+    }
+}
+let tomcat = buildName('Tom', 'Cat');
+let tom = buildName('Tom');
+```
+
+需要注意的是，可选参数必须接在必需参数后面。换句话说，**可选参数后面不允许再出现必需参数了**：
+
+```typescript
+function buildName(firstName?: string, lastName: string) {
+    if (firstName) {
+        return firstName + ' ' + lastName;
+    } else {
+        return lastName;
+    }
+}
+let tomcat = buildName('Tom', 'Cat');
+let tom = buildName(undefined, 'Tom');
+
+// index.ts(1,40): error TS1016: A required parameter cannot follow an optional parameter.
+```
+
+**参数默认值:**
+
+在 ES6 中，我们允许给函数的参数添加默认值，**TypeScript 会将添加了默认值的参数识别为可选参数**：
+
+```typescript
+function buildName(firstName: string, lastName: string = 'Cat') {
+    return firstName + ' ' + lastName;
+}
+let tomcat = buildName('Tom', 'Cat');
+let tom = buildName('Tom');
+```
+
+此时就不受「可选参数必须接在必需参数后面」的限制了：
+
+```typescript
+function buildName(firstName: string = 'Tom', lastName: string) {
+    return firstName + ' ' + lastName;
+}
+let tomcat = buildName('Tom', 'Cat');
+let cat = buildName(undefined, 'Cat');
+```
+
+**剩余参数:** 注意，rest 参数只能是最后一个参数
+
+```typescript
+function push(array: any[], ...items: any[]) {
+    items.forEach(function(item) {
+        array.push(item);
+    });
+}
+
+let a = [];
+push(a, 1, 2, 3);
+```
+
+### 类型断言
+
+语法： *<类型>值*  或 *值 as类型*
+
+在需要断言的变量前加上 `<Type>`即可
+
+```typescript
+function getLength(something: string | number): number {
+    if ((<string>something).length) {
+        return (<string>something).length;
+    } else {
+        return something.toString().length;
+    }
+}
+```
+
+**类型断言不是类型转换，断言成一个联合类型中不存在的类型是不允许的**：
+
+```typescript
+function toBoolean(something: string | number): boolean {
+    return <boolean>something;
+}
+
+// index.ts(2,10): error TS2352: Type 'string | number' cannot be converted to type 'boolean'.
+//   Type 'number' is not comparable to type 'boolean'.
+```
+
