@@ -137,3 +137,47 @@ let nude0: undefined = undefined;
 let unde1: undefined = null;
 ```
 
+### Any
+
+任意值（Any）用来表示允许赋值为任意类型，一个普通类型，在赋值过程中改变类型是不被允许的
+
+```typescript
+let num: number = undefined;
+num = '7';
+//  error TS2322: Type '"7"' is not assignable to type 'number'.
+```
+
+如果是 `any`类型，则允许被赋值为任意类型，就像在js里面一样变量可以随意被改变
+
+```typescript
+let num: any = undefined;
+num = '7';
+num = true;
+num = null;
+num = 9;
+```
+
+在任意值上访问任何属性，调用任何方法都是允许的：
+
+```typescript
+let anyThing: any = 'hello';
+console.log(anyThing.myName);
+console.log(anyThing.myName.firstName);
+// 编译结果：可以看出ts编译不会报错，但是执行编译的js是会报错的
+var anyThing = 'hello';
+console.log(anyThing.myName);
+console.log(anyThing.myName.firstName);
+```
+
+```typescript
+let anyThing: any = 'Tom';
+anyThing.setName('Jerry');
+anyThing.setName('Jerry').sayHello();
+anyThing.myName.setFirstName('Cat');
+```
+
+可以认为，**声明一个变量为任意值之后，对它的任何操作，返回的内容的类型都是任意值**。
+
+既然我们都使用 `typescript` 了，再用 `any`就没有意思了。
+
+**变量如果在声明的时候，未指定其类型，那么它会被识别为任意值类型**
