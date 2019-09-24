@@ -73,3 +73,67 @@ var notANumber = NaN;
 var infinityNumber = Infinity;
 ```
 
+### 字符串
+
+```typescript
+let myName: string = 'Tom';
+let myAge: number = 25;
+
+// 模板字符串
+let sentence: string = `Hello, my name is ${myName}.
+I'll be ${myAge + 1} years old next month.`;
+
+// 编译结果：
+var myName = 'Tom';
+var myAge = 25;
+// 模板字符串
+var sentence = "Hello, my name is " + myName + ".\nI'll be " + (myAge + 1) + " years old next month.";
+
+```
+
+### 空值
+
+JavaScript 没有空值（Void）的概念，在 TypeScript 中，可以用 `void`表示没有任何返回值的函数：
+
+```typescript
+function alertName(): void {
+    alert('My name is Tom');
+}
+// 编译结果：
+function alertName() {
+    alert('My name is Tom');
+}
+```
+声明一个 void 类型的变量没有什么用，因为你只能将它赋值为 undefined 和 null：
+```typescript
+let unusable: void = undefined;
+let unusable1: void = null;
+```
+
+### Null 和 Undefined
+
+```typescript
+let u: undefined = undefined;
+let n: null = null;
+```
+
+与 `void`的区别是，`undefined`和 `null`是所有类型的子类型。下面都是可以的
+
+```typescript
+
+let num: number = undefined;
+let num1: number = null;
+
+let str: string = undefined;
+let str1: string = null;
+
+let bool: boolean = undefined;
+let bool1: boolean = null;
+
+let null0: null = undefined;
+let null1: null = null;
+
+let nude0: undefined = undefined;
+let unde1: undefined = null;
+```
+
