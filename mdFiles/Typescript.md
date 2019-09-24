@@ -181,3 +181,88 @@ anyThing.myName.setFirstName('Cat');
 既然我们都使用 `typescript` 了，再用 `any`就没有意思了。
 
 **变量如果在声明的时候，未指定其类型，那么它会被识别为任意值类型**
+
+```typescript
+let something;
+something = 'seven';
+something = 7;
+
+something.setName('Tom');
+// 等价于
+let something: any;
+something = 'seven';
+something = 7;
+
+something.setName('Tom');
+```
+
+### 类型推论
+
+- 在声明的时候没有给初始值时会被识别为任意值类型，其实也启动了类型推断，只是推断为 `any`
+- 在声明的时候给了初始值，就会启动类型推断，推断为初始值的类型
+
+```typescript
+// 以下代码虽然没有指定类型，但是会在编译的时候报错：
+let myFavoriteNumber = 'seven';
+myFavoriteNumber = 7;
+// 事实上，它等价于：
+let myFavoriteNumber: string = 'seven';
+myFavoriteNumber = 7;
+```
+
+### 联合类型
+
+表示取值可以为多种类型中的一种
+
+```typescript
+// 这样是没有问题的
+let myFavoriteNumber: string | number;
+myFavoriteNumber = 'seven';
+myFavoriteNumber = 7;
+//这里的 let myFavoriteNumber: string | number 的含义是，允许 myFavoriteNumber 的类型是 string 或者 number，但是不能是其他类型。
+```
+
+当 TypeScript 不确定一个联合类型的变量到底是哪个类型的时候，我们**只能访问此联合类型的所有类型里共有的属性或方法**：
+
+```typescript
+// length 不是共有的属性，会报错
+function getLength(something: string | number): number {
+    return something.length;
+}
+// toString() 是共有方法，这是可以的
+function getString(something: string | number): string {
+    return something.toString();
+}
+```
+
+### 接口
+
+我们定义了一个接口 `Person`，接着定义了一个变量 `tom`，它的类型是 `Person`。这样，我们就约束了 `tom`的形状必须和接口 `Person`一致
+
+**定义的变量比接口少了一些属性是不允许的**，**多一些属性也是不允许的**， 可见，**赋值的时候，变量的形状必须和接口的形状保持一致**
+
+```typescript
+interface Person {
+    name: string;
+    age: number;
+}
+
+let tom: Person = {
+    name: 'Tom',
+    age: 25
+};
+```
+
+有时我们希望不要完全匹配一个形状，那么可以用可选属性,可选属性的含义是该属性可以不存在,这时**仍然不允许添加未定义的属性**
+
+```typescript
+interface Person {
+    name: string;
+    age?: number;
+}
+
+let tom: Person = {
+    name: 'Tom'
+};
+```
+
