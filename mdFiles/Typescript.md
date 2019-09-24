@@ -22,3 +22,15 @@
 
 ### 安装 TypeScript
 
+`npm install -g typescript` 该命令会在全局环境下安装 `tsc`命令，安装完成之后，我们就可以在任何地方执行 `tsc`命令： `tsc hello.ts` 这时候会生成一个编译好的文件 `hello.js` TypeScript 只会进行静态检查，如果发现有错误，编译的时候就会报错，TypeScript 编译的时候即使报错了，还是会生成编译结果
+
+### 约定
+
+> 使用 TypeScript 编写的文件以 `.ts`为后缀，用 TypeScript 编写 React 时，以 `.tsx`为后缀
+
+### 编辑器
+
+`VSCode` 它本身也是 TypeScript 写的
+
+### 布尔值
+
