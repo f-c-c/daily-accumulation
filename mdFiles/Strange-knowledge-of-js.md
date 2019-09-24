@@ -275,12 +275,12 @@ console.log(false + '');// 'false'
 * 按照常理一个值不是>另一个值就是<=另一个值，但是在涉及到 NaN 时 都返回false
 
 ```javascript
-console.log(3 > '2');// true
-console.log('B' < 'a');// true 
-console.log(1 > []);// true 
-console.log(2 > [1]);// true 
+console.log(3 > '2');// true     3 > 2
+console.log('B' < 'a');// true   97 > 66
+console.log(1 > []);// true      1 > 0
+console.log(2 > [1]);// true     2 > 1
 console.log(1 > {});// false  相当于 console.log(1 > 'object Object');  -> 1 > NaN
-console.log(1 <= {});// false  相当于 console.log(1 <= 'object Object');  -> 1 >= NaN
+console.log(1 <= {});// false  相当于 console.log(1 <= 'object Object');  -> 1 <= NaN
 console.log(1 > 'a');// false 
 console.log(1 <= 'a');// false 
 ```
@@ -293,9 +293,9 @@ console.log(1 <= 'a');// false
 * 如果两个都是对象，则比较两个对象是否是同一个引用
 
 ```javascript
-console.log(true == 1);// true
-console.log(false == 1);// false
-console.log(false == 0);// true
+console.log(true == 1);// true   1==1
+console.log(false == 1);// false   0==1
+console.log(false == 0);// true   0==0
 
 console.log('1' == 1);// true
 console.log('' == 0);// true
