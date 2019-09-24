@@ -266,3 +266,73 @@ let tom: Person = {
 };
 ```
 
+**任意属性**：有时候我们希望一个接口允许有任意的属性，可以使用如下方式
+
+需要注意的是，**一旦定义了任意属性，那么必须确定属性和可选属性的类型都必须是它的类型的子集**：
+
+```typescript
+interface Person {
+    name: string;
+    age?: number;
+    [propName: string]: any;
+}
+
+let tom: Person = {
+    name: 'Tom',
+    gender: 'male'
+};
+// 下面会报错
+interface Person {
+    name: string;
+    age?: number;
+    [propName: string]: string;
+}
+
+let tom: Person = {
+    name: 'Tom',
+    age: 25,
+    gender: 'male'
+};
+```
+
+**只读属性**：
+
+```typescript
+interface Person {
+    readonly id: number;
+    name: string;
+    age?: number;
+    [propName: string]: any;
+}
+
+let tom: Person = {
+    id: 89757,
+    name: 'Tom',
+    gender: 'male'
+};
+// 使用 readonly 定义的属性 id 初始化后，又被赋值了，所以报错了
+tom.id = 9527; //error TS2540: Cannot assign to 'id' because it is a read-only property.
+```
+
+**注意，只读的约束存在于第一次给对象赋值的时候，而不是第一次给只读属性赋值的时候**：
+
+报错信息有两处，第一处是在对 `tom`进行赋值的时候，没有给 `id`赋值。
+
+第二处是在给 `tom.id`赋值的时候，由于它是只读属性，所以报错了。
+
+```typescript
+interface Person {
+    readonly id: number;
+    name: string;
+    age?: number;
+    [propName: string]: any;
+}
+
+let tom: Person = {
+    name: 'Tom',
+    gender: 'male'
+};
+
+tom.id = 89757;
+```
+
