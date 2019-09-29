@@ -103,3 +103,5 @@
 ## [js 中的奇怪的小知识](./mdFiles/Strange-knowledge-of-js.md) --- 2019.09.21
 
 ## [TypeScript 总结](./mdFiles/Typescript.md) --- 2019.09.24
+
+## [js 里面创建对象的 7 种方式](./mdFiles/7-methods-of-create-object.md) --- 2019.09.28
