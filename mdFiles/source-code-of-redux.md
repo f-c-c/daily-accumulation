@@ -152,6 +152,7 @@ export default store;
   // 在 redux 源码的 createStore 里面有一句    dispatch({ type: ActionTypes.INIT })
   // 用一个不匹配任何 reducer 的 action 去调了下dispatch，会默认走每一个 reducer 的default 分支
   // 生成一个空的 state 树 （如果在我们初始化createStore 时没有指定初始state的话）
+  // 空的 state 长这样： {info: {},computer: {},film: {}}
   
   // 导出一个大的 reducer
   // export default function reducer(state = {}, action) {
@@ -178,6 +179,96 @@ combineReducers({
     computer,
     film  
 })(currentState, action)
+```
+
+### 三：顺藤摸瓜，我们终于找到了redux 的又一个重要api combineReducers
+
+从字面意思很好理解：组合reducer，我们将reducer拆分为了单个单个的，每一个只负责state里面的一个数据，combineReducers 的作用就是去执行我们的每一个小 reducer 
+
+- 可以看出combineReducers接收一个对象这个对象就是我们的小 reducer：
+
+  - ```javascript
+    {
+        info,
+        computer,
+        film  
+    }
+    ```
+
+    这里的info、computer、film都是小 reducer ,都是**纯函数**，接收state和action，返回一个新的state
+
+combineReducers.js 关键代码如下：
+
+```javascript
+export default function combineReducers(reducers) {
+  const reducerKeys = Object.keys(reducers)// 得到小reducer 的key
+  const finalReducers = {}
+  // 错误处理
+  for (let i = 0; i < reducerKeys.length; i++) {
+    const key = reducerKeys[i]
+		
+    if (process.env.NODE_ENV !== 'production') {
+      // 如果传入的小reducer 是'undefined' 报警告
+      if (typeof reducers[key] === 'undefined') {
+        warning(`No reducer provided for key "${key}"`)
+      }
+    }
+		// 如果传入的小reducer 是 function类型，就将小reducer（函数）保存起来 放到 finalReducers[key]
+    if (typeof reducers[key] === 'function') {
+      finalReducers[key] = reducers[key]
+    }
+  }
+  const finalReducerKeys = Object.keys(finalReducers)// 这里得到的就是 最终的小reducer 的key
+
+  let unexpectedKeyCache
+  if (process.env.NODE_ENV !== 'production') {
+    unexpectedKeyCache = {}
+  }
+
+  let shapeAssertionError
+  try {
+    assertReducerShape(finalReducers)
+  } catch (e) {
+    shapeAssertionError = e
+  }
+
+  return function combination(state = {}, action) {
+    if (shapeAssertionError) {
+      throw shapeAssertionError
+    }
+
+    if (process.env.NODE_ENV !== 'production') {
+      const warningMessage = getUnexpectedStateShapeWarningMessage(
+        state,
+        finalReducers,
+        action,
+        unexpectedKeyCache
+      )
+      if (warningMessage) {
+        warning(warningMessage)
+      }
+    }
+
+    let hasChanged = false
+    const nextState = {}
+    // 这里去循环小reducer
+    for (let i = 0; i < finalReducerKeys.length; i++) {
+      const key = finalReducerKeys[i]// 拿到每一个 小 reducer的key
+      const reducer = finalReducers[key]// 拿到 key对应的 reducer函数
+      const previousStateForKey = state[key]// 拿到小 reducer的key 在state中对应的数据（一部分旧数据state）(这里如果在createStore initState 么有的key而reducer却有,这里会拿到一个 undefined,传入小reducer时由于解构赋值的原因，取默认值{},导致最后会生成一个 空对象)
+      const nextStateForKey = reducer(previousStateForKey, action)//得到这个 key 对应的新的 state
+      if (typeof nextStateForKey === 'undefined') {
+        const errorMessage = getUndefinedStateErrorMessage(key, action)
+        throw new Error(errorMessage)
+      }
+      // 执行完一个小reducer就会得到一个 key 对应的新的state，将其放入新的对象 nextState（组合数据）
+      nextState[key] = nextStateForKey
+      hasChanged = hasChanged || nextStateForKey !== previousStateForKey
+    }
+    // 上面的👆for循环结束时，nextState 已经组合完毕（遍历了所有的小 reducer）
+    return hasChanged ? nextState : state
+  }
+}
 ```
 
 
