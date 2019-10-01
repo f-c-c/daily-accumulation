@@ -65,13 +65,13 @@ export default store;
 
 `dispatch({ type: ActionTypes.INIT })`
 
-- 这一行代码传入了一个 `redux` 内部定义的一个随机且唯一的 `action` `dispatch`方法去掉注释和相关错误判断的代码如下：
+- 这一行代码传入了一个 `redux` 内部定义的一个随机且唯一的 `action` 
 
 - 可以看出：dispatch方法 接受一个  action 作为参数，什么又是 action？？？
 - action 本质上是 JavaScript 普通对象。我们约定，action 内必须使用一个字符串类型的 `type` 字段来表示将要执行的动作。多数情况下，`type` 会被定义成字符串常量。当应用规模越来越大时，建议使用单独的模块或文件来存放 action
-- Dispatch 完成了两个事情：
-  - 第一个事情: 完成了state的更新，具体就是将当前的（旧的state）和 传入的 action 派发给了传入的 `reducer`，说的大白话一点就是：在 dispatch方法 内部调用了传给 createStore 方法的第一个参数：`reducer`，而这个reducer方法接收两个参数，一个是旧的state，另一个是action，实现的代码就是这一行了：`currentState = currentReducer(currentState, action)`，经过这一步，state 就已经改变了（根据我们的action来变）
-  - 第二个事情：通知所有的 订阅者（大声的宣告：我的state已经改变了，你们知道了吗），这个时候试图接收到了，更新视图
+- `dispatch`方法 完成了两个事情：
+  - 第一个事情: 完成了state的更新，具体就是将当前的（旧的state）和 传入的 action 派发给了传入的 `currentReducer`，说的大白话一点就是：在 `dispatch`方法 内部调用了传给 `createStore` 方法的第一个参数：`reducer`，而这个`reducer`方法又接收两个参数，一个是旧的`state`，另一个是`action`，实现的代码就是这一行了：`currentState = currentReducer(currentState, action)`，经过这一步，`state `就已经改变了（根据我们的action来变）
+  - 第二个事情：通知所有的 订阅者（大声的宣告：我的state已经改变了，你们知道了吗），这个时候执行更新`view`等操作
 
 ```javascript
   function dispatch(action) {
@@ -91,6 +91,93 @@ export default store;
 
     return action
   }
+```
+
+- 上面提到dispatch里面执行了reducer，这个 reducer 又长啥样呢，下面👇给一个例子：
+
+  reducer 里面是一个一个的方法，每一个方法对应一个state的状态：`info`、`computer`、`film`
+
+  ```javascript
+  import types from '../constants/index.js';
+  import { combineReducers } from 'redux';
+  
+  // reducer 拆分（每个 reducer 只负责管理全局 state 中它负责的一部分）
+  // 负责 info 部分
+  function info(state = {}, action) {
+      switch (action.type) {
+          case types.CHANGE_NAME:
+              return {
+                  ...state,
+                  name: state.name === '小东' ? '小明' : '小东'
+              }
+  
+          case types.CHANGE_AGE:
+              return {
+                  ...state,
+                  age: state.age + 1
+              }
+  
+          default:
+              return state
+      }
+  }
+  
+  // 负责 computer 部分
+  function computer(state = {}, action) {
+      switch (action.type) {
+          case types.CHANGE_COMPUTER_SIZE:
+              return {
+                  ...state,
+                  size: state.size - 1
+              }
+          default:
+              return state
+      }
+  }
+  
+  // 负责 film 部分
+  function film(state = {}, action) {
+      switch (action.type) {
+          case types.CHANGE_ASYNCDATA:
+              return {
+                  ...state,
+                  subjects: action.resp.subjects
+              }
+  
+          default:
+              return state
+      }
+  }
+  
+  // 在 redux 源码的 createStore 里面有一句    dispatch({ type: ActionTypes.INIT })
+  // 用一个不匹配任何 reducer 的 action 去调了下dispatch，会默认走每一个 reducer 的default 分支
+  // 生成一个空的 state 树 （如果在我们初始化createStore 时没有指定初始state的话）
+  
+  // 导出一个大的 reducer
+  // export default function reducer(state = {}, action) {
+  //     return {
+  //         info: info(state.info, action),
+  //         computer: computer(state.computer, action)
+  //     }
+  // }
+  
+  // 导出一个大的 reducer  与上面的写法效果是一致的，利用了 redux 的api去合并 reducer 代码更加简洁
+  const reducer = combineReducers({
+      info,
+      computer,
+      film  
+  })
+  export default reducer 
+  ```
+
+看上面的代码很清晰：dispatch里面执行了reducer相当于 ：
+
+```javascript
+combineReducers({
+    info,
+    computer,
+    film  
+})(currentState, action)
 ```
 
 
