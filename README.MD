@@ -107,3 +107,5 @@
 ## [js 里面创建对象的 7 种方式](./mdFiles/7-methods-of-create-object.md) --- 2019.09.28
 
 ## [js 里面实现继承的 7 种方式](./mdFiles/7-methods-of-inherit.md) --- 2019.09.28
+
+## [redux](./mdFiles/redux.md) --- 2019.09.30
