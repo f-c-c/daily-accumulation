@@ -1,8 +1,8 @@
-# redux
+# Flux redux 基本概念 理论
 
-- Flux 是一种架构思想，专门解决软件的结构问题。它跟 MVC 架构是同一类东西，但是更加简单和清晰。
+- Flux 是facebook提出的一种架构思想，专门解决软件的结构问题。它跟 MVC 架构是同一类东西，但是更加简单和清晰。
 
-- 官方丢出一个思想，社区大量的出现了 flux 思想的实现，redux vuex mobx 等，
+- 官方丢出一个思想，社区大量的出现了 flux 思想的实现，redux vuex mobx 等
 - flux的思想规定：
   - View: 视图层
   - Action(动作):视图层发出的消息(比如mouseClick)
@@ -25,8 +25,15 @@
 
 mobx 和 redux 都是社区出来的比较优秀的 flux 的实现，mobx 更简单，redux 里面一堆的概念，一下就把很多前端干懵了
 
-redux 架构：`view->screen->user->mouse->Actions->middleware->Reducer->Store`
+redux 架构：`view->screen->user->mouseEvent->Actions->middleware->Reducer->Store`
 
-只有 reducer 可以动 store 其他谁都不行
+只有 reducer 可以动 store 其他谁都不行，reducer 是非常经典的函数式编程
 
 ![](../assert/redux-0.jpg)
+
+要用 redux 我们可能会用到下面的包：
+
+- redux、react-redux、redux-thunk、keyMirror、immutable、fetch、cross-fetch
+  - keyMirror 能把key当value
+
+所以说 react 要比vue难，难在 react 的周边，整个 redux 活灵灵的 函数式编程，createStore 就是函子

@@ -108,4 +108,4 @@
 
 ## [js 里面实现继承的 7 种方式](./mdFiles/7-methods-of-inherit.md) --- 2019.09.28
 
-## [redux](./mdFiles/redux.md) --- 2019.09.30
+## [Flux redux 基本理论](./mdFiles/redux-theory.md) --- 2019.09.30
