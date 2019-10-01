@@ -183,9 +183,9 @@ combineReducers({
 
 ### 三：顺藤摸瓜，我们终于找到了redux 的又一个重要api combineReducers
 
-从字面意思很好理解：组合reducer，我们将reducer拆分为了单个单个的，每一个只负责state里面的一个数据，combineReducers 的作用就是去执行我们的每一个小 reducer 
+从字面意思就很好理解：组合`reducer`，我们将`reducer`拆分为了单个单个的（我叫它们为 `小reducer`），每一个`小reducer`只负责`state`里面的一个小数据(大`state`的一个属性)，`combineReducers` 的作用就是去遍历所有的`小 reducer`执行我们的每一个`小 reducer`，每一个`小 reducer` 返回一个新的 `小state`,`combineReducers`再将每一个小的 `state`组合为一个大的对象，这就是更新后的大的`state`
 
-- 可以看出combineReducers接收一个对象这个对象就是我们的小 reducer：
+- 可以看出`combineReducers`接收一个对象，这个对象就是我们的`小 reducer`们：
 
   - ```javascript
     {
@@ -195,9 +195,9 @@ combineReducers({
     }
     ```
 
-    这里的info、computer、film都是小 reducer ,都是**纯函数**，接收state和action，返回一个新的state
+    这里的`info、computer、film`都是`小 reducer` ,都是**纯函数**，接收`小state`和`action`，返回一个新的`小state`
 
-combineReducers.js 关键代码如下：
+`combineReducers.js` 关键代码如下：
 
 ```javascript
 export default function combineReducers(reducers) {
@@ -270,6 +270,18 @@ export default function combineReducers(reducers) {
   }
 }
 ```
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
