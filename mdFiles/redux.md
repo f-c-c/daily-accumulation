@@ -9,3 +9,14 @@
   - Dispatcher(派发器):用来接收Actions、执行回调函数
   - Store(数据层):用来存放应用的状态，一旦发生变动，就提醒Views要更新页面
 
+### flux 架构
+
+![flux](../assert/flux.jpg)
+
+- 1.用户访问 View
+- 2.View 发出用户的 Action
+- 3.Dispatcher 收到 Action，要求 Store 进行相应的更新
+- 4.Store 更新后，发出一个"change"事件
+- 5.View 收到"change"事件后，更新页面
+
+![](../assert/flux-1.jpg)
