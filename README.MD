@@ -1,9 +1,8 @@
 ### 原理篇
 
 - [浏览器工作原理](./mdFiles/browser-rendering-page-process.md) 
-- [redux 源码分析](./mdFiles/source-code-of-redux.md)
-- [webpack loader 原理](./mdFiles/loader.md)
-- [vue源码简要分析](./mdFiles/vue-principle.md)
+- [redux 源码分析](./mdFiles/source-code-of-redux.md) || [vue源码 分析](./mdFiles/vue-principle.md)
+- [webpack loader 原理](./mdFiles/loader.md) || [webpack plugin 原理](./mdFiles/webpack-plugin.md)
 
 ### 理念篇
 - [函数式编程](./mdFiles/functional%20programming.md)
@@ -12,25 +11,22 @@
 
 ### 基础篇
 - [git 常见操作](./mdFiles/git-summery.md)
-- [DNS解析 流程](./mdFiles/dns-process.md) 
-- [js 里面创建对象的 7 种方式](./mdFiles/7-methods-of-create-object.md)
-- [js 里面实现继承的 7 种方式](./mdFiles/7-methods-of-inherit.md)
+- [DNS解析流程](./mdFiles/dns-process.md) 
+- [js 创建对象的 7 种方式](./mdFiles/7-methods-of-create-object.md) || [js 实现继承的 7 种方式](./mdFiles/7-methods-of-inherit.md)
 - [TCP 三次握手🤝与四次挥手🙋‍♂️](./mdFiles/3handshake-4wave-of-tcp.md)
 - [HTTP协议、原生ajax、浏览器缓存机制](./mdFiles/http-ajax-cache.md)
 - [promise、generator、async](./mdFiles/Promise-generator-async-await.md)
 - [深浅复制比较](./mdFiles/stack-shallowCopy-deepCopy.md)
 - [JS 中的正则](./mdFiles/RegExp%20in%20JS.md)
 - [JS 中的内存泄漏](./mdFiles/Js%20memory%20leak.md) 
-- [深入 Js 原型链](./mdFiles/protorype.md)
+- [深入 JS 原型链](./mdFiles/protorype.md)
 - [代理与反射 Proxy Reflect ](./mdFiles/proxy-and-reflect.md)
 - [Js 模块化](./mdFiles/module-specification-javascript.md)
-- [浏览器端的 eventLoop](./mdFiles/eventLoop-for-browser.md)
-- [node端的 eventLoop](./mdFiles/eventLoop-node.md)
+- [浏览器端的 eventLoop](./mdFiles/eventLoop-for-browser.md) || [node端的 eventLoop](./mdFiles/eventLoop-node.md)
 - [React 生命周期](./mdFiles/the-life-cycle-of-React.md)
 
 ### 算法篇
-- [排序算法总结](./mdFiles/algorithm.md)
-- [查找算法总结](./mdFiles/search-algorithm.md)
+- [排序算法总结](./mdFiles/algorithm.md) || [查找算法总结](./mdFiles/search-algorithm.md)
 
 ### 优化篇
 - [前端性能优化](./mdFiles/fe-optimization.md)
