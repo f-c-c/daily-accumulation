@@ -2,7 +2,16 @@
 
 ## 原理篇
 
-[redux 源码分析](./mdFiles/source-code-of-redux.md)、[webpack loader 原理](./mdFiles/loader.md)、[vue源码简要分析](./mdFiles/vue-principle.md)
+[浏览器工作原理](./mdFiles/browser-rendering-page-process.md)、[redux 源码分析](./mdFiles/source-code-of-redux.md)、[webpack loader 原理](./mdFiles/loader.md)、[vue源码简要分析](./mdFiles/vue-principle.md)
+
+## 理念篇
+[函数式编程](./mdFiles/functional%20programming.md)
+
+## 基础篇
+[js 里面创建对象的 7 种方式](./mdFiles/7-methods-of-create-object.md)、 [js 里面实现继承的 7 种方式](./mdFiles/7-methods-of-inherit.md)、[TCP 三次握手🤝与四次挥手🙋‍♂️](./mdFiles/3handshake-4wave-of-tcp.md)、[HTTP协议、原生ajax、浏览器缓存机制](./mdFiles/http-ajax-cache.md)、[深浅复制比较](./mdFiles/stack-shallowCopy-deepCopy.md)、[JS 中的正则](./mdFiles/RegExp%20in%20JS.md)、[JS 中的内存泄漏](./mdFiles/Js%20memory%20leak.md) 、[深入 Js 原型链](./mdFiles/protorype.md)、[Js 模块化](./mdFiles/module-specification-javascript.md)
+
+## 算法篇
+[排序算法总结](./mdFiles/algorithm.md)、[查找算法总结](./mdFiles/search-algorithm.md)
 
 ## [leetcode 刷题同步记录](https://github.com/LiuHao713/leetcode-practice)
 * leetcode
@@ -11,28 +20,9 @@
 
 ## [javascript & OA测试工程师](./mdFiles/JavaScript%20%26%20QA.md) --- 2018.11.07
 * 关于 **单元测试**、**e2e测试**、**UI自动化**、**service端测试**
-## [函数式编程](./mdFiles/functional%20programming.md) --- 2018.11.11
-* 很多新的概念：一等公民、纯函数、幂等性、柯里化、函数组合、声明式代码、命令式代码、高阶函数、尾递归调用、范畴、容器、函子、maybe函子、either函子、ap函子、io函子等。。。
+
 ## [YII 初次接触](./mdFiles/YII%20learning.md) --- 2018.11.12
 * 安装 `Composer` 和 `YII` ，理解其目录结构，尝试写 demo
-
-## [HTTP协议、原生ajax、浏览器缓存机制](./mdFiles/http-ajax-cache.md) --- 2018.11.15
-* `http` `ajax` `常见状态码` `协商缓存与强缓存`
-
-## [深浅复制比较](./mdFiles/stack-shallowCopy-deepCopy.md) --- 2018.11.18
-* 栈和堆、六种基本数据类型、赋值运算符、浅拷贝、深拷贝、针对特殊对象的拷贝
-
-## [JS 中和正则相关的东西](./mdFiles/RegExp%20in%20JS.md) --- 2018.11.20
-* `exec` `test` `match` `replace` `search` 捕获组
-
-## [JS 中的内存泄漏](./mdFiles/Js%20memory%20leak.md) --- 2018.11.22
-* `eval`，`with`，`try catch 的catch` 会导致内存泄漏，`new Function()`，`window.eval`不会导致内存泄漏
-
-## [深入 JavaScript 原型链](./mdFiles/protorype.md)
-* 一切皆对象，一个函数当构造函数看待时有个`prototype`属性，当对象看待时有一个内部属性`__proto__`
-
-## [JavaScript 模块化规范](./mdFiles/module-specification-javascript.md)
-* `IIFE` 、`commonJs` 、`AMD`、 `CMD`、 `ES6 模块化`
 
 ## [Linux 基础命令](./mdFiles/Linux%20basic.md) --- 2018.12.06
 * `ssh`，`vi`，`curl`，`wget`, 进程、线程、协程，进程管理命令、网络管理命令、 `linux`远程免密登陆，`banner`设置
@@ -60,23 +50,11 @@
 ## [代理与反射 Proxy Reflect ](./mdFiles/proxy-and-reflect.md) --- 2019.05.17
 * `get` `set` `Proxy 和 Reflect的方法`
 
-## [十大排序算法总结](./mdFiles/algorithm.md) --- 2019.06.04
-* 时间复杂度 空间复杂度 **冒泡**排序、**选择**排序、**插入**排序、**希尔**排序
-
-## [查找算法总结](./mdFiles/search-algorithm.md) --- 2019.06.10
-* 顺序查找、二分查找、插值查找、斐波那契查找
-
 ## [DNS解析 流程](./mdFiles/dns-process.md) --- 2019.06.15
 * dns 解析流程
 
-## [TCP 三次握手🤝与四次挥手🙋‍♂️](./mdFiles/3handshake-4wave-of-tcp.md) --- 2019.06.15
-* 协议模型 建立连接过程 三次🤝 四次挥手
-
 ## [前端性能优化](./mdFiles/fe-optimization.md) --- 2019.06.15
 * 基本的优化点 `多开 cdn` `开启 gzip` `离线缓存` `雅虎军规` `缓存策略` `渲染🀄️性能优化 gpu`
-
-## [浏览器工作原理](./mdFiles/browser-rendering-page-process.md) --- 2019.06.16
-* 浏览器的主要组件 `DOM Tree` `Style Rules` `Render Tree` `Layout` `Painting`
 
 ## [systemjs 模块加载器](./mdFiles/systemjs.md) --- 2019.06.18
 * `systemjs` `@babel/plugin-transform-modules-systemjs`
@@ -104,8 +82,5 @@
 
 ## [TypeScript 总结](./mdFiles/Typescript.md) --- 2019.09.24
 
-## [js 里面创建对象的 7 种方式](./mdFiles/7-methods-of-create-object.md) --- 2019.09.28
-
-## [js 里面实现继承的 7 种方式](./mdFiles/7-methods-of-inherit.md) --- 2019.09.28
 
 ## [Flux redux 基本理论](./mdFiles/redux-theory.md) --- 2019.09.30
