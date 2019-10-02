@@ -1,10 +1,10 @@
-### 原理篇
+### 原理/源码篇
 
 - [浏览器工作原理](./mdFiles/browser-rendering-page-process.md) 
 - [redux 源码分析](./mdFiles/source-code-of-redux.md) || [vue源码 分析](./mdFiles/vue-principle.md)
 - [webpack loader 原理](./mdFiles/loader.md) || [webpack plugin 原理](./mdFiles/webpack-plugin.md)
 
-### 理念篇
+### 理论/理念篇
 - [函数式编程](./mdFiles/functional%20programming.md)
 - [solid、ioc、di、aop](./mdFiles/solid-ioc-di.md)
 - [Flux redux 基本理论](./mdFiles/redux-theory.md)
