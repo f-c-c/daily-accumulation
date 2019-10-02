@@ -1,5 +1,8 @@
 #  ❤️ Continuous update ❤️   --- 2018.10.24
 
+## 原理篇
+
+[redux 源码分析](./mdFiles/source-code-of-redux.md)、[webpack loader 原理](./mdFiles/loader.md)、[vue源码简要分析](./mdFiles/vue-principle.md)
 
 ## [leetcode 刷题同步记录](https://github.com/LiuHao713/leetcode-practice)
 * leetcode
@@ -91,9 +94,6 @@
 
 ## [浏览器端的 eventLoop](./mdFiles/eventLoop-for-browser.md) --- 2019.08.22
 
-## [vue源码简要分析](./mdFiles/vue-principle.md) --- 2019.08.22
-* 分析 vue 核心原理
-
 ## [solid、ioc、di、aop](./mdFiles/solid-ioc-di.md) --- 2019.09.08
 * solid 设计原则、ioc控制反转、di依赖注入、aop面向切面编程
 
@@ -109,7 +109,3 @@
 ## [js 里面实现继承的 7 种方式](./mdFiles/7-methods-of-inherit.md) --- 2019.09.28
 
 ## [Flux redux 基本理论](./mdFiles/redux-theory.md) --- 2019.09.30
-
-## [redux 源码分析](./mdFiles/source-code-of-redux.md) --- 2019.09.30
-
-## [webpack loader 原理](./mdFiles/loader.md) --- 2019.10.01
