@@ -135,3 +135,56 @@ let generated_code = escodegen.generate(result);//利用  escodegen  将ast 吐�
 console.log(generated_code);//var name = 'liuhao';
 ```
 
+### 自己写一个简单的 loader
+
+- `mkdir my-webpack-loader && cd my-webpack-loader`
+
+- `sudo npm install webpack webpack-cli`
+
+- `package.json:`
+
+- ```javascript
+    "scripts": {
+      "dev": "webpack --mode development"
+    },
+  ```
+
+- `webpack.config.js:`
+
+- ```javascript
+  const path = require('path');
+  module.exports = {
+      module: {
+          rules: [
+              {
+                  test: /\.js$/i,
+                  loader: path.join(__dirname, 'loader/index.js')
+              }
+          ]
+      }
+  }
+  ```
+
+- `src/index.js:`
+
+- ```javascript
+  console.log('🐭');
+  ```
+
+- `loader/index.js:`
+
+- ```javascript
+  module.exports = function(content, map, meta) {
+      return content + '123'
+  }
+  ```
+
+- 最后一步：`npm run dev`
+
+- 查看`dist/main.js:`
+
+- ```javascript
+  eval("console.log('🐭');123\n\n//# sourceURL=webpack:///./src/index.js?");
+  ```
+
+- 我们的`loader`生效了，在`console.log('🐭');123` 后面这个123 是我们的loader加上的，当然这只是演示一个`loader`该怎么写，实际情况，我们应该`loader`里面加上面说到的`acorn`等工具，转`ast`再进行操作
