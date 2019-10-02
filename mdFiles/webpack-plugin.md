@@ -26,6 +26,6 @@ compiler.hooks.run.tap 这一串又是啥玩意？？？ 不懂
 
 webpack 包目录结构：
 
-![](../assert/webpack-catalog.jpg)
+![](../assert/webpack-catalog.png)
 
 里面的 `bin/webpack.js` 是命令行相关操作，我们知道安装webpack 我们得配套安装 webpack-cli，如果没有安装 webpack-cli ，在运行 webpack时会报错提示，这个提示就是在 `bin/webpack.js` 里面完成的
