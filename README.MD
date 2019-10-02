@@ -8,10 +8,15 @@
 [函数式编程](./mdFiles/functional%20programming.md)
 
 ## 基础篇
-[js 里面创建对象的 7 种方式](./mdFiles/7-methods-of-create-object.md)、 [js 里面实现继承的 7 种方式](./mdFiles/7-methods-of-inherit.md)、[TCP 三次握手🤝与四次挥手🙋‍♂️](./mdFiles/3handshake-4wave-of-tcp.md)、[HTTP协议、原生ajax、浏览器缓存机制](./mdFiles/http-ajax-cache.md)、[深浅复制比较](./mdFiles/stack-shallowCopy-deepCopy.md)、[JS 中的正则](./mdFiles/RegExp%20in%20JS.md)、[JS 中的内存泄漏](./mdFiles/Js%20memory%20leak.md) 、[深入 Js 原型链](./mdFiles/protorype.md)、[Js 模块化](./mdFiles/module-specification-javascript.md)
+[DNS解析 流程](./mdFiles/dns-process.md) | [js 里面创建对象的 7 种方式](./mdFiles/7-methods-of-create-object.md)、 [js 里面实现继承的 7 种方式](./mdFiles/7-methods-of-inherit.md)、[TCP 三次握手🤝与四次挥手🙋‍♂️](./mdFiles/3handshake-4wave-of-tcp.md)、[HTTP协议、原生ajax、浏览器缓存机制](./mdFiles/http-ajax-cache.md)、[深浅复制比较](./mdFiles/stack-shallowCopy-deepCopy.md)、[JS 中的正则](./mdFiles/RegExp%20in%20JS.md)、[JS 中的内存泄漏](./mdFiles/Js%20memory%20leak.md) 、[深入 Js 原型链](./mdFiles/protorype.md)、[Js 模块化](./mdFiles/module-specification-javascript.md)
 
 ## 算法篇
 [排序算法总结](./mdFiles/algorithm.md)、[查找算法总结](./mdFiles/search-algorithm.md)
+
+## 优化篇
+[前端性能优化](./mdFiles/fe-optimization.md)
+
+## 前沿篇
 
 ## [leetcode 刷题同步记录](https://github.com/LiuHao713/leetcode-practice)
 * leetcode
@@ -52,9 +57,6 @@
 
 ## [DNS解析 流程](./mdFiles/dns-process.md) --- 2019.06.15
 * dns 解析流程
-
-## [前端性能优化](./mdFiles/fe-optimization.md) --- 2019.06.15
-* 基本的优化点 `多开 cdn` `开启 gzip` `离线缓存` `雅虎军规` `缓存策略` `渲染🀄️性能优化 gpu`
 
 ## [systemjs 模块加载器](./mdFiles/systemjs.md) --- 2019.06.18
 * `systemjs` `@babel/plugin-transform-modules-systemjs`
