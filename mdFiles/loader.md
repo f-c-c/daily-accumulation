@@ -140,7 +140,7 @@ console.log(generated_code);//var name = 'liuhao';
 
 - `mkdir my-webpack-loader && cd my-webpack-loader`
 
-- `sudo npm install webpack webpack-cli`
+- `sudo npm install webpack webpack-cli loader-utils --save-dev`
 
 - `package.json:`
 
@@ -159,7 +159,10 @@ console.log(generated_code);//var name = 'liuhao';
           rules: [
               {
                   test: /\.js$/i,
-                  loader: path.join(__dirname, 'loader/index.js')
+                  loader: path.join(__dirname, 'loader/index.js'),
+                  options: {
+                      item: "哈哈哈"
+                  }
               }
           ]
       }
@@ -175,12 +178,16 @@ console.log(generated_code);//var name = 'liuhao';
 - `loader/index.js:`
 
 - ```javascript
+  const loaderUtils = require('loader-utils');
   module.exports = function(content, map, meta) {
+      let myOptions = loaderUtils.getOptions(this);
+      console.log('myOptions', myOptions);// myOptions { item: '哈哈哈' }
+      // 这里把 acorn 弄进来想干嘛干嘛 
       return content + this.data.value
   }
   // 前置钩子
   module.exports.pitch = function(f,s,data) {
-      data.value = '123'
+      data.value = '123456'
   }
   ```
 
@@ -189,7 +196,7 @@ console.log(generated_code);//var name = 'liuhao';
 - 查看`dist/main.js:`
 
 - ```javascript
-  eval("console.log('🐭');123\n\n//# sourceURL=webpack:///./src/index.js?");
+  eval("console.log('🐭');123456\n\n//# sourceURL=webpack:///./src/index.js?");
   ```
 
 - 我们的`loader`生效了，在`console.log('🐭');123` 后面这个123 是我们的loader加上的，当然这只是演示一个`loader`该怎么写，实际情况，我们应该`loader`里面加上面说到的`acorn`等工具，转`ast`再进行操作
