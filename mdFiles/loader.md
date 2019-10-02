@@ -196,7 +196,7 @@ console.log(generated_code);//var name = 'liuhao';
 - 查看`dist/main.js:`
 
 - ```javascript
-  eval("console.log('🐭');123456\n\n//# sourceURL=webpack:///./src/index.js?");
+  eval("console.log('000');12356\n\n//# sourceURL=webpack:///./src/index.js?");
   ```
 
 - 我们的`loader`生效了，在`console.log('🐭');123` 后面这个123 是我们的loader加上的，当然这只是演示一个`loader`该怎么写，实际情况，我们应该`loader`里面加上面说到的`acorn`等工具，转`ast`再进行操作
