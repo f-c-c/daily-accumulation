@@ -25,6 +25,7 @@ module.exports = function (markdown) {
 - 大部分现有的 loader 都是用的 ast（静态语法分析树） 转ast的工具有很多种，但都大同小异
 
 - loader 是以相反的顺序执行的，最后的 loader 最早调用，中间的 loader 传入的是上一个loader的处理结果
+  - `use: ['bar-loader', 'foo-loader'],`先执行`bar-loader` 的前置钩子(pitch)，再执行`foo-loader`的前置钩子(pitch)，再执行`foo-loader` 再执行`bar-loader`这两 `loader`
 
 - 若修改很简单，我们可以直接正则匹配，但是当改动很复杂时，正则就hold不住了，必须上 ast
 
@@ -175,7 +176,11 @@ console.log(generated_code);//var name = 'liuhao';
 
 - ```javascript
   module.exports = function(content, map, meta) {
-      return content + '123'
+      return content + this.data.value
+  }
+  // 前置钩子
+  module.exports.pitch = function(f,s,data) {
+      data.value = '123'
   }
   ```
 
