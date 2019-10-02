@@ -28,4 +28,52 @@ webpack 包目录结构：
 
 ![](../assert/webpack-catalog.png)
 
-里面的 `bin/webpack.js` 是命令行相关操作，我们知道安装webpack 我们得配套安装 webpack-cli，如果没有安装 webpack-cli ，在运行 webpack时会报错提示，这个提示就是在 `bin/webpack.js` 里面完成的
+- 里面的 `bin/webpack.js` 是命令行相关操作（负责和用户交互的），我们知道安装webpack 我们得配套安装 webpack-cli，如果没有安装 webpack-cli ，在运行 webpack时会报错提示，这个提示就是在 `bin/webpack.js` 里面完成的
+
+- 在 webpack 自己的 package.json 里面有一个 `"main": "lib/webpack.js",`这个是真正干活的，开始调度所有的 webpack 文件，打开`lib/webpack.js`：能找到这样的代码 
+```
+const Compiler = require("./Compiler");
+...
+compiler = new Compiler(options.context);
+```
+就是这个 `Compiler`，所以说这个 `Compiler` 是整个 webpack 的核心，`Compiler` 负责了所有的调度，在这个文件`./Compiler.js`里面有这种代码：
+
+  ```javascript
+  		if (options.plugins && Array.isArray(options.plugins)) {
+  			for (const plugin of options.plugins) {
+  				if (typeof plugin === "function") {
+  					plugin.call(compiler, compiler);
+  				} else {
+  					plugin.apply(compiler);
+  				}
+  			}
+  		}
+  ```
+
+- 这就清楚了，**所有的插件 的 apply 方法会被 webpack compiler 调用，并传入了compiler ** 就是在这里干的
+
+再看 `Compiler.js`,可以看到 compiler 的构造函数 给自己挂上了 `hooks.run`等一系列对象，回到文章开始的 `compiler.hooks.run.tap` 就能说通了
+
+```javascript
+class Compiler extends Tapable {
+	constructor(context) {
+		super();
+		this.hooks = {
+			/** @type {SyncBailHook<Compilation>} */
+			shouldEmit: new SyncBailHook(["compilation"]),
+			/** @type {AsyncSeriesHook<Stats>} */
+			done: new AsyncSeriesHook(["stats"]),
+			/** @type {AsyncSeriesHook<>} */
+			additionalPass: new AsyncSeriesHook([]),
+			/** @type {AsyncSeriesHook<Compiler>} */
+			beforeRun: new AsyncSeriesHook(["compiler"]),
+			/** @type {AsyncSeriesHook<Compiler>} */
+			run: new AsyncSeriesHook(["compiler"])
+			...
+```
+
+webpack 实现插件机制的大体流程：
+
+1. 【创建】：webpack 在其内部对象上创建各种钩子；
+2. 【组册】：插件将自己的方法注册到对应钩子上，交给webpack；
+3. 【调用】：webpack编译过程中，会适时的触发相应钩子，因此也就触发了插件的方法；
