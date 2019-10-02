@@ -55,6 +55,18 @@ compiler = new Compiler(options.context);
 再看 `Compiler.js`,可以看到 compiler 的构造函数 给自己挂上了 `hooks.run`等一系列对象，回到文章开始的 `compiler.hooks.run.tap` 就能说通了
 
 ```javascript
+const {
+	Tapable,
+	SyncHook,
+	SyncBailHook,
+	AsyncParallelHook,
+	AsyncSeriesHook
+} = require("tapable");
+```
+
+结合上下的代码：可以看出compiler.hooks.run是这个玩意：`new AsyncSeriesHook(["compiler"])`,是从`tapable`里面导出来的
+
+```javascript
 class Compiler extends Tapable {
 	constructor(context) {
 		super();
@@ -71,6 +83,30 @@ class Compiler extends Tapable {
 			run: new AsyncSeriesHook(["compiler"])
 			...
 ```
+
+Compiler 继承自 Tapable，并且在Compiler 里面有 `const Compilation = require("./Compilation");`
+
+Tapable、Compilation 就很重要了
+
+Complilation: 可以看到 **Compiler Complilation 都是继承自Tapable**，并且Complilation 是Compiler.hooks的一个属性,这个**Tapable**就牛逼了，Compiler 这么牛逼的都要继承自你，Compiler 里面有Complilation，Complilation还得继承自你，Tapable 为啥这么有能耐
+
+```javascript
+class Compilation extends Tapable {
+	/**
+	 * Creates an instance of Compilation.
+	 * @param {Compiler} compiler the compiler which created the compilation
+	 */
+	constructor(compiler) {
+		super();
+		this.hooks = {
+			/** @type {SyncHook<Module>} */
+			buildModule: new SyncHook(["module"]),
+			/** @type {SyncHook<Module>} */
+			rebuildModule: new SyncHook(["module"]),
+      ...
+```
+
+
 
 webpack 实现插件机制的大体流程：
 
