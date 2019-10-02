@@ -24,6 +24,12 @@ compiler.hooks.run.tap 这一串又是啥玩意？？？ 不懂
 
 **先说结论：其实 apply 是留给 webpack 的口子，所有的插件 的 apply 方法会被 webpack compiler 调用，compiler是 webpack 调度的核心**
 
+webpack 实现插件机制的大体流程：
+
+1. 【创建】：webpack 在其内部对象上创建各种钩子；
+2. 【组册】：插件将自己的方法注册到对应钩子上，交给webpack；
+3. 【调用】：webpack编译过程中，会适时的触发相应钩子，因此也就触发了插件的方法；
+
 webpack 包目录结构：
 
 ![](../assert/webpack-catalog.png)
@@ -50,7 +56,7 @@ compiler = new Compiler(options.context);
   		}
   ```
 
-- 这就清楚了，**所有的插件 的 apply 方法会被 webpack compiler 调用，并传入了compiler ** 就是在这里干的
+- 这就清楚了**所有的插件 的 apply 方法会被 webpack compiler 调用，并传入了compiler ** 就是在这里干的
 
 再看 `Compiler.js`,可以看到 compiler 的构造函数 给自己挂上了 `hooks.run`等一系列对象，回到文章开始的 `compiler.hooks.run.tap` 就能说通了
 
@@ -84,11 +90,9 @@ class Compiler extends Tapable {
 			...
 ```
 
-Compiler 继承自 Tapable，并且在Compiler 里面有 `const Compilation = require("./Compilation");`
+可以看到 **Compiler Complilation 都是继承自Tapable**，并且Complilation 是Compiler.hooks的一个属性,这个**Tapable**就牛逼了，Compiler 这么牛逼的都要继承自你，Compiler 里面有Complilation，Complilation还得继承自你，Tapable 为啥这么有能耐
 
-Tapable、Compilation 就很重要了
-
-Complilation: 可以看到 **Compiler Complilation 都是继承自Tapable**，并且Complilation 是Compiler.hooks的一个属性,这个**Tapable**就牛逼了，Compiler 这么牛逼的都要继承自你，Compiler 里面有Complilation，Complilation还得继承自你，Tapable 为啥这么有能耐
+Complilation: 
 
 ```javascript
 class Compilation extends Tapable {
@@ -106,10 +110,4 @@ class Compilation extends Tapable {
       ...
 ```
 
-
-
-webpack 实现插件机制的大体流程：
-
-1. 【创建】：webpack 在其内部对象上创建各种钩子；
-2. 【组册】：插件将自己的方法注册到对应钩子上，交给webpack；
-3. 【调用】：webpack编译过程中，会适时的触发相应钩子，因此也就触发了插件的方法；
+1. 
