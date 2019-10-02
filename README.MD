@@ -1,5 +1,3 @@
-#  ❤️ Continuous update ❤️   --- 2018.10.24
-
 ### 原理篇
 
 - [浏览器工作原理](./mdFiles/browser-rendering-page-process.md) 
