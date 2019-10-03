@@ -52,3 +52,28 @@ Docker是CS架构，主要有两个概念:
 
 ### Dockerfile
 
+一个 Dockerfile 例子：这里是以python的例子，也可以用node来做
+
+```shell
+FROM centos
+MAINTAINER xxx <xxx@qq.com>
+
+RUN yum install gcc automake autoconf libtool make -y
+RUN yum install zlib zlib-devel libffi-devel -y
+RUN yum install wget -y
+RUN wget https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tgz
+RUN tar -zxvf Python-3.7.0.tgz
+WORKDIR Python-3.7.0
+
+RUN ./configure
+RUN ls -al
+RUN make && make install
+
+CMD python3 -m http.server
+```
+
+安装docker：`yum install docker`
+
+启动，查看 docker 守护进程：`systemctl start docker systemctl status docker`
+
+**镜像是静态的，容器是动态的，容器是镜像的一个实例，打包后的东西叫镜像，跑起来叫容器**
