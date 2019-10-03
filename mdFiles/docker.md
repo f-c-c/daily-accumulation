@@ -38,3 +38,17 @@ Docker通常用于如下场景:
 - VM: 运行在宿主机之上的完整的操作系统、 运行自身操作系统会占用较多的资源
 
 - Docker:Docker更加轻量高效、对系统资源的利用率很高 、比虚拟机技术更为轻便、快捷、隔离效果不如VM
+
+### docker 相关概念
+
+Docker是CS架构，主要有两个概念:
+- Docker daemon（Docker守护进程）:
+  运行在宿主机上
+  用户通过Docker client(Docker命令)与Docker daemon交互
+- Docker client:
+  Docker 命令行工具，是用户使用Docker的主要方式 Docker client与Docker daemon通信并将结果返回给用户，Docker client也可以通过socket或者RESTful api访问远程的 Docker daemon
+
+![](../assert/docker-info.png)
+
+### Dockerfile
+
