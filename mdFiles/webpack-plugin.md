@@ -178,3 +178,11 @@ queue.call("webpack", "webpack-cli", "hhh3");
 Complilation：是整个网站打包的环节
 
 Compiler：是大的运行机制
+
+**webpack核心使用Tapable 来实现插件(plugins)的binding和applying.Tapable是一个用于事件发**
+
+**布订阅执行的插件架构。Tapable就是webpack用来创建钩子的库**
+
+看到这里 感觉到 plubin 最关键的原理在于 `tap`
+
+https://alienzhou.github.io/webpack-internal-plugin-relation/  这里可以看到webpack各个插件之间的调用关系
