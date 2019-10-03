@@ -1,7 +1,7 @@
 ### 原理/源码篇
 - [浏览器工作原理](./mdFiles/browser-rendering-page-process.md) 
-- [redux 源码分析](./mdFiles/source-code-of-redux.md) || [vue源码 分析](./mdFiles/vue-principle.md)
-- [webpack loader 原理](./mdFiles/loader.md) || [webpack plugin 原理](./mdFiles/webpack-plugin.md)
+- [redux 源码分析](./mdFiles/source-code-of-redux.md) || [vue源码分析](./mdFiles/vue-principle.md)
+- [webpack loader 原理](./mdFiles/loader.md) || [webpack plugin 原理](./mdFiles/webpack-plugin.md) || [webpack 运行机制](./mdFiles/principle-of-webpack.md)
 
 ### 理论/理念/架构篇
 - [函数式编程](./mdFiles/functional%20programming.md)
