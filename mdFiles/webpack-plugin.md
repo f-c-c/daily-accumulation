@@ -134,6 +134,8 @@ const {
 
 `testTapAble.js` `node testTapAble.js` 一个tap是订阅，一个call是触发
 
+除了同步和异步的，名称带有 parallel 的，注册的事件函数会并行调用，名称带有 bail 的， 注册的事件函数会被顺序调用，直至一个处理方法有返回值名称带有 waterfall 的，每个注册 的事件函数，会将上一个方法的返回结果作为输入参数。有一些类型是可以结合到一起的， 如 AsyncParallelBailHook，这样它就具备了更加多样化的特性
+
 ```javascript
 const {
     SyncHook,// 同步串行执行，不关心监听函数的返回值
