@@ -132,19 +132,19 @@ const {
 
 `sudo npm install tapable --save-dev`
 
-`testTapAble.js` `node testTapAble.js`
+`testTapAble.js` `node testTapAble.js` 一个tap是订阅，一个call是触发
 
 ```javascript
 const {
     SyncHook,// 同步串行执行，不关心监听函数的返回值
     SyncBailHook,// 同步串行执行，只要有一个返回不为 null ，就跳过剩下的
-    SyncWaterfallHook,
-    SyncLoopHook,
-    AsyncParallelHook,
-    AsyncParallelBailHook,
-    AsyncSeriesHook,
-    AsyncSeriesBailHook,
-    AsyncSeriesWaterfallHook 
+    SyncWaterfallHook,// 同步串行执行，上一个的值 返回给下一个
+    SyncLoopHook,// 同步循环 如果返回true，则反复执行，返回 undefined 则结束
+    AsyncParallelHook,// 异步并发，并不关心监听的函数返回值
+    AsyncParallelBailHook,// 异步并发，只要有一个返回不为 null ，就跳过剩下的
+    AsyncSeriesHook,// 异步，不关心 callbake 的参数
+    AsyncSeriesBailHook,// 异步，callbake 的参数不为null 就会执行绑定的回调
+    AsyncSeriesWaterfallHook //异步，上一个可以作为下一个
  } = require("tapable");
 
 let queue = new SyncHook(["name", "name2", "name3"]);
@@ -173,4 +173,8 @@ queue.call("webpack", "webpack-cli", "hhh3");
 1 [Arguments] { '0': 'webpack', '1': 'webpack-cli', '2': 'hhh3' }
 ```
 
-这些钩子
+看到这里就知道了 为何：**Compiler Complilation 都要继承自tapable**：就为了在关键的时间节点可以触发订阅的函数体
+
+Complilation：是整个网站打包的环节
+
+Compiler：是大的运行机制
