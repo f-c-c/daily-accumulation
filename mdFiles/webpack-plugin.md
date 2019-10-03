@@ -90,7 +90,7 @@ class Compiler extends Tapable {
 			...
 ```
 
-可以看到 **Compiler Complilation 都是继承自Tapable**，并且Complilation 是Compiler.hooks的一个属性,这个**Tapable**就牛逼了，Compiler 这么牛逼的都要继承自你，Compiler 里面有Complilation，Complilation还得继承自你，Tapable 为啥这么有能耐
+可以看到 **Compiler Complilation 都是继承自Tapable**，并且Complilation 是Compiler.hooks的一个属性,这个**Tapable**就牛逼了，Compiler 这么牛逼的都要继承自你，Compiler 里面有Complilation，Complilation还得继承自你，Tapable 为啥这么有能耐。
 
 Complilation: 
 
@@ -110,4 +110,67 @@ class Compilation extends Tapable {
       ...
 ```
 
-1. 
+`tapable`是 webpack 的东西，我们去 npm 上搜索一下这个包，映入眼帘的是：一堆 Hook
+
+`tapable`就是一个事件分发的东西
+
+```javascript
+const {
+    SyncHook,// 同步串行执行，不关心监听函数的返回值
+    SyncBailHook,// 同步串行执行，只要有一个返回不为 null ，就跳过剩下的
+    SyncWaterfallHook,
+    SyncLoopHook,
+    AsyncParallelHook,
+    AsyncParallelBailHook,
+    AsyncSeriesHook,
+    AsyncSeriesBailHook,
+    AsyncSeriesWaterfallHook 
+ } = require("tapable");
+```
+
+玩一玩 tapable:
+
+`sudo npm install tapable --save-dev`
+
+`testTapAble.js` `node testTapAble.js`
+
+```javascript
+const {
+    SyncHook,// 同步串行执行，不关心监听函数的返回值
+    SyncBailHook,// 同步串行执行，只要有一个返回不为 null ，就跳过剩下的
+    SyncWaterfallHook,
+    SyncLoopHook,
+    AsyncParallelHook,
+    AsyncParallelBailHook,
+    AsyncSeriesHook,
+    AsyncSeriesBailHook,
+    AsyncSeriesWaterfallHook 
+ } = require("tapable");
+
+let queue = new SyncHook(["name", "name2", "name3"]);
+//订阅
+queue.tap("1", function(name) {
+    console.log(1, arguments);
+    return 1;
+})
+queue.tap("2", function(name, name2) {
+    console.log(2, arguments);
+    return 2;
+})
+queue.call("webpack", "webpack-cli", "hhh3");
+```
+
+输出：
+
+```javascript
+1 [Arguments] { '0': 'webpack', '1': 'webpack-cli', '2': 'hhh3' }
+2 [Arguments] { '0': 'webpack', '1': 'webpack-cli', '2': 'hhh3' }
+```
+
+上述代码将`let queue = new SyncHook(["name", "name2", "name3"]);` 替换为：`let queue = new SyncBailHook(["name", "name2", "name3"]);` 起结果：
+
+```javascript
+1 [Arguments] { '0': 'webpack', '1': 'webpack-cli', '2': 'hhh3' }
+```
+
+这些钩子
