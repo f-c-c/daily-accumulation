@@ -141,6 +141,5 @@ console.log(test);
 
 遇到 import 就换成 `__webpack_require__`, 遇到 export 就往 `module.exports` 上面挂，并且返回出去，上一个文件就能拿到结果
 
-![](../assert/1570155117663.jpg)
+<img src="../assert/1570155117663.jpg" style="zoom:50%;display:inline-block;" /><img src="../assert/1570155173332.jpg" style="zoom:50%;display:inline-block;" />
 
-![](../assert/1570155173332.jpg)
