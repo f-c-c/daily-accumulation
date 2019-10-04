@@ -139,7 +139,99 @@ console.log(test);
 
 我们发现我们写的  `import` 已经没有了，被webpack给我们换成了`__webpack_require__`
 
-遇到 import 就换成 `__webpack_require__`, 遇到 export 就往 `module.exports` 上面挂，并且返回出去，上一个文件就能拿到结果
+遇到 import 就换成 `__webpack_require__`, 遇到 export 就往 `module.exports` 上面挂，并且返回出去，上一个文件就能拿到结果，具体分析流程如下图
 
 <img src="../assert/1570155117663.jpg" style="zoom:50%;display:inline-block;" /><img src="../assert/1570155173332.jpg" style="zoom:50%;display:inline-block;" />
 
+### 自己写一个打包单文件版本的 webpack
+
+`./src/index1.js`: 我们的入口文件（等待被打包的文件）
+
+```javascript
+console.log('最简单的webpack');
+```
+
+`myWebpack.js` 我们写的简单版本  `webpack`
+
+```javascript
+const fs = require('fs');
+const ejs = require('ejs');
+
+let entryFile = './src/index1.js';
+let outerFile = './dist/index1.js';
+
+let entry = fs.readFileSync(entryFile, 'utf-8');
+// 用 ejs 打一个模板，把 entry 注入 eval("<%- entry %>");
+let result = ejs.render(`
+(function (modules) {
+    var installedModules = {};
+  
+    function __webpack_require__(moduleId) {
+      if (installedModules[moduleId]) {
+        return installedModules[moduleId].exports;
+      }
+      var module = installedModules[moduleId] = {
+        i: moduleId,
+        l: false,
+        exports: {}
+      };
+      // 这一句是关键，去执行了传入的对象的函数
+      modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+  
+      module.l = true;
+      return module.exports;
+    }
+  
+    __webpack_require__.m = modules;
+  
+    __webpack_require__.c = installedModules;
+  
+    __webpack_require__.d = function (exports, name, getter) {
+      if (!__webpack_require__.o(exports, name)) {
+        Object.defineProperty(exports, name, { enumerable: true, get: getter });
+      }
+    };
+  
+    __webpack_require__.r = function (exports) {
+      if (typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+        Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+      }
+      Object.defineProperty(exports, '__esModule', { value: true });
+    };
+  
+    __webpack_require__.t = function (value, mode) {
+      if (mode & 1) value = __webpack_require__(value);
+      if (mode & 8) return value;
+      if ((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+      var ns = Object.create(null);
+      __webpack_require__.r(ns);
+      Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+      if (mode & 2 && typeof value != 'string') for (var key in value) __webpack_require__.d(ns, key, function (key) { return value[key]; }.bind(null, key));
+      return ns;
+    };
+  
+    __webpack_require__.n = function (module) {
+      var getter = module && module.__esModule ?
+        function getDefault() { return module['default']; } :
+        function getModuleExports() { return module; };
+      __webpack_require__.d(getter, 'a', getter);
+      return getter;
+    };
+  
+    __webpack_require__.o = function (object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+    __webpack_require__.p = "";
+    return __webpack_require__(__webpack_require__.s = "./src/index.js");
+  })({
+      "./src/index.js":
+        (function (module, exports) {
+          eval("<%- entry %>");
+        })
+    });
+`, {
+    entry
+});
+
+fs.writeFileSync(outerFile, result)
+```
+
+接着我们 运行 `node myWebpack.js`,就会 生成这个文件 `'./dist/index1.js'`,然后我们 copy 这里生成的代码 到浏览器一跑， 66的 输出了 `最简单的webpack`
