@@ -330,3 +330,20 @@ index.js end
         //# sourceURL=webpack:///./src/test.js?");
 ```
 
+- 首先：webpack 把我们的 `import {counter, incCounter} from './test';` 换成了 `__webpack_require__("./src/test.js");`，并且放到代码头部了（在任何其他代码），这就很好的解释了之前我们的困惑1
+- 代码流程：
+  - 最先是运行 `./src/index.js` 的 `eval`,里面第一句调用了`__webpack_require__("./src/test.js")`,故而转而运行 `./src/test.js` 的 `eval`，这里面。`__webpack_require__.d`函数的作用：给 `module.exports` 利用 `Object.defineProperty()`添加了拦截，拦截了`get`操作。
+  - 接着输出`console.log('test.js start');`
+  - 输出：`console.log('test.js end');`
+  -  `./src/test.js` 的 `eval`执行完毕，其结果 `module.exports`返回到了 `./src/index.js` 的 `eval`:`var _test__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("./src/test.js");`,现在代码开始再往下执行：
+  - 输出： `console.log("index.js start");`
+  - `_test__WEBPACK_IMPORTED_MODULE_0__["counter"]`触发了 get 返回 `var counter `的值 3
+  - `Object(_test__WEBPACK_IMPORTED_MODULE_0__["incCounter"])();` 这里的也触发了 `incCounter`属性的 `get`操作，返回一个函数并执行了改函数（改变了`var counter `的值 为4）
+  - `_test__WEBPACK_IMPORTED_MODULE_0__["counter"]`又触发了 counter 的get操作 返回 `var counter `的值 4
+  - 最后输出 `console.log("index.js end");` 代码运行结束
+  
+
+到此为止，两个困惑均得到解决：
+- 其实第一个困惑主要是 webpack 将我们的 `import `语法替换并且提前到代码头行了；
+- 第二个困惑主要是 webpack 利用了`Object.definePropeoty` 做了拦截 get 操作
+
