@@ -87,9 +87,24 @@ console.log(fn(str)); //[ '2018', '10', '07', '11', '48', '47' ]
 
 #### str.replace(reg，str)
 
-* 这个方法也是通过 str 去调用的，传入的是一个 正则表达式和要替换成什么的字符串，特点：
+* 这个方法也是通过 str 去调用的，传入的是一个 正则表达式和 一个字符串或者一个每次匹配都要调用的回调函数，特点：
 * 返回一个替换后的字符串，原字符串不变
 * 如果第一个是一个字符串，则只会替换字符串中第一次出现的子串
 * 要想全局替换：必须第一个参数传一个正则表达式，并且设置 全局 g
 
 ![1539866776346](../assert/1539866776346.png)
+
+- 如果第二个参数传入一个 函数
+
+```javascript
+let str = 'require("a.js"); require("b.js")';
+let result = str.replace(/(require)\("(\w*\.{1}js)"\)/ig, (match,p1, p2) => {
+    // 正则如果指定了g 每次匹配成功 都会运行这个函数
+    console.log('match', match); // match 是每次匹配上的全部
+    console.log('p1', p1); // 后面的依次是捕获组
+    console.log('p2', p2);
+    return `__webpack_require__("${p2}")`; // 返回值用于替换正则的内容
+});
+console.log(result);// __webpack_require__("a.js"); __webpack_require__("b.js")
+```
+
