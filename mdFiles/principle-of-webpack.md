@@ -25,7 +25,7 @@
   });
 ```
 
-其实就是一个 立即执行函数，传入了一个对象： `./src/index.js` 作为`key`，一个函数作为值的对象
+其实就是一个 IIFE，传入了一个对象： `./src/index.js` 作为`key`，一个函数作为值的对象
 
 ```
 {
@@ -96,6 +96,7 @@
   
     __webpack_require__.o = function (object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
     __webpack_require__.p = "";
+  // 这一句也很关键
     return __webpack_require__(__webpack_require__.s = "./src/index.js");
   })({
       "./src/index.js":
@@ -234,4 +235,4 @@ let result = ejs.render(`
 fs.writeFileSync(outerFile, result)
 ```
 
-接着我们 运行 `node myWebpack.js`,就会 生成这个文件 `'./dist/index1.js'`,然后我们 copy 这里生成的代码 到浏览器一跑， 66的 输出了 `最简单的webpack`
+接着我们 运行 `node myWebpack.js`,就会 生成这个文件 `'./dist/index1.js'`,然后我们 copy 这里生成的代码 到浏览器一跑， 66的 输出了 `最简单的webpack`------到此为止最简单的 `webpack` 就完事了
