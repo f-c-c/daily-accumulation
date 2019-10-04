@@ -338,12 +338,12 @@ index.js end
   -  `./src/test.js` 的 `eval`执行完毕，其结果 `module.exports`返回到了 `./src/index.js` 的 `eval`:`var _test__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("./src/test.js");`,现在代码开始再往下执行：
   - 输出： `console.log("index.js start");`
   - `_test__WEBPACK_IMPORTED_MODULE_0__["counter"]`触发了 get 返回 `var counter `的值 3
-  - `Object(_test__WEBPACK_IMPORTED_MODULE_0__["incCounter"])();` 这里的也触发了 `incCounter`属性的 `get`操作，返回一个函数并执行了改函数（改变了`var counter `的值 为4）
+  - `Object(_test__WEBPACK_IMPORTED_MODULE_0__["incCounter"])();` 这里的也触发了 `incCounter`属性的 `get`操作，返回一个函数并执行了改函数（改变了`var counter `的值 为4），至于这里为何将一个函数用 `Object()` 包一下，有何好处？这里webpack给包一下的目的性我还不是很清楚。
   - `_test__WEBPACK_IMPORTED_MODULE_0__["counter"]`又触发了 counter 的get操作 返回 `var counter `的值 4
   - 最后输出 `console.log("index.js end");` 代码运行结束
   
 
 到此为止，两个困惑均得到解决：
 - 其实第一个困惑主要是 webpack 将我们的 `import `语法替换并且提前到代码头行了；
-- 第二个困惑主要是 webpack 利用了`Object.definePropeoty` 做了拦截 get 操作
+- 第二个困惑主要是 webpack 利用了`Object.definePropeoty` 做了拦截 get 操作，每次读取时都返回`var counter `的值，而这个变量的值当然是可以动态修改的
 
