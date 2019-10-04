@@ -1,4 +1,4 @@
-# 比较 webpack 打包commonjs 和 es6 规范
+# 比较 webpack 打包commonjs 和 es6
 
 本文做的事情：采用两个文件`./src/index.js` `./src/test.js`，模块的导入与导出分别采用 `commonjs` 和 `es6规范`，比较`webpack` 打包结果 `./dist/main.js`
 
@@ -187,6 +187,146 @@ module.exports = {
 
   - 跟随👆的代码逻辑，我们能很清楚的知道一开始的输出结果是怎么来的了，这里不再赘述
 
-  - 
+#### 采用 es6 模块
 
-    
+`./src/index.js`
+
+```javascript
+console.log("index.js start");
+
+import {counter, incCounter} from './test';
+console.log(counter);
+incCounter();// 尝试修改 counter
+console.log(counter); 
+
+console.log("index.js end");
+```
+
+`./src/test.js`
+
+```javascript
+console.log('test.js start');
+
+export var counter = 3;
+export function incCounter() {
+    console.log('尝试修改counter++');
+    counter++;
+}
+
+console.log('test.js end');
+```
+
+运行webpack打包后的 `./dist/main.js`输出结果:
+
+```javascript
+test.js start
+test.js end
+index.js start
+3
+尝试修改counter++
+4
+index.js end
+```
+
+面对这个结果，至少对于我来说，有两个困惑：
+
+1. 为什么会先输出 `test.js start` 和 `test.js end`，明明 `./src/index.js`才是入口文件，为什么 `index.js start` 没有最先输出出来，而是引用的文件先执行了？
+2. 为何 3->4 这个可以修改？
+
+呆着这两个问题，我打开了编译结果文件 `./dist/main.js` 慢慢分析（删除无关注释，不重要的代码，取出精华部分）：
+
+```javascript
+(function (modules) {
+  var installedModules = {};
+  function __webpack_require__(moduleId) {
+    if (installedModules[moduleId]) {
+      return installedModules[moduleId].exports;
+    }
+    var module = installedModules[moduleId] = {
+      i: moduleId,
+      l: false,
+      exports: {}
+    };
+    modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+    module.l = true;
+    // Return the exports of the module
+    return module.exports;
+  }
+  __webpack_require__.m = modules;
+  __webpack_require__.c = installedModules;
+  __webpack_require__.d = function (exports, name, getter) {
+    if (!__webpack_require__.o(exports, name)) {
+      Object.defineProperty(exports, name, { enumerable: true, get: getter });
+    }
+  };
+  __webpack_require__.r = function (exports) {
+    if (typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+      Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+    }
+    Object.defineProperty(exports, '__esModule', { value: true });
+  };
+  __webpack_require__.t = function (value, mode) {
+    if (mode & 1) value = __webpack_require__(value);
+    if (mode & 8) return value;
+    if ((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+    var ns = Object.create(null);
+    __webpack_require__.r(ns);
+    Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+    if (mode & 2 && typeof value != 'string') for (var key in value) __webpack_require__.d(ns, key, function (key) { return value[key]; }.bind(null, key));
+    return ns;
+  };
+  __webpack_require__.n = function (module) {
+    var getter = module && module.__esModule ?
+      function getDefault() { return module['default']; } :
+      function getModuleExports() { return module; };
+    __webpack_require__.d(getter, 'a', getter);
+    return getter;
+  };
+  __webpack_require__.o = function (object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+  __webpack_require__.p = "";
+  return __webpack_require__(__webpack_require__.s = "./src/index.js");
+})
+  ({
+    "./src/index.js":
+      (function (module, __webpack_exports__, __webpack_require__) {
+        "use strict";
+        eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _test__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./test */ \"./src/test.js\");\nconsole.log(\"index.js start\");\n\n\nconsole.log(_test__WEBPACK_IMPORTED_MODULE_0__[\"counter\"]);\nObject(_test__WEBPACK_IMPORTED_MODULE_0__[\"incCounter\"])();// 尝试修改 counter\nconsole.log(_test__WEBPACK_IMPORTED_MODULE_0__[\"counter\"]); \n\nconsole.log(\"index.js end\");\n\n//# sourceURL=webpack:///./src/index.js?");
+      }),
+    "./src/test.js":
+      (function (module, __webpack_exports__, __webpack_require__) {
+        "use strict";
+        eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"counter\", function() { return counter; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"incCounter\", function() { return incCounter; });\nconsole.log('test.js start');\n\nvar counter = 3;\nfunction incCounter() {\n    console.log('尝试修改counter++');\n    counter++;\n}\n\nconsole.log('test.js end');\n\n//# sourceURL=webpack:///./src/test.js?");
+      })
+  });
+```
+
+有了 先前的经验，我们对这个 webpack 打出来的文件 已经很熟悉了：一个IIFE传了一个对象进去。
+
+我们直接研究一下两个 `eval` 里面的东西：
+
+`./src/index.js`对应的`eval`:
+
+```javascript
+        var _test__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("./src/test.js");
+        console.log("index.js start");
+        console.log(_test__WEBPACK_IMPORTED_MODULE_0__["counter"]);
+        Object(_test__WEBPACK_IMPORTED_MODULE_0__["incCounter"])();
+        console.log(_test__WEBPACK_IMPORTED_MODULE_0__["counter"]);
+        console.log("index.js end");
+```
+
+`./src/test.js`对应的`eval`:
+
+```javascript
+      __webpack_require__.d(__webpack_exports__, "counter", function() { return counter; });
+        __webpack_require__.d(__webpack_exports__, "incCounter", function() { return incCounter; });
+        console.log('test.js start');
+        var counter = 3;
+        function incCounter() {
+          console.log('尝试修改counter++');
+          counter++;
+        }
+        console.log('test.js end');
+        //# sourceURL=webpack:///./src/test.js?");
+```
+
