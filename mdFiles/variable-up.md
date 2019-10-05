@@ -193,16 +193,6 @@ Es6 有了块级作用域，并且允许块级作用域的任意嵌套：
     }
 }
 console.log(a);// 9
-// 其实上述代码相当于：
-var a;
-{
-    a = 8;
-    {
-        console.log(a);
-        a = 9;
-    }
-}
-console.log(a);
 ```
 
 #### var 混合 let
@@ -214,6 +204,7 @@ console.log(a);
         let a = 9;
         console.log(a);// 9
     }
+    console.log(a);// 8
 }
 console.log(a);// 8
 ```
@@ -232,7 +223,32 @@ console.log(a);// 8
 
 两个 var 或者 两个 let  或者 外面var 里面 let 都不会报错，但是**惊悚**的事情来了：
 
+我是理解不了下面这现象的😨：js 太可怕了，希望知道的同学给解释一下下啊
+
 ```javascript
+{
+    var a = 8;
+    {
+        var a = 9;
+        console.log(a);
+    }
+}
+{
+    let a = 8;
+    {
+        let a = 90;
+        console.log(a);
+    }
+}
+{
+    var a = 8;
+    {
+        let a = 900;
+        console.log(a);
+    }
+}
+// 上面 3 种情况都不会报错
+// 唯独 下面👇这样会报错
 {
     let a = 8;
     {
