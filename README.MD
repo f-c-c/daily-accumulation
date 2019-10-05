@@ -11,7 +11,7 @@
 
 ### 基础篇
 - [git 常见操作](./mdFiles/git-summery.md)
-- [关于提升](./mdFiles/variable-up.md)
+- [关于提升](https://github.com/LiuHao713/daily-accumulation/issues/2)
 - [DNS解析流程](./mdFiles/dns-process.md) 
 - [js 创建对象的 7 种方式](./mdFiles/7-methods-of-create-object.md) || [js 实现继承的 7 种方式](./mdFiles/7-methods-of-inherit.md)
 - [TCP 三次握手🤝与四次挥手🙋‍♂️](./mdFiles/3handshake-4wave-of-tcp.md)
