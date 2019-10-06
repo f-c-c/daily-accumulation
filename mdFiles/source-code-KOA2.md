@@ -85,7 +85,7 @@ function compose (middleware) {
       if (i <= index) return Promise.reject(new Error('next() called multiple times'))
       index = i
       let fn = middleware[i]
-      if (i === middleware.length) fn = next
+      if (i === middleware.length) fn = next //这个next为undefind，因为 没有传进来，这是为了递归结束条件用的
       if (!fn) return Promise.resolve()
       try {
         return Promise.resolve(fn(context, dispatch.bind(null, i + 1)));
