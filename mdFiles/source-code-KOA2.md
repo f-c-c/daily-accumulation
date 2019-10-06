@@ -99,5 +99,5 @@ function compose (middleware) {
 
 具体分析如下图：
 
-![](../assert/koa-source.jpg)
+![](../assert/source-koa.jpg)
 
