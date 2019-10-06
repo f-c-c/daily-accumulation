@@ -1,7 +1,8 @@
 ### 原理/源码篇
-- [浏览器工作原理](./mdFiles/browser-rendering-page-process.md) 
 - [redux 源码分析](./mdFiles/source-code-of-redux.md) || [vue 源码分析](./mdFiles/vue-principle.md)
-- [koa 源码分析](./mdFiles/source-code-KOA2.md)
+- [koa2 源码分析](./mdFiles/source-code-KOA2.md)
+- [浏览器工作原理](./mdFiles/browser-rendering-page-process.md) 
+- [DOM DIFF](./mdFiles/dom-diff.md)
 - [webpack loader 原理](./mdFiles/loader.md) || [webpack plugin 原理](./mdFiles/webpack-plugin.md) || [webpack 运行机制](./mdFiles/principle-of-webpack.md) || [比较webpack打commonjs和es6模块](https://github.com/LiuHao713/daily-accumulation/issues/1)
 
 
