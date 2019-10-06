@@ -97,7 +97,36 @@ function compose (middleware) {
 }
 ```
 
+Koa 的源码是很少的，关键的代码也就那么几句，所以没有经过打包的，我们可以直接修改上面的 `./node_modules/koa-compose/index.js` 方便理解代码逻辑
+
 具体分析如下图：
 
 ![](../assert/source-koa.jpg)
+
+到现在为止，分析了重要的两个文件`application.js`、 `./node_modules/koa-compose/index.js`，还剩下：
+
+- context.js
+- request.js
+- response.js
+
+这三个是为相对独立的，为createContext服务的,创建上下文：
+
+在 context 上挂了很多东西，方便我们用，比如： `context.req`、`context.res`
+
+```javascript
+  createContext(req, res) {
+    const context = Object.create(this.context);
+    const request = context.request = Object.create(this.request);
+    const response = context.response = Object.create(this.response);
+    context.app = request.app = response.app = this;
+    context.req = request.req = response.req = req;
+    context.res = request.res = response.res = res;
+    request.ctx = response.ctx = context;
+    request.response = response;
+    response.request = request;
+    context.originalUrl = request.originalUrl = req.url;
+    context.state = {};
+    return context;
+  }
+```
 
