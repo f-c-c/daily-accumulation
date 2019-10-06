@@ -20,8 +20,16 @@
 const Koa = require('koa');
 const app = new Koa();
 
-app.use(async ctx => {
+app.use(async (ctx, next) => {
+  console.log("1");
+  await next();
+  console.log("2");
+});
+app.use(async (ctx, next) => {
+  console.log("3");
   ctx.body = 'Hello World';
+  await next();
+  console.log("4");
 });
 
 app.listen(3003);
@@ -88,4 +96,8 @@ function compose (middleware) {
   }
 }
 ```
+
+具体分析如下图：
+
+![](../assert/koa-source.jpg)
 
