@@ -57,3 +57,5 @@
 - [systemjs 模块加载器](./mdFiles/systemjs.md)
 - [js 中的奇怪的小知识](./mdFiles/Strange-knowledge-of-js.md)
 - [TypeScript 总结](./mdFiles/Typescript.md)
+- [ti](../mdFiles/ti.md)
+
