@@ -19,7 +19,7 @@ var obj = {
 };
 obj.show(fn);
 ```
-输出`10 undefined`
+​	输出`10 undefined`
 - 下面的 inner 的实际高度：
 
 ```html
@@ -39,8 +39,16 @@ obj.show(fn);
 		</body>
 ```
 
-实际是 `60 + 200px * 20% = 100px`，实际就是这个 `padding-top: 20%;` 是按照父元素的 `width`计算的
+​	实际是 `60 + 200px * 20% = 100px`，实际就是这个 `padding-top: 20%;` 是按照父元素的 `width`计算的
 
 - delete 数组的 item，数组的 length 是否会 -1
 
-不会，会是空，如果取值的话会得到`undefined`
+  不会，会是空，如果取值的话会得到`undefined`
+
+- 使用 `node app.js` 开启服务，如何让它在后台运行
+
+  `node app.js &`
+
+- 尽可能写出更多的数组副作用方法
+
+  `splice、push、pop、shift、unshift、sort、fill、reverse`

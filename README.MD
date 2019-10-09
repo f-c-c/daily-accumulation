@@ -24,6 +24,7 @@
 - [Js 模块化](./mdFiles/module-specification-javascript.md)
 - [浏览器端的 eventLoop](./mdFiles/eventLoop-for-browser.md) || [node端的 eventLoop](./mdFiles/eventLoop-node.md)
 - [React 生命周期](./mdFiles/the-life-cycle-of-React.md)
+- [防抖与节流](./mdFiles/debounce-and-closure.md)
 
 ### 网络篇
 - [TCP 三次握手🤝与四次挥手🙋‍♂️](./mdFiles/3handshake-4wave-of-tcp.md)
