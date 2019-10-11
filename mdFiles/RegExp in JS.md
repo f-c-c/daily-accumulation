@@ -42,7 +42,7 @@
 
 ### reg.exec(str) 方法介绍：
 
-   * 一个正则去调用 exec 方法，传入一个字符串为参数，会去匹配该字符串中是否有与正则表达式相匹配的项，如果没有则返回 null，如果有则返回一个 数组（该数组的第一个元素为匹配成功的字符串，后面接着的是各个匹配组，此外这个数组有额外的两个属性：index 表示匹配的开始位置，input 表示输入的整个字符串，下图这个数值的length还是 4 ）
+   * 一个正则去调用 exec 方法，传入一个字符串为参数，会去匹配该字符串中是否有与正则表达式相匹配的项，如果没有则返回 null，如果有则返回一个 数组（该数组的第一个元素为匹配成功的字符串，后面接着的是各个匹配组，此外这个数组有额外的两个属性：index 表示匹配的开始位置，input 表示输入的整个字符串，下图这个数组的length还是 4 ）
 * 不加全局修饰符 g  每次匹配完 ， 在 reg1 上的 lastIndex 属性都是 0
   ![1539854813851](../assert/1539854813851.png)
 * 加上全局修饰符 g 每次匹配完，在 reg1 上的 lastIndex 属性会增加（直至最后匹配不上时变为 0）
@@ -56,15 +56,20 @@
 
 面试今日头条的笔试题：
 
-从一个日期字符串中提起数字
+从一个日期字符串中提取数字
 
 ```javascript
 let str = "2018-10-07T11:48:47 Asia/zh-cn";
 
 function fn (str) {
-  let reg = /(\d{4})-(\d{2})-(\d{2}).(\d{2}):(\d{2}):(\d{2}) /;
+  let reg = /(\d{4})-(\d{2})-(\d{2}).(\d{2}):(\d{2}):(\d{2})/g;
   reg.exec(str);
   return [RegExp.$1, RegExp.$2, RegExp.$3, RegExp.$4, RegExp.$5, RegExp.$6];
+}
+// or 
+function fn (str) {
+  let reg = /(\d{4})-(\d{2})-(\d{2}).(\d{2}):(\d{2}):(\d{2})/g;
+  return reg.exec(str).slice(1);
 }
 console.log(fn(str)); //[ '2018', '10', '07', '11', '48', '47' ]
 ```
@@ -106,5 +111,15 @@ let result = str.replace(/(require)\("(\w*\.{1}js)"\)/ig, (match,p1, p2) => {
     return `__webpack_require__("${p2}")`; // 返回值用于替换正则的内容
 });
 console.log(result);// __webpack_require__("a.js"); __webpack_require__("b.js")
+```
+
+- 替换模板字符串
+```javascript
+let str = "<% name >, 你好";
+let obj = { name: "zhangsan" };
+function fn(str, obj) {
+    return str.replace(/<%(.+)>/g, (m, p) => obj[p.trim()]);
+}
+console.log(fn(str,obj));// zhangsan, 你好
 ```
 
