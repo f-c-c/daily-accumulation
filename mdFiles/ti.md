@@ -172,3 +172,20 @@ a.join = a.shift;
 console.log(a == 0 && a == 1 && a == 2);//true === 是不成立的
 ```
 
+- 查找子串 `Hi` 在字符串 `"Hi你好啊，Hi，防抖防抖Hi东方的是非得失"`里面出现的次数
+
+```javascript
+let str = "Hi你好啊，Hi，防抖防抖Hi东方的是非得失";
+console.log(str.match(/Hi/g).length);//3
+```
+
+```javascript
+let str = "Hi你好啊，Hi，防抖防抖Hi东方的是非得失";
+let i = 0;
+let reg = /Hi/g;
+while(reg.exec(str)) {// 这里不能写成 while(/Hi/g.exec(str)) 这将导致无限循环
+    i++
+}
+console.log(i);
+```
+
