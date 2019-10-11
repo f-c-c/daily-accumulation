@@ -119,4 +119,14 @@ obj.show(fn);
   container.innerHTML = str;
   ```
 
-  
+- 模板字符串的替换
+
+```javascript
+let str = "<% name >, 你好";
+let obj = { name: "zhangsan" };
+function fn(str, obj) {
+    return str.replace(/<%(.+)>/g, (m, p) => obj[p.trim()]);
+}
+console.log(fn(str,obj));// zhangsan, 你好
+```
+
