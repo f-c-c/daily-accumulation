@@ -17,6 +17,8 @@
 * `.` : 匹配除了换行符之外的任意字符
 * **\d** 匹配0-9的数字,相当于[0-9]
 * **\D** 匹配除了0-9的任意字符
+* **\s** 匹配空白字符
+* **\S** 匹配非空白字符 [\s\S] 就匹配了所有 比 . 还多（.不含换行符）
 * **\w** 匹配0-9、a-z、A-Z、_ 的数字或字符,相当于[0-9a-zA-Z_]
 * **\W** 匹配不是字母、数字、下划线的字符
 
@@ -132,7 +134,14 @@ function fn(str) {
 }
 console.log(fn(str));// getElementById
 ```
-
+- 驼峰转回来
+```javascript
+let str = "getElementById";
+function fn(str) {
+    return str.replace(/([A-Z])/g, (match, p1) => `-${p1.toLowerCase()}`);
+}
+console.log(fn(str));// get-element-by-id
+```
 - 千分数字
 
 ```javascript
