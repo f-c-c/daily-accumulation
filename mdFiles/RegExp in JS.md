@@ -133,3 +133,20 @@ function fn(str) {
 console.log(fn(str));// getElementById
 ```
 
+- 千分数字
+
+```javascript
+let str = "1234567890.12345";
+function fn(str) {
+    let arr = str.split('.');
+    let str0 = arr[0].replace(/(\d)(?=(\d{3})+$)/g, (match, p) => {
+        return `${p},`
+    });
+    return arr[1] ? `${str0}.${arr[1]}` : str0;
+}
+console.log(fn(str));// 1,234,567,890.12345
+// /(\d)(?=(\d{3})+$)/g 解释
+// 匹配 单个数字，但是这个数字后面必须紧跟着3个数字/6个数字/9个数字。。。并且最后以3个数字结尾
+// 所以这里能匹配上1  4  7
+```
+
