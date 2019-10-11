@@ -148,5 +148,18 @@ console.log(fn(str));// 1,234,567,890.12345
 // /(\d)(?=(\d{3})+$)/g 解释
 // 匹配 单个数字，但是这个数字后面必须紧跟着3个数字/6个数字/9个数字。。。并且最后以3个数字结尾
 // 所以这里能匹配上1  4  7
+// /x(?=y)/ 匹配字符串 x，但 x 后面必须是 y
+```
+
+- 给定一个符合`JavaScript`对象取值的字符串，得到路径数组（可以考虑正则、AST、Proxy）`const source  = "a[0].b['cd'].e"; getPath(source);  // ['a', '0', 'b', 'cd', 'e']`
+
+```javascript
+// 利用正则
+let source = 'a[0].b["cd"].e';
+function fn(str) {
+    // 去掉 ] 和 ' 和 " 再将 [ 换为 . 再按照.分割数组
+    return str.replace(/([\]'"])/g, '').replace(/\[/g, '.').split(".");
+}
+console.log(fn(source));// ["a", "0", "b", "cd", "e"]
 ```
 

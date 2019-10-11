@@ -58,21 +58,11 @@ obj.show(fn);
   ```javascript
   // 利用正则
   let source = 'a[0].b["cd"].e';
-  // 去掉 ]
-  let str0 = source.replace(/(\])/g, () => {
-      return '';
-  });
-  // 将 [ 换为 .
-  let str1 = str0.replace(/\[/g, () => {
-      return '.';
-  });
-  // 去掉 ' 和 "
-  let str2 = str1.replace(/'|"/g, () => {
-      return '';
-  });
-  // 分割为数组
-  let result = str2.split(".");
-  console.log('result', result);// ["a", "0", "b", "cd", "e"]
+  function fn(str) {
+      // 去掉 ] 和 ' 和 " 再将 [ 换为 . 再按照.分割数组
+      return str.replace(/([\]'"])/g, '').replace(/\[/g, '.').split(".");
+  }
+  console.log(fn(source));// ["a", "0", "b", "cd", "e"]
   ```
 
   
