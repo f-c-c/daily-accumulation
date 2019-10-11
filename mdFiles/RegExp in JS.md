@@ -123,3 +123,13 @@ function fn(str, obj) {
 console.log(fn(str,obj));// zhangsan, 你好
 ```
 
+- 转换为驼峰命名
+
+```javascript
+let str = "get-element-by-id";
+function fn(str) {
+    return str.replace(/-([a-z]{1})/g, (match, p1) => p1.toUpperCase());
+}
+console.log(fn(str));// getElementById
+```
+
