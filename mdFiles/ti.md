@@ -65,8 +65,6 @@ obj.show(fn);
   console.log(fn(source));// ["a", "0", "b", "cd", "e"]
   ```
 
-  
-
 - 反转 dom 子元素
 
   ```javascript
@@ -118,5 +116,38 @@ function fn(str, obj) {
     return str.replace(/<%(.+)>/g, (m, p) => obj[p.trim()]);
 }
 console.log(fn(str,obj));// zhangsan, 你好
+```
+
+- 怎样使 `a == 0 && a == 1 && a == 2` 返回 `true`
+
+```javascript
+// 利用对象的valueOf
+let a = {
+    count: 0,
+    valueOf: function() {
+        return a.count++;
+    }
+}
+
+console.log(a == 0 && a == 1 && a == 2);//true 这里如果改为 === 是不成立的
+```
+
+```javascript
+// 利用 Object.defineProperty 拦截
+let a = {
+    count: 0
+}
+Object.defineProperty(a, 'num', {
+    get: () => a.count++
+});
+
+console.log(a.num === 0 && a.num === 1 && a.num === 2);//true 这里 === 也是成立的
+```
+
+```javascript
+//骚操作
+let a = [0,1,2];
+a.join = a.shift;
+console.log(a == 0 && a == 1 && a == 2);//true === 是不成立的
 ```
 
