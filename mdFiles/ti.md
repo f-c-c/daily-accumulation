@@ -143,6 +143,27 @@ Object.defineProperty(a, 'num', {
 
 console.log(a.num === 0 && a.num === 1 && a.num === 2);//true 这里 === 也是成立的
 ```
+```javascript
+// 利用对象的 get
+let a = {
+    count: 0,
+    get num() {
+        return a.count++
+    }
+};
+console.log(a.num === 0 && a.num === 1 && a.num ===2);//true 这里 === 也是成立的
+```
+
+```javascript
+// 利用了Proxy
+let a = {
+    count: 0
+};
+let b = new Proxy(a, {
+    get: (target , prop) => target.count++
+});
+console.log(b.num === 0 && b.num === 1 && b.num === 2);// true 这里 === 也是成立的
+```
 
 ```javascript
 //骚操作
