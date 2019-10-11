@@ -52,3 +52,71 @@ obj.show(fn);
 - 尽可能写出更多的数组副作用方法
 
   `splice、push、pop、shift、unshift、sort、fill、reverse`
+
+- 给定一个符合`JavaScript`对象取值的字符串，得到路径数组（可以考虑正则、AST、Proxy）`const source  = "a[0].b['cd'].e"; getPath(source);  // ['a', '0', 'b', 'cd', 'e']`
+
+  ```javascript
+  // 利用正则
+  let source = 'a[0].b["cd"].e';
+  // 去掉 ]
+  let str0 = source.replace(/(\])/g, () => {
+      return '';
+  });
+  // 将 [ 换为 .
+  let str1 = str0.replace(/\[/g, () => {
+      return '.';
+  });
+  // 去掉 ' 和 "
+  let str2 = str1.replace(/'|"/g, () => {
+      return '';
+  });
+  // 分割为数组
+  let result = str2.split(".");
+  console.log('result', result);// ["a", "0", "b", "cd", "e"]
+  ```
+
+  
+
+- 反转 dom 子元素
+
+  ```javascript
+  输入
+  
+  <div id="container">
+    <div>1</div>
+    <div>2<div>xxx</div><div>4</div></div>
+    <div>3</div>
+  </div>
+  
+  
+  输出
+  
+  <div id="container">
+    <div>3</div>
+    <div>2</div>
+    <div>1</div>
+  </div>
+  ```
+
+  ```javascript
+  let container = document.getElementById("container");
+  let childDivs = container.children;
+  // 如果子节点有非 元素节点的子节点（就删除）
+  for (let i = 0; i < childDivs.length; i++) {
+      let childs = childDivs[i].children;
+      let len = Array.from(childs).length;
+      while(len--){
+          if(childs[len].nodeType === 1) {
+              childDivs[i].removeChild(childs[len]);
+          }
+      }
+  }
+  let childDivsArr = Array.from(childDivs).reverse();// 转为真数组
+  let str = '';
+  for (let i = 0; i < childDivsArr.length; i++) {
+    str += childDivsArr[i].outerHTML;
+  }
+  container.innerHTML = str;
+  ```
+
+  
